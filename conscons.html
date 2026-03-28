@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consonant Constriction</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #a8a8a8; }
+        .no-select { user-select: none; -webkit-user-select: none; touch-action: manipulation; }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <div class="w-full max-w-lg bg-white rounded-2xl shadow-xl overflow-hidden">
+        <div class="bg-indigo-600 text-white p-6 text-center relative">
+            <h1 class="text-2xl font-bold tracking-tight">Consonant Constriction</h1>
+            <p class="text-indigo-200 text-sm mt-1">Don't reuse consonants!</p>
+        </div>
+
+        <div class="p-6">
+            <div class="flex justify-between items-start mb-6 pb-4 border-b border-gray-100 min-h-[60px]">
+                <div class="text-gray-600 flex items-center mt-1">
+                    Category: 
+                    <span id="ui-category" class="font-bold text-gray-900 text-lg ml-2">Loading...</span>
+                </div>
+                <div class="flex flex-col items-end">
+                    <div class="text-gray-600 font-medium">
+                        Score: <span id="ui-score" class="font-bold text-indigo-600 text-2xl ml-1">0</span>
+                    </div>
+                    <div id="ui-emoji-list" class="flex flex-wrap justify-end gap-1 mt-1 text-xl max-w-[180px]">
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-indigo-50 border border-indigo-100 rounded-xl p-4 text-center mb-6 shadow-inner" id="remaining-container">
+                <span class="text-indigo-800">The computer can think of</span>
+                <span id="ui-remaining-count" class="block text-4xl font-black text-indigo-600 my-1">-</span>
+                <span class="text-indigo-800">remaining valid items.</span>
+            </div>
+
+            <div class="flex gap-2 mb-2">
+                <input type="text" id="word-input" placeholder="Type or tap letters..." autocomplete="off"
+                    class="flex-grow px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all text-lg font-medium">
+                
+                <button onclick="backspace()" class="bg-gray-100 hover:bg-gray-200 text-gray-600 px-4 py-3 rounded-lg font-semibold transition-colors flex items-center justify-center" title="Backspace">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"></path><line x1="18" y1="9" x2="12" y2="15"></line><line x1="12" y1="9" x2="18" y2="15"></line></svg>
+                </button>
+                
+                <button id="submit-btn" onclick="submitWord()" 
+                    class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-md">
+                    Play
+                </button>
+            </div>
+            
+            <div id="message-box" class="hidden mb-6 p-3 rounded-lg text-center text-sm font-medium animate-pulse"></div>
+
+            <div class="space-y-4 mb-6">
+                <div>
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider">Alphabet <span class="lowercase font-normal text-gray-400 ml-1">(Tap to type)</span></h3>
+                        
+                        <div class="flex gap-2">
+                            <button onclick="sortLetters()" class="text-xs text-indigo-600 hover:text-indigo-800 font-bold bg-indigo-50 hover:bg-indigo-100 px-2 py-1 rounded transition-colors flex items-center gap-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"></path><path d="M7 12h10"></path><path d="M10 18h4"></path></svg>
+                                A-Z
+                            </button>
+                            <button onclick="shuffleLetters()" class="text-xs text-indigo-600 hover:text-indigo-800 font-bold bg-indigo-50 hover:bg-indigo-100 px-2 py-1 rounded transition-colors flex items-center gap-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 18h1.4c1.3 0 2.5-.6 3.3-1.7l4.1-5.8a7.9 7.9 0 0 1 6.6-3.5h4.6"/><path d="M18 3l4 4-4 4"/><path d="M2 6h1.9c1.5 0 2.9.8 3.6 2.2"/><path d="M22 18h-5.9c-1.3 0-2.6-.7-3.3-1.8l-.5-.8"/><path d="M18 14l4 4-4 4"/></svg>
+                                Shuffle
+                            </button>
+                        </div>
+                    </div>
+                    <div id="ui-letters" class="flex flex-wrap gap-2 min-h-[32px]">
+                        </div>
+                </div>
+
+                <div>
+                    <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-4">Accepted Items</h3>
+                    <div id="ui-played-words" class="flex flex-wrap gap-2 min-h-[32px]">
+                        <span class="text-gray-400 text-sm italic">None yet</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="revealed-section" class="hidden mb-6">
+                <h3 class="text-xs font-bold text-red-500 uppercase tracking-wider mb-2">Remaining Possibilities</h3>
+                <div id="ui-revealed-words" class="bg-gray-50 border border-gray-200 rounded-lg p-3 max-h-48 overflow-y-auto custom-scrollbar text-sm text-gray-700 flex flex-wrap gap-2">
+                    </div>
+            </div>
+
+            <button id="give-up-btn" onclick="giveUp()" 
+                class="w-full bg-red-100 hover:bg-red-200 text-red-700 py-3 rounded-lg font-semibold transition-colors mt-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                I Give Up
+            </button>
+            <button id="restart-btn" onclick="initGame()" 
+                class="hidden w-full bg-emerald-500 hover:bg-emerald-600 text-white py-3 rounded-lg font-semibold transition-colors mt-2 shadow-md shadow-emerald-200">
+                Play Again
+            </button>
+        </div>
+    </div>
+
+<script>
+    const rawDictionary = {
+        "Animals": {
+            "dog": "🐶", "cat": "🐱", "elephant": "🐘", "giraffe": "🦒", "hippopotamus": "🦛", "rhinoceros": "🦏", 
+            "tiger": "🐅", "lion": "🦁", "cheetah": "🐆", "leopard": "🐆", "panther": "🐆", "jaguar": "🐆", 
+            "wolf": "🐺", "fox": "🦊", "coyote": "🐺", "bear": "🐻", "moose": "🦌", "deer": "🦌", "elk": "🦌", 
+            "rabbit": "🐰", "hare": "🐇", "squirrel": "🐿️", "chipmunk": "🐿️", "beaver": "🦫", "raccoon": "🦝", 
+            "skunk": "🦨", "possum": "🐀", "kangaroo": "🦘", "koala": "🐨", "wombat": "🐻", "platypus": "🦆", 
+            "echidna": "🦔", "monkey": "🐒", "gorilla": "🦍", "chimpanzee": "🦧", "orangutan": "🦧", "baboon": "🐒", 
+            "lemur": "🐒", "dolphin": "🐬", "whale": "🐋", "porpoise": "🐬", "seal": "🦭", "walrus": "🦭", 
+            "manatee": "🦭", "penguin": "🐧", "ostrich": "🦩", "emu": "🦤", "flamingo": "🦩", "pelican": "🦢", 
+            "seagull": "🕊️", "albatross": "🦅", "eagle": "🦅", "hawk": "🦅", "falcon": "🦅", "owl": "🦉", 
+            "woodpecker": "🐦", "parrot": "🦜", "macaw": "🦜", "cockatoo": "🦜", "pigeon": "🕊️", "dove": "🕊️", 
+            "sparrow": "🐦", "robin": "🐦", "crow": "🐦‍⬛", "raven": "🐦‍⬛", "jay": "🐦", "magpie": "🐦", "frog": "🐸", 
+            "toad": "🐸", "salamander": "🦎", "newt": "🦎", "turtle": "🐢", "tortoise": "🐢", "crocodile": "🐊", 
+            "alligator": "🐊", "snake": "🐍", "lizard": "🦎", "iguana": "🦎", "chameleon": "🦎", "gecko": "🦎", 
+            "shark": "🦈", "ray": "🦈", "salmon": "🐟", "trout": "🐟", "tuna": "🐟", "bass": "🐟", "cod": "🐟", 
+            "flounder": "🐟", "crab": "🦀", "lobster": "🦞", "shrimp": "🦐", "octopus": "🐙", "squid": "🦑", 
+            "snail": "🐌", "slug": "🐌", "clam": "🦪", "oyster": "🦪", "starfish": "⭐", "urchin": "🦔", 
+            "jellyfish": "🪼", "sponge": "🧽", "spider": "🕷️", "scorpion": "🦂", "tick": "🐞", "mite": "🐞", 
+            "centipede": "🐛", "millipede": "🐛", "ant": "🐜", "bee": "🐝", "wasp": "🐝", "hornet": "🐝", 
+            "butterfly": "🦋", "moth": "🦋", "beetle": "🪲", "ladybug": "🐞", "fly": "🪰", "mosquito": "🦟", 
+            "grasshopper": "🦗", "cricket": "🦗", "locust": "🦗", "roach": "🪳", "mantis": "🦗", "dragonfly": "🚁", 
+            "termite": "🐜", "hyena": "🐺", "zebra": "🦓", "camel": "🐪", "llama": "🦙", "alpaca": "🦙", 
+            "axolotl": "🦎", "capybara": "🐹", "pangolin": "🦔", "ocelot": "🐆", "quokka": "🐻", "binturong": "🦝", 
+            "cassowary": "🦤", "aardvark": "🐜", "aardwolf": "🐺", "chinchilla": "🐭", "dugong": "🦭", "fossa": "🐱", 
+            "guanaco": "🦙", "narwhal": "🐳", "okapi": "🦓", "quetzal": "🦚", "tapir": "🐘", "vicuna": "🦙", 
+            "wallaby": "🦘", "yak": "🐂", "zebu": "🐂", "macaque": "🐒", "gibbon": "🐒", "marmoset": "🐒", 
+            "tarsier": "🐒", "meerkat": "🦦", "mongoose": "🦦"
+        },
+        "Fruits": {
+            "apple": "🍎", "banana": "🍌", "orange": "🍊", "grape": "🍇", "pear": "🍐", "peach": "🍑", "plum": "🍑", 
+            "melon": "🍈", "lemon": "🍋", "lime": "🍋‍🟩", "cherry": "🍒", "mango": "🥭", "papaya": "🥭", "guava": "🍐", 
+            "coconut": "🥥", "apricot": "🍑", "blackberry": "🫐", "blueberry": "🫐", "cranberry": "🍒", "lychee": "🍓", 
+            "nectarine": "🍑", "olive": "🫒", "pineapple": "🍍", "pomegranate": "🍎", "raspberry": "🍓", 
+            "strawberry": "🍓", "watermelon": "🍉", "cantaloupe": "🍈", "honeydew": "🍈", "fig": "🫘", "date": "🫘", 
+            "kiwi": "🥝", "tangerine": "🍊", "clementine": "🍊", "grapefruit": "🍊", "pomelo": "🍊", "persimmon": "🍅", 
+            "quince": "🍐", "elderberry": "🫐", "mulberry": "🫐", "boysenberry": "🫐", "gooseberry": "🍈", 
+            "currant": "🍒", "passionfruit": "🥝", "dragonfruit": "🐉", "starfruit": "⭐", "jackfruit": "🍈", 
+            "durian": "🍈", "rambutan": "🍓", "tamarind": "🥜", "plantain": "🍌", "kumquat": "🍊", "huckleberry": "🫐", 
+            "loganberry": "🍓", "marionberry": "🫐", "pawpaw": "🍐", "tamarillo": "🍅", "salak": "🌰", "soursop": "🍐", 
+            "yuzu": "🍋", "ackee": "🍎", "breadfruit": "🍈", "cherimoya": "🍐", "jabuticaba": "🍇", "longan": "🥔", 
+            "mangosteen": "🟣", "physalis": "🍅", "satsuma": "🍊", "tangelo": "🍊", "ugli": "🍋", "yumberry": "🍓", 
+            "cloudberry": "🍓", "dewberry": "🫐", "noni": "🍈", "calamansi": "🍋", "feijoa": "🥝", "jujube": "🍎", 
+            "medlar": "🥔", "rowan": "🍒", "sloe": "🫐"
+        },
+        "Colors": {
+            "red": "🔴", "blue": "🔵", "green": "🟢", "yellow": "🟡", "purple": "🟣", "orange": "🟠", "black": "⚫", 
+            "white": "⚪", "gray": "🔘", "brown": "🟤", "pink": "🩷", "cyan": "🩵", "magenta": "💖", "maroon": "🍷", 
+            "navy": "🌌", "olive": "🫒", "teal": "🦚", "silver": "🥈", "gold": "🥇", "indigo": "👖", "violet": "☂️", 
+            "coral": "🪸", "crimson": "🩸", "khaki": "⛺", "plum": "🍇", "salmon": "🍣", "beige": "📜", "azure": "🌤️", 
+            "ivory": "🐘", "lavender": "🪻", "fuchsia": "🌺", "chartreuse": "🎾", "amber": "🍯", "peach": "🍑", 
+            "aquamarine": "🌊", "turquoise": "💎", "lilac": "🪻", "rust": "🧱", "ruby": "💎", "jade": "🟩", 
+            "emerald": "❇️", "sapphire": "💠", "pearl": "🦪", "onyx": "♟️", "auburn": "🍂", "bronze": "🥉", 
+            "copper": "🪙", "denim": "👖", "mustard": "🌭", "ochre": "🏜️", "periwinkle": "🧊", "sienna": "🟤", 
+            "taupe": "🪨", "vermilion": "🏮", "viridian": "🌲", "amethyst": "🔮", "burgundy": "🍷", "carmine": "🍎", 
+            "cerise": "🍒", "cerulean": "🌊", "cobalt": "🥣", "ecru": "🧶", "mauve": "🪻", "mint": "🌿", "sepia": "🎞️"
+        },
+        "Vegetables": {
+            "carrot": "🥕", "potato": "🥔", "onion": "🧅", "corn": "🌽", "pea": "🫛", "broccoli": "🥦", 
+            "celery": "🥬", "garlic": "🧄", "lettuce": "🥗", "tomato": "🍅", "mushroom": "🍄", "cucumber": "🥒", 
+            "pepper": "🫑", "cabbage": "🥬", "spinach": "🍃", "yam": "🍠"
+        },
+        "Clothing": {
+            "shirt": "👕", "pants": "👖", "dress": "👗", "shoe": "👞", "sock": "🧦", "hat": "🎩", 
+            "coat": "🧥", "glove": "🧤", "skirt": "👗", "boot": "👢", "scarf": "🧣", "jacket": "🧥", 
+            "belt": "🥋", "tie": "👔", "jeans": "👖"
+        },
+        "Body Parts": {
+            "head": "🗣️", "arm": "💪", "leg": "🦵", "foot": "🦶", "eye": "👁️", "ear": "👂", "nose": "👃", 
+            "brain": "🧠", "bone": "🦴", "hand": "✋", "mouth": "👄", "tooth": "🦷", "tongue": "👅", 
+            "heart": "❤️", "lung": "🫁"
+        },
+        "Instruments": {
+            "piano": "🎹", "guitar": "🎸", "drum": "🥁", "flute": "🪈", "violin": "🎻", "trumpet": "🎺", 
+            "saxophone": "🎷", "harp": "🪕", "banjo": "🪕", "accordion": "🪗", "cello": "🎻", "bass": "🎸"
+        },
+        "Professions": {
+            "doctor": "🩺", "nurse": "💉", "teacher": "🧑‍🏫", "pilot": "✈️", "chef": "🍳", "artist": "🎨", 
+            "judge": "⚖️", "baker": "🥖", "farmer": "🧑‍🌾", "mechanic": "🔧", "scientist": "🔬", 
+            "police": "👮", "firefighter": "🧑‍🚒", "singer": "🎤"
+        },
+        "Sports": {
+            "soccer": "⚽", "tennis": "🎾", "golf": "⛳", "rugby": "🏉", "baseball": "⚾", "hockey": "🏒", 
+            "boxing": "🥊", "surfing": "🏄", "basketball": "🏀", "volleyball": "🏐", "football": "🏈", 
+            "skiing": "🎿", "swimming": "🏊"
+        }
+    };
+
+    let dictionary = {};
+    const fallbackEmojis = { "Animals": "🐾", "Fruits": "🌿", "Colors": "🎨", "Vegetables": "🥬", "Clothing": "👕", "Body Parts": "👤", "Instruments": "🎵", "Professions": "💼", "Sports": "🏅" };
+    
+    const ALL_LETTERS = 'abcdefghijklmnopqrstuvwxyz'.split('');
+    let currentDisplayLetters = [...ALL_LETTERS];
+    
+    const VOWELS = ['a', 'e', 'i', 'o', 'u'];
+    const CONSONANTS_LIST = 'bcdfghjklmnpqrstvwxyz';
+    
+    for (const [category, wordsObj] of Object.entries(rawDictionary)) {
+        dictionary[category] = {};
+        for (const [word, emoji] of Object.entries(wordsObj)) {
+            const cleanWord = word.toLowerCase().trim();
+            if (/^[a-z]+$/.test(cleanWord)) {
+                dictionary[category][cleanWord] = emoji;
+            }
+        }
+    }
+
+    let currentCategory = "";
+    let validCategoryWords = [];
+    let playedWords = new Set();
+    let usedConsonants = new Set();
+    let remainingValidWords = [];
+    let gameOver = false;
+
+    function getConsonants(word) {
+        return new Set([...word].filter(char => CONSONANTS_LIST.includes(char)));
+    }
+
+    function calculateRemaining() {
+        return validCategoryWords.filter(word => {
+            if (playedWords.has(word)) return false;
+            const wordConsonants = getConsonants(word);
+            for (let c of wordConsonants) {
+                if (usedConsonants.has(c)) return false;
+            }
+            return true;
+        });
+    }
+
+    function shuffleLetters() {
+        for (let i = currentDisplayLetters.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [currentDisplayLetters[i], currentDisplayLetters[j]] = [currentDisplayLetters[j], currentDisplayLetters[i]];
+        }
+        updateUI(); 
+        if(!gameOver) document.getElementById('word-input').focus();
+    }
+
+    function sortLetters() {
+        currentDisplayLetters = [...ALL_LETTERS];
+        updateUI();
+        if(!gameOver) document.getElementById('word-input').focus();
+    }
+
+    function typeLetter(char) {
+        if (gameOver) return;
+        const input = document.getElementById('word-input');
+        input.value += char;
+        input.focus();
+    }
+
+    function backspace() {
+        if (gameOver) return;
+        const input = document.getElementById('word-input');
+        input.value = input.value.slice(0, -1);
+        input.focus();
+    }
+
+    function initGame() {
+        playedWords.clear();
+        usedConsonants.clear();
+        currentDisplayLetters = [...ALL_LETTERS]; 
+        gameOver = false;
+        
+        const categories = Object.keys(dictionary);
+        currentCategory = categories[Math.floor(Math.random() * categories.length)];
+        
+        validCategoryWords = Object.keys(dictionary[currentCategory]).sort();
+        remainingValidWords = calculateRemaining();
+
+        document.getElementById('ui-category').innerText = currentCategory;
+        
+        const inputEl = document.getElementById('word-input');
+        inputEl.value = "";
+        inputEl.disabled = false;
+        inputEl.focus();
+        
+        document.getElementById('submit-btn').disabled = false;
+        
+        const giveUpBtn = document.getElementById('give-up-btn');
+        giveUpBtn.disabled = false;
+        giveUpBtn.classList.remove('hidden');
+        
+        document.getElementById('restart-btn').classList.add('hidden');
+        document.getElementById('revealed-section').classList.add('hidden');
+        
+        showMessage("", "");
+        updateUI();
+        
+        inputEl.removeEventListener("keypress", handleKeyPress); 
+        inputEl.addEventListener("keypress", handleKeyPress);
+    }
+
+    function handleKeyPress(event) {
+        if (event.key === "Enter" && !gameOver) {
+            event.preventDefault();
+            submitWord();
+        }
+    }
+
+    function submitWord() {
+        if (gameOver) return;
+
+        const inputEl = document.getElementById('word-input');
+        const word = inputEl.value.trim().toLowerCase();
+        
+        if (!word) return;
+
+        if (!/^[a-z]+$/.test(word)) {
+            showMessage(`Please enter a single word without spaces or hyphens.`, "error");
+            shakeInput();
+            return;
+        }
+
+        if (!validCategoryWords.includes(word)) {
+            showMessage(`"${word}" is not in our ${currentCategory} dictionary.`, "error");
+            shakeInput();
+            return;
+        }
+
+        if (playedWords.has(word)) {
+            showMessage(`You already played "${word}"!`, "error");
+            shakeInput();
+            return;
+        }
+
+        const wordConsonants = getConsonants(word);
+        let forbiddenUsed = [];
+        for (let c of wordConsonants) {
+            if (usedConsonants.has(c)) forbiddenUsed.push(c);
+        }
+
+        if (forbiddenUsed.length > 0) {
+            showMessage(`Invalid! "${word}" uses already-played consonants: ${forbiddenUsed.join(', ').toUpperCase()}`, "error");
+            shakeInput();
+            return;
+        }
+
+        playedWords.add(word);
+        wordConsonants.forEach(c => usedConsonants.add(c));
+        
+        remainingValidWords = calculateRemaining();
+        
+        inputEl.value = "";
+        inputEl.focus();
+        showMessage(`Good job! "${word}" accepted.`, "success");
+        updateUI();
+
+        if (remainingValidWords.length === 0) {
+            handleWin();
+        }
+    }
+
+    function updateUI() {
+        document.getElementById('ui-score').innerText = playedWords.size;
+        
+        const emojiListEl = document.getElementById('ui-emoji-list');
+        if (playedWords.size === 0) {
+            emojiListEl.innerHTML = "";
+        } else {
+            emojiListEl.innerHTML = Array.from(playedWords).map(w => {
+                const mappedEmoji = dictionary[currentCategory][w];
+                return `<span>${mappedEmoji || fallbackEmojis[currentCategory]}</span>`;
+            }).join('');
+        }
+
+        const countEl = document.getElementById('ui-remaining-count');
+        countEl.innerText = remainingValidWords.length;
+        countEl.classList.remove('scale-110', 'text-indigo-400');
+        void countEl.offsetWidth; 
+        countEl.classList.add('scale-110', 'text-indigo-400', 'transition-all', 'duration-300');
+        setTimeout(() => countEl.classList.remove('scale-110', 'text-indigo-400'), 300);
+
+        const lettersDiv = document.getElementById('ui-letters');
+        lettersDiv.innerHTML = "";
+        
+        currentDisplayLetters.forEach(char => {
+            let span = document.createElement('span');
+            span.innerText = char;
+            
+            const baseClasses = 'px-3 py-1 rounded-full text-sm font-bold uppercase shadow-sm transition-all duration-100 no-select ';
+            
+            if (VOWELS.includes(char)) {
+                span.className = baseClasses + 'bg-emerald-100 text-emerald-800 border border-emerald-300 hover:bg-emerald-200 cursor-pointer active:scale-90';
+                span.onclick = () => typeLetter(char);
+            } else if (usedConsonants.has(char)) {
+                span.className = 'bg-gray-100 text-gray-400 border border-gray-200 px-3 py-1 rounded-full text-sm font-bold uppercase line-through opacity-60 no-select cursor-not-allowed';
+            } else {
+                span.className = baseClasses + 'bg-indigo-100 text-indigo-800 border border-indigo-300 hover:bg-indigo-200 cursor-pointer active:scale-90';
+                span.onclick = () => typeLetter(char);
+            }
+            
+            lettersDiv.appendChild(span);
+        });
+
+        const wordsDiv = document.getElementById('ui-played-words');
+        if (playedWords.size === 0) {
+            wordsDiv.innerHTML = '<span class="text-gray-400 text-sm italic">None yet</span>';
+        } else {
+            wordsDiv.innerHTML = "";
+            Array.from(playedWords).forEach(w => {
+                let span = document.createElement('span');
+                const emoji = dictionary[currentCategory][w] || fallbackEmojis[currentCategory];
+                span.className = 'bg-sky-100 text-sky-800 border border-sky-200 px-3 py-1 rounded-full text-sm font-medium shadow-sm flex items-center gap-1';
+                span.innerHTML = `<span>${emoji}</span> ${w}`;
+                wordsDiv.appendChild(span);
+            });
+        }
+    }
+
+    function showMessage(msg, type) {
+        const msgBox = document.getElementById('message-box');
+        if (!msg) {
+            msgBox.classList.add('hidden');
+            return;
+        }
+        msgBox.innerText = msg;
+        msgBox.className = `mb-6 p-3 rounded-lg text-center text-sm font-medium ${
+            type === 'error' ? 'bg-red-50 text-red-700 border border-red-200' : 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+        }`;
+        msgBox.classList.remove('hidden');
+    }
+
+    function shakeInput() {
+        const input = document.getElementById('word-input');
+        input.classList.add('translate-x-2');
+        setTimeout(() => input.classList.replace('translate-x-2', '-translate-x-2'), 100);
+        setTimeout(() => input.classList.replace('-translate-x-2', 'translate-x-2'), 200);
+        setTimeout(() => input.classList.replace('translate-x-2', 'translate-x-0'), 300);
+    }
+
+    function giveUp() {
+        gameOver = true;
+        document.getElementById('word-input').disabled = true;
+        document.getElementById('submit-btn').disabled = true;
+        
+        document.getElementById('give-up-btn').classList.add('hidden');
+        document.getElementById('restart-btn').classList.remove('hidden');
+        
+        showMessage("You gave up! See the remaining items below.", "error");
+        showRemainingWords();
+    }
+
+    function handleWin() {
+        gameOver = true;
+        document.getElementById('word-input').disabled = true;
+        document.getElementById('submit-btn').disabled = true;
+        
+        document.getElementById('give-up-btn').classList.add('hidden');
+        document.getElementById('restart-btn').classList.remove('hidden');
+        
+        showMessage("🎉 YOU WIN! You exhausted all possibilities! 🎉", "success");
+    }
+
+    function showRemainingWords() {
+        const section = document.getElementById('revealed-section');
+        const listContainer = document.getElementById('ui-revealed-words');
+        section.classList.remove('hidden');
+        
+        if (remainingValidWords.length === 0) {
+            listContainer.innerHTML = "<em class='text-gray-500'>None left! You should have won!</em>";
+        } else {
+            listContainer.innerHTML = remainingValidWords.map(w => {
+                const emoji = dictionary[currentCategory][w] || fallbackEmojis[currentCategory];
+                return `<span class="bg-gray-200 px-2 py-1 rounded text-gray-700 font-medium">${emoji} ${w}</span>`;
+            }).join('');
+        }
+    }
+
+    window.onload = initGame;
+</script>
+</body>
+</html>
