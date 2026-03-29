@@ -16,9 +16,41 @@
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 4px; }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #a8a8a8; }
         .no-select { user-select: none; -webkit-user-select: none; touch-action: manipulation; }
+        .modal-overlay { background-color: rgba(0, 0, 0, 0.5); backdrop-filter: blur(4px); }
     </style>
 </head>
 <body class="min-h-screen flex items-center justify-center p-4">
+
+    <!-- How to Play Modal -->
+    <div id="how-to-play-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 modal-overlay hidden">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden animate-in fade-in zoom-in duration-300">
+            <div class="bg-indigo-600 p-6 text-white text-center">
+                <h2 class="text-2xl font-bold">How to Play</h2>
+            </div>
+            <div class="p-8">
+                <div class="space-y-4 text-gray-700 leading-relaxed">
+                    <p>Welcome to <span class="font-bold text-indigo-600">Consonant Constriction</span>!</p>
+                    <p>The goal is simple: <span class="font-semibold text-gray-900">Name as many things as you can</span> in the given category.</p>
+                    <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded-r-lg">
+                        <p class="text-sm text-amber-900 font-medium">The Catch:</p>
+                        <p class="text-sm text-amber-800">You cannot use any <span class="font-bold underline">consonants</span> that have appeared in your previous correct guesses!</p>
+                    </div>
+                    <p class="text-sm">Vowels (A, E, I, O, U) can be reused as much as you like. Once a consonant is gone, it's gone for the rest of the game.</p>
+                </div>
+                
+                <div class="mt-8 space-y-4">
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" id="dont-show-again" class="w-5 h-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500 cursor-pointer">
+                        <label for="dont-show-again" class="text-sm font-medium text-gray-600 cursor-pointer select-none">Don't show this again</label>
+                    </div>
+                    
+                    <button onclick="closeModal()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-xl transition-all transform active:scale-95 shadow-lg shadow-indigo-200">
+                        Got it, let's play!
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="w-full max-w-lg bg-white rounded-2xl shadow-xl overflow-hidden">
         <div class="bg-indigo-600 text-white p-6 text-center relative">
@@ -126,7 +158,40 @@
     const VOWELS = ['a', 'e', 'i', 'o', 'u'];
     const CONSONANTS_LIST = 'bcdfghjklmnpqrstvwxyz';
 
+    function setCookie(name, value, days) {
+        const d = new Date();
+        d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+        let expires = "expires=" + d.toUTCString();
+        document.cookie = name + "=" + value + ";" + expires + ";path=/;SameSite=Strict";
+    }
+
+    function getCookie(name) {
+        let nameEQ = name + "=";
+        let ca = document.cookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+
+    function showModal() {
+        if (!getCookie('hide-how-to-play')) {
+            document.getElementById('how-to-play-modal').classList.remove('hidden');
+        }
+    }
+
+    function closeModal() {
+        if (document.getElementById('dont-show-again').checked) {
+            setCookie('hide-how-to-play', 'true', 365);
+        }
+        document.getElementById('how-to-play-modal').classList.add('hidden');
+        document.getElementById('word-input').focus();
+    }
+
     async function loadDictionary() {
+        showModal();
         const categoryPromises = CATEGORIES.map(async category => {
             const filename = category.toLowerCase().replace(/\s/g, '_') + '.json';
             const response = await fetch(`./data/${filename}`);
