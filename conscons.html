@@ -109,111 +109,46 @@
     </div>
 
 <script>
-    const rawDictionary = {
-        "Animals": {
-            "dog": "🐶", "cat": "🐱", "elephant": "🐘", "giraffe": "🦒", "hippopotamus": "🦛", "rhinoceros": "🦏", 
-            "tiger": "🐅", "lion": "🦁", "cheetah": "🐆", "leopard": "🐆", "panther": "🐆", "jaguar": "🐆", 
-            "wolf": "🐺", "fox": "🦊", "coyote": "🐺", "bear": "🐻", "moose": "🦌", "deer": "🦌", "elk": "🦌", 
-            "rabbit": "🐰", "hare": "🐇", "squirrel": "🐿️", "chipmunk": "🐿️", "beaver": "🦫", "raccoon": "🦝", 
-            "skunk": "🦨", "possum": "🐀", "kangaroo": "🦘", "koala": "🐨", "wombat": "🐻", "platypus": "🦆", 
-            "echidna": "🦔", "monkey": "🐒", "gorilla": "🦍", "chimpanzee": "🦧", "orangutan": "🦧", "baboon": "🐒", 
-            "lemur": "🐒", "dolphin": "🐬", "whale": "🐋", "porpoise": "🐬", "seal": "🦭", "walrus": "🦭", 
-            "manatee": "🦭", "penguin": "🐧", "ostrich": "🦩", "emu": "🦤", "flamingo": "🦩", "pelican": "🦢", 
-            "seagull": "🕊️", "albatross": "🦅", "eagle": "🦅", "hawk": "🦅", "falcon": "🦅", "owl": "🦉", 
-            "woodpecker": "🐦", "parrot": "🦜", "macaw": "🦜", "cockatoo": "🦜", "pigeon": "🕊️", "dove": "🕊️", 
-            "sparrow": "🐦", "robin": "🐦", "crow": "🐦‍⬛", "raven": "🐦‍⬛", "jay": "🐦", "magpie": "🐦", "frog": "🐸", 
-            "toad": "🐸", "salamander": "🦎", "newt": "🦎", "turtle": "🐢", "tortoise": "🐢", "crocodile": "🐊", 
-            "alligator": "🐊", "snake": "🐍", "lizard": "🦎", "iguana": "🦎", "chameleon": "🦎", "gecko": "🦎", 
-            "shark": "🦈", "ray": "🦈", "salmon": "🐟", "trout": "🐟", "tuna": "🐟", "bass": "🐟", "cod": "🐟", 
-            "flounder": "🐟", "crab": "🦀", "lobster": "🦞", "shrimp": "🦐", "octopus": "🐙", "squid": "🦑", 
-            "snail": "🐌", "slug": "🐌", "clam": "🦪", "oyster": "🦪", "starfish": "⭐", "urchin": "🦔", 
-            "jellyfish": "🪼", "sponge": "🧽", "spider": "🕷️", "scorpion": "🦂", "tick": "🐞", "mite": "🐞", 
-            "centipede": "🐛", "millipede": "🐛", "ant": "🐜", "bee": "🐝", "wasp": "🐝", "hornet": "🐝", 
-            "butterfly": "🦋", "moth": "🦋", "beetle": "🪲", "ladybug": "🐞", "fly": "🪰", "mosquito": "🦟", 
-            "grasshopper": "🦗", "cricket": "🦗", "locust": "🦗", "roach": "🪳", "mantis": "🦗", "dragonfly": "🚁", 
-            "termite": "🐜", "hyena": "🐺", "zebra": "🦓", "camel": "🐪", "llama": "🦙", "alpaca": "🦙", 
-            "axolotl": "🦎", "capybara": "🐹", "pangolin": "🦔", "ocelot": "🐆", "quokka": "🐻", "binturong": "🦝", 
-            "cassowary": "🦤", "aardvark": "🐜", "aardwolf": "🐺", "chinchilla": "🐭", "dugong": "🦭", "fossa": "🐱", 
-            "guanaco": "🦙", "narwhal": "🐳", "okapi": "🦓", "quetzal": "🦚", "tapir": "🐘", "vicuna": "🦙", 
-            "wallaby": "🦘", "yak": "🐂", "zebu": "🐂", "macaque": "🐒", "gibbon": "🐒", "marmoset": "🐒", 
-            "tarsier": "🐒", "meerkat": "🦦", "mongoose": "🦦"
-        },
-        "Fruits": {
-            "apple": "🍎", "banana": "🍌", "orange": "🍊", "grape": "🍇", "pear": "🍐", "peach": "🍑", "plum": "🍑", 
-            "melon": "🍈", "lemon": "🍋", "lime": "🍋‍🟩", "cherry": "🍒", "mango": "🥭", "papaya": "🥭", "guava": "🍐", 
-            "coconut": "🥥", "apricot": "🍑", "blackberry": "🫐", "blueberry": "🫐", "cranberry": "🍒", "lychee": "🍓", 
-            "nectarine": "🍑", "olive": "🫒", "pineapple": "🍍", "pomegranate": "🍎", "raspberry": "🍓", 
-            "strawberry": "🍓", "watermelon": "🍉", "cantaloupe": "🍈", "honeydew": "🍈", "fig": "🫘", "date": "🫘", 
-            "kiwi": "🥝", "tangerine": "🍊", "clementine": "🍊", "grapefruit": "🍊", "pomelo": "🍊", "persimmon": "🍅", 
-            "quince": "🍐", "elderberry": "🫐", "mulberry": "🫐", "boysenberry": "🫐", "gooseberry": "🍈", 
-            "currant": "🍒", "passionfruit": "🥝", "dragonfruit": "🐉", "starfruit": "⭐", "jackfruit": "🍈", 
-            "durian": "🍈", "rambutan": "🍓", "tamarind": "🥜", "plantain": "🍌", "kumquat": "🍊", "huckleberry": "🫐", 
-            "loganberry": "🍓", "marionberry": "🫐", "pawpaw": "🍐", "tamarillo": "🍅", "salak": "🌰", "soursop": "🍐", 
-            "yuzu": "🍋", "ackee": "🍎", "breadfruit": "🍈", "cherimoya": "🍐", "jabuticaba": "🍇", "longan": "🥔", 
-            "mangosteen": "🟣", "physalis": "🍅", "satsuma": "🍊", "tangelo": "🍊", "ugli": "🍋", "yumberry": "🍓", 
-            "cloudberry": "🍓", "dewberry": "🫐", "noni": "🍈", "calamansi": "🍋", "feijoa": "🥝", "jujube": "🍎", 
-            "medlar": "🥔", "rowan": "🍒", "sloe": "🫐"
-        },
-        "Colors": {
-            "red": "🔴", "blue": "🔵", "green": "🟢", "yellow": "🟡", "purple": "🟣", "orange": "🟠", "black": "⚫", 
-            "white": "⚪", "gray": "🔘", "brown": "🟤", "pink": "🩷", "cyan": "🩵", "magenta": "💖", "maroon": "🍷", 
-            "navy": "🌌", "olive": "🫒", "teal": "🦚", "silver": "🥈", "gold": "🥇", "indigo": "👖", "violet": "☂️", 
-            "coral": "🪸", "crimson": "🩸", "khaki": "⛺", "plum": "🍇", "salmon": "🍣", "beige": "📜", "azure": "🌤️", 
-            "ivory": "🐘", "lavender": "🪻", "fuchsia": "🌺", "chartreuse": "🎾", "amber": "🍯", "peach": "🍑", 
-            "aquamarine": "🌊", "turquoise": "💎", "lilac": "🪻", "rust": "🧱", "ruby": "💎", "jade": "🟩", 
-            "emerald": "❇️", "sapphire": "💠", "pearl": "🦪", "onyx": "♟️", "auburn": "🍂", "bronze": "🥉", 
-            "copper": "🪙", "denim": "👖", "mustard": "🌭", "ochre": "🏜️", "periwinkle": "🧊", "sienna": "🟤", 
-            "taupe": "🪨", "vermilion": "🏮", "viridian": "🌲", "amethyst": "🔮", "burgundy": "🍷", "carmine": "🍎", 
-            "cerise": "🍒", "cerulean": "🌊", "cobalt": "🥣", "ecru": "🧶", "mauve": "🪻", "mint": "🌿", "sepia": "🎞️"
-        },
-        "Vegetables": {
-            "carrot": "🥕", "potato": "🥔", "onion": "🧅", "corn": "🌽", "pea": "🫛", "broccoli": "🥦", 
-            "celery": "🥬", "garlic": "🧄", "lettuce": "🥗", "tomato": "🍅", "mushroom": "🍄", "cucumber": "🥒", 
-            "pepper": "🫑", "cabbage": "🥬", "spinach": "🍃", "yam": "🍠"
-        },
-        "Clothing": {
-            "shirt": "👕", "pants": "👖", "dress": "👗", "shoe": "👞", "sock": "🧦", "hat": "🎩", 
-            "coat": "🧥", "glove": "🧤", "skirt": "👗", "boot": "👢", "scarf": "🧣", "jacket": "🧥", 
-            "belt": "🥋", "tie": "👔", "jeans": "👖"
-        },
-        "Body Parts": {
-            "head": "🗣️", "arm": "💪", "leg": "🦵", "foot": "🦶", "eye": "👁️", "ear": "👂", "nose": "👃", 
-            "brain": "🧠", "bone": "🦴", "hand": "✋", "mouth": "👄", "tooth": "🦷", "tongue": "👅", 
-            "heart": "❤️", "lung": "🫁"
-        },
-        "Instruments": {
-            "piano": "🎹", "guitar": "🎸", "drum": "🥁", "flute": "🪈", "violin": "🎻", "trumpet": "🎺", 
-            "saxophone": "🎷", "harp": "🪕", "banjo": "🪕", "accordion": "🪗", "cello": "🎻", "bass": "🎸"
-        },
-        "Professions": {
-            "doctor": "🩺", "nurse": "💉", "teacher": "🧑‍🏫", "pilot": "✈️", "chef": "🍳", "artist": "🎨", 
-            "judge": "⚖️", "baker": "🥖", "farmer": "🧑‍🌾", "mechanic": "🔧", "scientist": "🔬", 
-            "police": "👮", "firefighter": "🧑‍🚒", "singer": "🎤"
-        },
-        "Sports": {
-            "soccer": "⚽", "tennis": "🎾", "golf": "⛳", "rugby": "🏉", "baseball": "⚾", "hockey": "🏒", 
-            "boxing": "🥊", "surfing": "🏄", "basketball": "🏀", "volleyball": "🏐", "football": "🏈", 
-            "skiing": "🎿", "swimming": "🏊"
-        }
-    };
 
+
+    const CATEGORIES = [
+        "Animals", "Fruits", "Colors", "Vegetables", "Clothing", "Body Parts", "Instruments", "Professions", "Sports"
+    ];
     let dictionary = {};
-    const fallbackEmojis = { "Animals": "🐾", "Fruits": "🌿", "Colors": "🎨", "Vegetables": "🥬", "Clothing": "👕", "Body Parts": "👤", "Instruments": "🎵", "Professions": "💼", "Sports": "🏅" };
+    const fallbackEmojis = { 
+        "Animals": "🐾", "Fruits": "🌿", "Colors": "🎨", "Vegetables": "🥬", 
+        "Clothing": "👕", "Body Parts": "👤", "Instruments": "🎵", "Professions": "💼", "Sports": "🏅" 
+    };
     
     const ALL_LETTERS = 'abcdefghijklmnopqrstuvwxyz'.split('');
     let currentDisplayLetters = [...ALL_LETTERS];
     
     const VOWELS = ['a', 'e', 'i', 'o', 'u'];
     const CONSONANTS_LIST = 'bcdfghjklmnpqrstvwxyz';
-    
-    for (const [category, wordsObj] of Object.entries(rawDictionary)) {
-        dictionary[category] = {};
-        for (const [word, emoji] of Object.entries(wordsObj)) {
-            const cleanWord = word.toLowerCase().trim();
-            if (/^[a-z]+$/.test(cleanWord)) {
-                dictionary[category][cleanWord] = emoji;
+
+    async function loadDictionary() {
+        const categoryPromises = CATEGORIES.map(async category => {
+            const filename = category.toLowerCase().replace(/\s/g, '_') + '.json';
+            const response = await fetch(`./data/${filename}`);
+            if (!response.ok) {
+                console.error(`Failed to load ${filename}: ${response.statusText}`);
+                return [category, {}];
+            }
+            const data = await response.json();
+            return [category, data];
+        });
+
+        const loadedCategories = await Promise.all(categoryPromises);
+        for (const [category, wordsObj] of loadedCategories) {
+            dictionary[category] = {};
+            for (const [word, emoji] of Object.entries(wordsObj)) {
+                const cleanWord = word.toLowerCase().trim();
+                if (/^[a-z]+$/.test(cleanWord)) {
+                    dictionary[category][cleanWord] = emoji;
+                }
             }
         }
+        await initGame(); // Initialize game after dictionary is loaded
     }
 
     let currentCategory = "";
@@ -222,6 +157,44 @@
     let usedConsonants = new Set();
     let remainingValidWords = [];
     let gameOver = false;
+
+    // Modify window.onload to call loadDictionary first
+    window.onload = loadDictionary;
+
+    function initGame() {
+        playedWords.clear();
+        usedConsonants.clear();
+        currentDisplayLetters = [...ALL_LETTERS]; 
+        gameOver = false;
+        
+        const categories = Object.keys(dictionary);
+        currentCategory = categories[Math.floor(Math.random() * categories.length)];
+        
+        validCategoryWords = Object.keys(dictionary[currentCategory]).sort();
+        remainingValidWords = calculateRemaining();
+
+        document.getElementById('ui-category').innerText = currentCategory;
+        
+        const inputEl = document.getElementById('word-input');
+        inputEl.value = "";
+        inputEl.disabled = false;
+        inputEl.focus();
+        
+        document.getElementById('submit-btn').disabled = false;
+        
+        const giveUpBtn = document.getElementById('give-up-btn');
+        giveUpBtn.disabled = false;
+        giveUpBtn.classList.remove('hidden');
+        
+        document.getElementById('restart-btn').classList.add('hidden');
+        document.getElementById('revealed-section').classList.add('hidden');
+        
+        showMessage("", "");
+        updateUI();
+        
+        inputEl.removeEventListener("keypress", handleKeyPress); 
+        inputEl.addEventListener("keypress", handleKeyPress);
+    }
 
     function getConsonants(word) {
         return new Set([...word].filter(char => CONSONANTS_LIST.includes(char)));
@@ -478,7 +451,7 @@
         }
     }
 
-    window.onload = initGame;
+
 </script>
 </body>
 </html>
