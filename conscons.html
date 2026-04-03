@@ -22,8 +22,8 @@
 <body class="min-h-screen flex items-center justify-center p-4">
 
     <!-- How to Play Modal -->
-    <div id="how-to-play-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 modal-overlay hidden">
-        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden animate-in fade-in zoom-in duration-300">
+    <div id="how-to-play-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 modal-overlay hidden" style="display: none;">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden">
             <div class="bg-indigo-600 p-6 text-white text-center">
                 <h2 class="text-2xl font-bold">How to Play</h2>
             </div>
@@ -77,6 +77,10 @@
                 <span class="text-indigo-800">The computer can think of</span>
                 <span id="ui-remaining-count" class="block text-4xl font-black text-indigo-600 my-1">-</span>
                 <span class="text-indigo-800">remaining valid items.</span>
+                <div class="mt-2 pt-2 border-t border-indigo-100">
+                    <span class="text-sm text-indigo-700">Longest possible sequence: </span>
+                    <span id="ui-longest-sequence-len" class="font-bold text-indigo-900">-</span>
+                </div>
             </div>
 
             <div class="flex gap-2 mb-2">
@@ -124,11 +128,15 @@
             </div>
 
             <div id="revealed-section" class="hidden mb-6">
-                <h3 class="text-xs font-bold text-red-500 uppercase tracking-wider mb-2">Remaining Possibilities</h3>
-                <div id="ui-revealed-words" class="bg-gray-50 border border-gray-200 rounded-lg p-3 max-h-48 overflow-y-auto custom-scrollbar text-sm text-gray-700 flex flex-wrap gap-2">
+                <div class="mb-4">
+                    <h3 class="text-xs font-bold text-red-500 uppercase tracking-wider mb-2">Longest Possible Sequence</h3>
+                    <div id="ui-longest-sequence-list" class="bg-indigo-50 border border-indigo-200 rounded-lg p-3 max-h-48 overflow-y-auto custom-scrollbar text-sm text-indigo-900 flex flex-wrap gap-2">
                     </div>
+                </div>
+                <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">All Other Remaining Possibilities</h3>
+                <div id="ui-revealed-words" class="bg-gray-50 border border-gray-200 rounded-lg p-3 max-h-48 overflow-y-auto custom-scrollbar text-sm text-gray-700 flex flex-wrap gap-2">
+                </div>
             </div>
-
             <button id="give-up-btn" onclick="giveUp()" 
                 class="w-full bg-red-100 hover:bg-red-200 text-red-700 py-3 rounded-lg font-semibold transition-colors mt-2 disabled:opacity-50 disabled:cursor-not-allowed">
                 I Give Up
@@ -400,6 +408,45 @@
         }
     }
 
+    let currentLongestSequence = [];
+
+    function getWordMask(word) {
+        let mask = 0;
+        for (let char of word) {
+            const idx = CONSONANTS_LIST.indexOf(char);
+            if (idx !== -1) mask |= (1 << idx);
+        }
+        return mask;
+    }
+
+    function calculateLongestSequence(words, initialMask) {
+        const memo = new Map();
+        const wordData = words.map(w => ({ word: w, mask: getWordMask(w) }));
+
+        function solve(index, currentMask) {
+            if (index === wordData.length) return [];
+            
+            const key = `${index}-${currentMask}`;
+            if (memo.has(key)) return memo.get(key);
+
+            // Option 1: Skip current word
+            let best = solve(index + 1, currentMask);
+
+            // Option 2: Use current word (if compatible)
+            if ((currentMask & wordData[index].mask) === 0) {
+                const res = [wordData[index].word, ...solve(index + 1, currentMask | wordData[index].mask)];
+                if (res.length > best.length) {
+                    best = res;
+                }
+            }
+
+            memo.set(key, best);
+            return best;
+        }
+
+        return solve(0, initialMask);
+    }
+
     function updateUI() {
         document.getElementById('ui-score').innerText = playedWords.size;
         
@@ -415,12 +462,23 @@
 
         const countEl = document.getElementById('ui-remaining-count');
         countEl.innerText = remainingValidWords.length;
+        
+        // Calculate longest sequence
+        let usedMask = 0;
+        usedConsonants.forEach(c => {
+            const idx = CONSONANTS_LIST.indexOf(c);
+            if (idx !== -1) usedMask |= (1 << idx);
+        });
+        currentLongestSequence = calculateLongestSequence(remainingValidWords, usedMask);
+        document.getElementById('ui-longest-sequence-len').innerText = currentLongestSequence.length;
+
         countEl.classList.remove('scale-110', 'text-indigo-400');
         void countEl.offsetWidth; 
         countEl.classList.add('scale-110', 'text-indigo-400', 'transition-all', 'duration-300');
         setTimeout(() => countEl.classList.remove('scale-110', 'text-indigo-400'), 300);
 
         const lettersDiv = document.getElementById('ui-letters');
+...
         lettersDiv.innerHTML = "";
         
         currentDisplayLetters.forEach(char => {
@@ -504,12 +562,24 @@
     function showRemainingWords() {
         const section = document.getElementById('revealed-section');
         const listContainer = document.getElementById('ui-revealed-words');
+        const longestSeqContainer = document.getElementById('ui-longest-sequence-list');
         section.classList.remove('hidden');
         
-        if (remainingValidWords.length === 0) {
-            listContainer.innerHTML = "<em class='text-gray-500'>None left! You should have won!</em>";
+        if (currentLongestSequence.length === 0) {
+            longestSeqContainer.innerHTML = "<em class='text-gray-500'>None left!</em>";
         } else {
-            listContainer.innerHTML = remainingValidWords.map(w => {
+            longestSeqContainer.innerHTML = currentLongestSequence.map(w => {
+                const emoji = dictionary[currentCategory][w] || fallbackEmojis[currentCategory];
+                return `<span class="bg-indigo-200 px-2 py-1 rounded text-indigo-900 font-bold">${emoji} ${w}</span>`;
+            }).join('');
+        }
+
+        const otherWords = remainingValidWords.filter(w => !currentLongestSequence.includes(w));
+        
+        if (otherWords.length === 0) {
+            listContainer.innerHTML = "<em class='text-gray-500'>None left!</em>";
+        } else {
+            listContainer.innerHTML = otherWords.map(w => {
                 const emoji = dictionary[currentCategory][w] || fallbackEmojis[currentCategory];
                 return `<span class="bg-gray-200 px-2 py-1 rounded text-gray-700 font-medium">${emoji} ${w}</span>`;
             }).join('');
