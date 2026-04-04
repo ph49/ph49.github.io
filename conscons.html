@@ -96,6 +96,15 @@
                     Play
                 </button>
             </div>
+
+            <div class="flex gap-2 mb-6">
+                <button onclick="undo()" id="undo-btn" class="flex-grow bg-amber-100 hover:bg-amber-200 text-amber-700 py-2 rounded-lg font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                    Undo
+                </button>
+                <button onclick="provideHint()" id="hint-btn" class="flex-grow bg-purple-100 hover:bg-purple-200 text-purple-700 py-2 rounded-lg font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                    Hint
+                </button>
+            </div>
             
             <div id="message-box" class="hidden mb-6 p-3 rounded-lg text-center text-sm font-medium animate-pulse"></div>
 
@@ -238,6 +247,7 @@
     let currentCategory = "";
     let validCategoryWords = []; // Array of { word, mask }
     let playedWords = new Set();
+    let playedWordsHistory = [];
     let usedConsonants = new Set();
     let usedConsonantsMask = 0;
     let remainingValidWords = [];
@@ -247,6 +257,7 @@
 
     function initGame() {
         playedWords.clear();
+        playedWordsHistory = [];
         usedConsonants.clear();
         usedConsonantsMask = 0;
         currentDisplayLetters = [...ALL_LETTERS]; 
@@ -270,6 +281,8 @@
         inputEl.focus();
         
         document.getElementById('submit-btn').disabled = false;
+        document.getElementById('undo-btn').disabled = true;
+        document.getElementById('hint-btn').disabled = false;
         
         const giveUpBtn = document.getElementById('give-up-btn');
         giveUpBtn.disabled = false;
@@ -321,6 +334,41 @@
         input.focus();
     }
 
+    function undo() {
+        if (playedWordsHistory.length === 0 || gameOver) return;
+        
+        playedWordsHistory.pop();
+        
+        // Rebuild state
+        playedWords.clear();
+        usedConsonants.clear();
+        usedConsonantsMask = 0;
+        
+        playedWordsHistory.forEach(word => {
+            playedWords.add(word);
+            const mask = dictionary[currentCategory][word].mask;
+            usedConsonantsMask |= mask;
+            for (let char of word) {
+                if (CONSONANTS_LIST.includes(char)) usedConsonants.add(char);
+            }
+        });
+        
+        remainingValidWords = calculateRemaining();
+        showMessage("Last move undone.", "success");
+        updateUI();
+    }
+
+    function provideHint() {
+        if (gameOver || currentLongestSequence.length === 0) {
+            showMessage("No hints available!", "error");
+            return;
+        }
+        
+        const hintWord = currentLongestSequence[0];
+        showMessage(`Hint: Try "${hintWord}"`, "success");
+        document.getElementById('word-input').focus();
+    }
+
     function handleKeyPress(event) {
         if (event.key === "Enter" && !gameOver) {
             event.preventDefault();
@@ -369,6 +417,7 @@
         }
 
         playedWords.add(word);
+        playedWordsHistory.push(word);
         usedConsonantsMask |= wordMask;
         for (let char of word) {
             if (CONSONANTS_LIST.includes(char)) usedConsonants.add(char);
@@ -432,12 +481,13 @@
 
     function updateUI() {
         document.getElementById('ui-score').innerText = playedWords.size;
+        document.getElementById('undo-btn').disabled = (playedWordsHistory.length === 0 || gameOver);
         
         const emojiListEl = document.getElementById('ui-emoji-list');
         if (playedWords.size === 0) {
             emojiListEl.innerHTML = "";
         } else {
-            emojiListEl.innerHTML = Array.from(playedWords).map(w => {
+            emojiListEl.innerHTML = Array.from(playedWordsHistory).map(w => {
                 const data = dictionary[currentCategory][w];
                 return `<span>${data.emoji || fallbackEmojis[currentCategory]}</span>`;
             }).join('');
@@ -452,6 +502,7 @@
         calculationTimeout = setTimeout(() => {
             currentLongestSequence = calculateLongestSequence(remainingValidWords, 150);
             document.getElementById('ui-longest-sequence-len').innerText = currentLongestSequence.length;
+            document.getElementById('hint-btn').disabled = (gameOver || currentLongestSequence.length === 0);
         }, 250);
 
         countEl.classList.remove('scale-110', 'text-indigo-400');
@@ -486,7 +537,7 @@
             wordsDiv.innerHTML = '<span class="text-gray-400 text-sm italic">None yet</span>';
         } else {
             wordsDiv.innerHTML = "";
-            Array.from(playedWords).forEach(w => {
+            Array.from(playedWordsHistory).forEach(w => {
                 let span = document.createElement('span');
                 const emoji = dictionary[currentCategory][w].emoji || fallbackEmojis[currentCategory];
                 span.className = 'bg-sky-100 text-sky-800 border border-sky-200 px-3 py-1 rounded-full text-sm font-medium shadow-sm flex items-center gap-1';
@@ -521,6 +572,8 @@
         gameOver = true;
         document.getElementById('word-input').disabled = true;
         document.getElementById('submit-btn').disabled = true;
+        document.getElementById('undo-btn').disabled = true;
+        document.getElementById('hint-btn').disabled = true;
         
         document.getElementById('give-up-btn').classList.add('hidden');
         document.getElementById('restart-btn').classList.remove('hidden');
@@ -533,6 +586,8 @@
         gameOver = true;
         document.getElementById('word-input').disabled = true;
         document.getElementById('submit-btn').disabled = true;
+        document.getElementById('undo-btn').disabled = true;
+        document.getElementById('hint-btn').disabled = true;
         
         document.getElementById('give-up-btn').classList.add('hidden');
         document.getElementById('restart-btn').classList.remove('hidden');
