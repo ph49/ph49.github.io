@@ -231,11 +231,14 @@
         const loadedCategories = await Promise.all(categoryPromises);
         for (const [category, wordsObj] of loadedCategories) {
             dictionary[category] = {};
-            for (const [word, emoji] of Object.entries(wordsObj)) {
+            for (const [word, value] of Object.entries(wordsObj)) {
                 const cleanWord = word.toLowerCase().trim();
                 if (/^[a-z]+$/.test(cleanWord)) {
+                    const emoji = typeof value === 'string' ? value : value.emoji;
+                    const clue = typeof value === 'object' ? value.clue : null;
                     dictionary[category][cleanWord] = {
                         emoji: emoji,
+                        clue: clue,
                         mask: getWordMask(cleanWord)
                     };
                 }
@@ -365,7 +368,14 @@
         }
         
         const hintWord = currentLongestSequence[0];
-        showMessage(`Hint: Try "${hintWord}"`, "success");
+        const clue = dictionary[currentCategory][hintWord].clue;
+        
+        if (clue) {
+            showMessage(`Hint: ${clue}`, "success");
+        } else {
+            // Fallback for missing clue
+            showMessage(`Hint: Try a word starting with "${hintWord[0].toUpperCase()}" and having ${hintWord.length} letters.`, "success");
+        }
         document.getElementById('word-input').focus();
     }
 
