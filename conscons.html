@@ -368,13 +368,15 @@
         }
         
         const hintWord = currentLongestSequence[0];
-        const clue = dictionary[currentCategory][hintWord].clue;
+        const data = dictionary[currentCategory][hintWord];
+        const clue = data.clue;
+        const emoji = data.emoji || fallbackEmojis[currentCategory];
         
         if (clue) {
-            showMessage(`Hint: ${clue}`, "success");
+            showMessage(`Hint: ${emoji} ${clue}`, "success");
         } else {
             // Fallback for missing clue
-            showMessage(`Hint: Try a word starting with "${hintWord[0].toUpperCase()}" and having ${hintWord.length} letters.`, "success");
+            showMessage(`Hint: ${emoji} Try a word starting with "${hintWord[0].toUpperCase()}" and having ${hintWord.length} letters.`, "success");
         }
         document.getElementById('word-input').focus();
     }
