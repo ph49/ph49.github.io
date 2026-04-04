@@ -420,32 +420,53 @@
     }
 
     function calculateLongestSequence(words, initialMask) {
-        const memo = new Map();
+        if (words.length === 0) return [];
+        
         const wordData = words.map(w => ({ word: w, mask: getWordMask(w) }));
+        
+        // Simple pruning: Sort by fewer consonants first to increase chances of finding longer chains
+        wordData.sort((a, b) => {
+            const countA = (a.mask.toString(2).match(/1/g) || []).length;
+            const countB = (b.mask.toString(2).match(/1/g) || []).length;
+            return countA - countB;
+        });
+
+        let bestResult = [];
+        const memo = new Map();
 
         function solve(index, currentMask) {
             if (index === wordData.length) return [];
             
-            const key = `${index}-${currentMask}`;
-            if (memo.has(key)) return memo.get(key);
+            const key = currentMask; // index is less important than the mask itself for the remaining pool
+            if (memo.has(key) && memo.get(key).depth >= (wordData.length - index)) {
+                return memo.get(key).result;
+            }
 
-            // Option 1: Skip current word
-            let best = solve(index + 1, currentMask);
+            let best = [];
+            
+            // Heuristic: only look at a subset of words if the pool is too large to keep it responsive
+            const searchLimit = index + 40; 
+            const end = Math.min(wordData.length, searchLimit);
 
-            // Option 2: Use current word (if compatible)
-            if ((currentMask & wordData[index].mask) === 0) {
-                const res = [wordData[index].word, ...solve(index + 1, currentMask | wordData[index].mask)];
-                if (res.length > best.length) {
-                    best = res;
+            for (let i = index; i < end; i++) {
+                if ((currentMask & wordData[i].mask) === 0) {
+                    const res = [wordData[i].word, ...solve(i + 1, currentMask | wordData[i].mask)];
+                    if (res.length > best.length) {
+                        best = res;
+                    }
+                    // Optimization: if we found a very long chain, we can stop early
+                    if (best.length > 15) break; 
                 }
             }
 
-            memo.set(key, best);
+            memo.set(key, {result: best, depth: wordData.length - index});
             return best;
         }
 
         return solve(0, initialMask);
     }
+
+    let calculationTimeout = null;
 
     function updateUI() {
         document.getElementById('ui-score').innerText = playedWords.size;
@@ -463,14 +484,19 @@
         const countEl = document.getElementById('ui-remaining-count');
         countEl.innerText = remainingValidWords.length;
         
-        // Calculate longest sequence
-        let usedMask = 0;
-        usedConsonants.forEach(c => {
-            const idx = CONSONANTS_LIST.indexOf(c);
-            if (idx !== -1) usedMask |= (1 << idx);
-        });
-        currentLongestSequence = calculateLongestSequence(remainingValidWords, usedMask);
-        document.getElementById('ui-longest-sequence-len').innerText = currentLongestSequence.length;
+        // Debounce and async-ish calculation to keep UI responsive
+        document.getElementById('ui-longest-sequence-len').innerText = "...";
+        if (calculationTimeout) clearTimeout(calculationTimeout);
+        
+        calculationTimeout = setTimeout(() => {
+            let usedMask = 0;
+            usedConsonants.forEach(c => {
+                const idx = CONSONANTS_LIST.indexOf(c);
+                if (idx !== -1) usedMask |= (1 << idx);
+            });
+            currentLongestSequence = calculateLongestSequence(remainingValidWords, usedMask);
+            document.getElementById('ui-longest-sequence-len').innerText = currentLongestSequence.length;
+        }, 50);
 
         countEl.classList.remove('scale-110', 'text-indigo-400');
         void countEl.offsetWidth; 
