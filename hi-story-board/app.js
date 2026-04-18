@@ -531,11 +531,9 @@ function handleDrop(e, index) {
         const { event, sourceIndex } = parsedData;
         
         if (sourceIndex !== undefined) {
-            // It's moving within timeline
-            const placedEvent = placedEvents[sourceIndex];
-            if (placedEvent) {
-                handlePlacement(index, placedEvent, e.target, sourceIndex);
-            }
+            // Prevent moving within timeline
+            alert("You cannot reorder cards in the timeline. Drag them back to the pending area to try again.");
+            return;
         } else {
             // It's from pending
             const pendingEvent = pendingEvents.find(ev => ev.id === event.id);
