@@ -81,6 +81,20 @@ nextEventContainerEl.addEventListener('drop', (e) => {
     }
 });
 
+// Click to return selected red card to pending
+nextEventContainerEl.addEventListener('click', () => {
+    if (selectedEvent && selectedEvent.isIncorrect) {
+        const sourceIndex = placedEvents.indexOf(selectedEvent);
+        if (sourceIndex > -1) {
+            placedEvents.splice(sourceIndex, 1);
+            selectedEvent.isIncorrect = false;
+            pendingEvents.push(selectedEvent);
+            selectedEvent = null;
+            renderGame();
+        }
+    }
+});
+
 const categorySelectEl = document.getElementById('category-select');
 if (categorySelectEl) {
     categorySelectEl.addEventListener('change', (e) => {
@@ -257,7 +271,8 @@ function renderNextEvent() {
         `;
         
         // Click to select
-        card.addEventListener('click', () => {
+        card.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent bubbling to container
             selectedEvent = event;
             renderNextEvent(); // Re-render to show selection
         });
@@ -297,6 +312,12 @@ function renderTimeline() {
         if (event.isIncorrect) {
             card.draggable = true;
             card.addEventListener('dragstart', (e) => handleDragStart(e, event, i));
+            // Click to select red card
+            card.addEventListener('click', (e) => {
+                e.stopPropagation();
+                selectedEvent = event;
+                renderGame(); // Re-render to show selection glow
+            });
         }
         
         timelineEl.appendChild(item);
