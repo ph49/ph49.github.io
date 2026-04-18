@@ -50,8 +50,17 @@ nextEventContainerEl.addEventListener('dragover', (e) => {
     e.preventDefault();
 });
 
+nextEventContainerEl.addEventListener('dragenter', (e) => {
+    nextEventContainerEl.classList.add('hovered');
+});
+
+nextEventContainerEl.addEventListener('dragleave', (e) => {
+    nextEventContainerEl.classList.remove('hovered');
+});
+
 nextEventContainerEl.addEventListener('drop', (e) => {
     e.preventDefault();
+    nextEventContainerEl.classList.remove('hovered');
     const data = e.dataTransfer.getData('text/plain');
     try {
         const parsedData = JSON.parse(data);
@@ -366,12 +375,14 @@ function handlePlacement(index, eventToPlace, dropZoneEl, sourceIndex) {
         oldTop = dropZoneEl.getBoundingClientRect().top;
     }
     
-    // If it's a move within the timeline
-    if (sourceIndex !== undefined) {
+    // Prevent duplicate placement
+    const existingIndex = placedEvents.indexOf(eventToPlace);
+    if (existingIndex > -1) {
+        // It's already in the timeline!
         // Remove from old position
-        placedEvents.splice(sourceIndex, 1);
+        placedEvents.splice(existingIndex, 1);
         // Adjust target index if it shifted!
-        if (index > sourceIndex) {
+        if (index > existingIndex) {
             index--;
         }
     }

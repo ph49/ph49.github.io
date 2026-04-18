@@ -227,6 +227,23 @@ h2 {
     transform: none; /* Prevent clipping on hover */
 }
 
+#next-event-container {
+    min-height: 160px;
+    border: 2px dashed transparent;
+    border-radius: var(--radius);
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    transition: var(--transition);
+}
+
+#next-event-container.hovered {
+    border-color: var(--primary);
+    background-color: rgba(99, 102, 241, 0.05);
+}
+
 .card.selected {
     border-color: #f59e0b; /* Yellow/Amber */
     box-shadow: 0 0 15px rgba(245, 158, 11, 0.5);
