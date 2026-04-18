@@ -188,6 +188,10 @@ h2 {
     font-weight: 400;
 }
 
+.card.incorrect .event-year {
+    display: none;
+}
+
 /* --- Timeline --- */
 .timeline-section {
     flex: 1;
@@ -195,33 +199,34 @@ h2 {
 
 .timeline-container {
     display: flex;
+    flex-direction: column-reverse;
     align-items: center;
     gap: 1.5rem;
     padding: 2rem 1rem;
     position: relative;
-    min-height: 200px;
-    overflow-x: auto;
+    min-height: 400px;
+    overflow-y: auto;
     background: rgba(0, 0, 0, 0.2);
     border-radius: var(--radius);
     border: 1px solid var(--glass-border);
 }
 
-/* Horizontal Line */
+/* Vertical Line */
 .timeline-line {
     position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(to right, transparent, var(--glass-border-bright), transparent);
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 2px;
+    background: linear-gradient(to bottom, transparent, var(--glass-border-bright), transparent);
     z-index: 0;
     pointer-events: none;
 }
 
 /* Drop Zones (Click to Place) */
 .drop-zone {
-    width: 60px;
-    height: 140px;
+    width: 220px;
+    height: 40px;
     border: 2px dashed var(--glass-border);
     border-radius: var(--radius);
     display: flex;

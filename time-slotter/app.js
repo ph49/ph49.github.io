@@ -38,6 +38,7 @@ const EVENT_POOL = [
 // --- Game State ---
 let score = 0;
 let highScore = 0;
+let lives = 3;
 let placedEvents = [];
 let availableEvents = [];
 let currentEvent = null;
@@ -45,6 +46,7 @@ let currentEvent = null;
 // --- DOM Elements ---
 const scoreCurrentEl = document.getElementById('score-current');
 const scoreHighEl = document.getElementById('score-high');
+const livesCountEl = document.getElementById('lives-count');
 const nextEventContainerEl = document.getElementById('next-event-container');
 const timelineEl = document.getElementById('timeline');
 
@@ -70,6 +72,50 @@ function getCookie(name) {
     return null;
 }
 
+// --- Audio Helpers ---
+let audioCtx;
+
+function initAudio() {
+    if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+}
+
+function playSound(type) {
+    initAudio();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    
+    if (type === 'success') {
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.1);
+        gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.2);
+    } else if (type === 'failure') {
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(200, audioCtx.currentTime);
+        osc.frequency.linearRampToValueAtTime(100, audioCtx.currentTime + 0.3);
+        gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.3);
+    } else if (type === 'gameover') {
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(300, audioCtx.currentTime);
+        osc.frequency.linearRampToValueAtTime(150, audioCtx.currentTime + 0.5);
+        gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.6);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.6);
+    }
+}
+
 // --- Game Functions ---
 
 function initGame() {
@@ -82,6 +128,9 @@ function initGame() {
 
     score = 0;
     scoreCurrentEl.textContent = score;
+    
+    lives = 3;
+    if (livesCountEl) livesCountEl.textContent = lives;
     
     // Reset events
     availableEvents = [...EVENT_POOL];
@@ -141,7 +190,7 @@ function renderTimeline() {
     placedEvents.forEach((event, index) => {
         // Render card
         const card = document.createElement('div');
-        card.className = 'card placed-card';
+        card.className = `card placed-card ${event.isIncorrect ? 'incorrect' : ''}`;
         card.innerHTML = `
             <div class="card-content">
                 <p class="event-description">${event.description}</p>
@@ -180,9 +229,11 @@ function handlePlacement(index) {
     // Validate placement
     const isCorrect = validatePlacement(currentEvent, index);
     
+    // Always insert the card where user placed it
+    placedEvents.splice(index, 0, currentEvent);
+    
     if (isCorrect) {
-        // Insert event
-        placedEvents.splice(index, 0, currentEvent);
+        playSound('success');
         score++;
         scoreCurrentEl.textContent = score;
         
@@ -192,20 +243,44 @@ function handlePlacement(index) {
             setCookie('timeSlotterHighScore', highScore, 365);
         }
         
-        // Visual feedback (placeholder for now, CSS handles glow on add if we use class)
-        // For now we just re-render
         pickNextEvent();
         renderGame();
     } else {
-        alert(`Game Over! Correct year was ${currentEvent.year}. Your score: ${score}`);
-        initGame();
+        playSound('failure');
+        currentEvent.isIncorrect = true; // Mark as incorrect
+        lives--;
+        if (livesCountEl) livesCountEl.textContent = lives;
+        
+        if (lives === 0) {
+            playSound('gameover');
+            alert(`Game Over! You ran out of lives. Your score: ${score}`);
+            initGame();
+        } else {
+            pickNextEvent();
+            renderGame();
+        }
     }
 }
 
 function validatePlacement(event, index) {
-    // Check if placement is correct relative to neighbors
-    const prevEvent = index > 0 ? placedEvents[index - 1] : null;
-    const nextEvent = index < placedEvents.length ? placedEvents[index] : null;
+    // Check if placement is correct relative to valid neighbors
+    // We need to find the closest valid (not incorrect) neighbors
+    
+    let prevEvent = null;
+    for (let i = index - 1; i >= 0; i--) {
+        if (!placedEvents[i].isIncorrect) {
+            prevEvent = placedEvents[i];
+            break;
+        }
+    }
+    
+    let nextEvent = null;
+    for (let i = index; i < placedEvents.length; i++) {
+        if (placedEvents[i] && !placedEvents[i].isIncorrect) {
+            nextEvent = placedEvents[i];
+            break;
+        }
+    }
     
     let correct = true;
     
