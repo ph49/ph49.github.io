@@ -263,24 +263,25 @@ h2 {
     min-width: 220px;
     max-width: 100%;
     width: auto;
-    height: 40px;
-    border: 2px dashed var(--glass-border);
+    height: 0; /* Collapsed by default */
+    overflow: hidden; /* Hide content */
+    border: 2px dashed transparent;
     border-radius: var(--radius);
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    transition: var(--transition);
+    transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s ease, background-color 0.3s ease;
     color: var(--text-muted);
     font-size: 1.5rem;
     flex-shrink: 0;
     z-index: 1;
 }
 
-.drop-zone:hover {
+.drop-zone.hovered {
+    height: 140px; /* Expand to card height */
     border-color: var(--primary);
-    color: var(--primary);
-    background: rgba(99, 102, 241, 0.05);
+    background-color: rgba(99, 102, 241, 0.05);
 }
 
 /* --- Animations --- */

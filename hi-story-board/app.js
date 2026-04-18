@@ -294,7 +294,6 @@ function createDropZone(index) {
     const zone = document.createElement('div');
     zone.className = 'drop-zone';
     zone.dataset.index = index;
-    zone.innerHTML = '+';
     
     // Click to place
     zone.addEventListener('click', (e) => handlePlacement(index, null, e.target));
