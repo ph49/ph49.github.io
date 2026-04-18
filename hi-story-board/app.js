@@ -225,6 +225,11 @@ function renderGame() {
 }
 
 function renderNextEvent() {
+    const headingEl = document.getElementById('next-event-heading');
+    if (headingEl) {
+        headingEl.textContent = pendingEvents.length > 1 ? "Events To Place" : "Next Event to Place";
+    }
+    
     nextEventContainerEl.innerHTML = '';
     
     pendingEvents.forEach((event, index) => {
