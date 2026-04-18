@@ -172,13 +172,17 @@ h2 {
     box-shadow: 0 0 15px var(--primary-glow);
     background: rgba(99, 102, 241, 0.1);
     animation: pulse 2s infinite alternate;
+    width: 200px; /* Smaller base width */
+    min-width: 200px;
+    height: auto; /* Grow taller for text */
+    min-height: 140px;
 }
 
 .card.selected {
-    border-color: var(--secondary);
-    box-shadow: 0 0 15px var(--secondary);
-    background: rgba(236, 72, 153, 0.2);
-    transform: translateY(-5px) scale(1.05);
+    border-color: #f59e0b; /* Yellow/Amber */
+    box-shadow: 0 0 15px rgba(245, 158, 11, 0.5);
+    background: rgba(245, 158, 11, 0.1);
+    transform: translateY(-5px); /* Removed scale to avoid overflow */
 }
 
 .card.correct {
