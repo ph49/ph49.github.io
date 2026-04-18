@@ -263,7 +263,7 @@ h2 {
     min-width: 220px;
     max-width: 100%;
     width: auto;
-    height: 0; /* Collapsed by default */
+    height: 20px; /* Base height for easier hit detection */
     overflow: hidden; /* Hide content */
     border: 2px dashed transparent;
     border-radius: var(--radius);
@@ -279,7 +279,7 @@ h2 {
 }
 
 .drop-zone.hovered {
-    height: 140px; /* Expand to card height */
+    height: 160px; /* Expand to create space for card */
     border-color: var(--primary);
     background-color: rgba(99, 102, 241, 0.05);
 }
