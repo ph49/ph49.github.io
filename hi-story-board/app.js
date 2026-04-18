@@ -55,6 +55,17 @@ const EVENT_POOL = [
 
 const VIBE_EMOJIS = ['❤️', '🚲', '🍌', '🎵', '🧠'];
 
+const CATEGORY_EMOJIS = {
+    'science': '🔬',
+    'history': '📜',
+    '20th-century': '🚀',
+    'pop-culture': '🍿',
+    'literature': '📚',
+    'music': '🎵',
+    'sport': '⚽',
+    'lucky-dip': '🎲'
+};
+
 // --- Game State ---
 let score = 0;
 let highScore = 0;
@@ -311,7 +322,7 @@ function renderTimeline() {
             <div class="event-year-floating">${event.isIncorrect ? '????' : event.year}</div>
             <div class="card placed-card ${event.isIncorrect ? 'incorrect' : ''}">
                 <div class="card-content">
-                    <span class="event-description">${event.description}</span>
+                    <span class="event-description">${currentCategory === 'lucky-dip' ? CATEGORY_EMOJIS[event.category] + ' ' : ''}${event.description}</span>
                 </div>
             </div>
         `;

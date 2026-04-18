@@ -64,6 +64,13 @@ body {
     padding-bottom: 1.5rem;
 }
 
+.title-area {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+}
+
 h1 {
     font-size: 2.5rem;
     font-weight: 800;
