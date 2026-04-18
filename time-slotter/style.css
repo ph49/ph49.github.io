@@ -133,7 +133,9 @@ h2 {
     border: 1px solid var(--glass-border);
     border-radius: var(--radius);
     padding: 1.5rem;
-    width: 220px;
+    min-width: 220px;
+    max-width: 100%;
+    width: auto; /* Expand horizontally if text requires */
     height: 140px;
     display: flex;
     justify-content: center;
@@ -205,7 +207,7 @@ h2 {
     gap: 1.5rem;
     padding: 2rem 1rem;
     position: relative;
-    min-height: 400px;
+    height: 600px; /* Fixed height for independent scrolling */
     overflow-y: auto;
     background: rgba(0, 0, 0, 0.2);
     border-radius: var(--radius);
@@ -226,7 +228,9 @@ h2 {
 
 /* Drop Zones (Click to Place) */
 .drop-zone {
-    width: 220px;
+    min-width: 220px;
+    max-width: 100%;
+    width: auto;
     height: 40px;
     border: 2px dashed var(--glass-border);
     border-radius: var(--radius);

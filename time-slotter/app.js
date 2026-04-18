@@ -308,12 +308,35 @@ function validatePlacement(event, index) {
 
 // --- Drag and Drop Handlers ---
 
+let scrollInterval = null;
+
 function handleDragStart(e) {
     e.dataTransfer.setData('text/plain', 'next-card');
 }
 
 function handleDragOver(e) {
     e.preventDefault(); // Necessary to allow drop
+    
+    const timelineContainer = timelineEl;
+    const rect = timelineContainer.getBoundingClientRect();
+    const y = e.clientY - rect.top; // Y position relative to container
+    
+    const threshold = 50; // px from edge
+    const speed = 10; // px per interval
+    
+    clearInterval(scrollInterval);
+    
+    if (y < threshold) {
+        // Scroll up
+        scrollInterval = setInterval(() => {
+            timelineContainer.scrollTop -= speed;
+        }, 50);
+    } else if (y > rect.height - threshold) {
+        // Scroll down
+        scrollInterval = setInterval(() => {
+            timelineContainer.scrollTop += speed;
+        }, 50);
+    }
 }
 
 function handleDragEnter(e) {
@@ -322,11 +345,13 @@ function handleDragEnter(e) {
 
 function handleDragLeave(e) {
     e.target.classList.remove('hovered');
+    clearInterval(scrollInterval);
 }
 
 function handleDrop(e, index) {
     e.preventDefault();
     e.target.classList.remove('hovered');
+    clearInterval(scrollInterval);
     
     const data = e.dataTransfer.getData('text/plain');
     if (data === 'next-card') {
