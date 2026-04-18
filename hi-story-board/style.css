@@ -232,6 +232,7 @@ h2 {
     border: 2px dashed transparent;
     border-radius: var(--radius);
     display: flex;
+    flex-direction: column; /* Arrange tiles vertically */
     gap: 1.5rem;
     align-items: center;
     justify-content: center;
