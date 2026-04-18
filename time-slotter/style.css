@@ -235,6 +235,7 @@ h2 {
     display: flex;
     flex-direction: column-reverse;
     align-items: center;
+    justify-content: flex-end; /* Pack items at the top (end of reverse flow) */
     gap: 1.5rem;
     padding: 2rem 1rem;
     position: relative;
