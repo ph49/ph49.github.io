@@ -284,6 +284,11 @@ h2 {
     background-color: rgba(99, 102, 241, 0.05);
 }
 
+.drop-zone.fill-space {
+    flex: 1;
+    min-height: 100px;
+}
+
 /* --- Animations --- */
 @keyframes pulse {
     0% { box-shadow: 0 0 5px var(--primary-glow); }

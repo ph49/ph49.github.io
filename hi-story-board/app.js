@@ -289,6 +289,9 @@ function renderTimeline() {
         
         // Render drop zone after card (position before this event in original array)
         const dropZone = createDropZone(i);
+        if (i === 0) {
+            dropZone.classList.add('fill-space');
+        }
         timelineEl.appendChild(dropZone);
     }
 }
