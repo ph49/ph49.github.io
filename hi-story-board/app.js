@@ -2,56 +2,7 @@
 
 // --- Event Pool ---
 // A mix of history, science, culture, etc.
-const EVENT_POOL = [
-    // Science
-    { id: 1, description: "Newton publishes Principia", year: 1687, category: "science" },
-    { id: 2, description: "Darwin publishes On the Origin of Species", year: 1859, category: "science" },
-    { id: 3, description: "Alexander Fleming discovers penicillin", year: 1928, category: "science" },
-    { id: 4, description: "DNA double helix described by Watson & Crick", year: 1953, category: "science" },
-    { id: 5, description: "Einstein publishes General Relativity", year: 1915, category: "science" },
-    
-    // History
-    { id: 6, description: "Magna Carta signed", year: 1215, category: "history" },
-    { id: 7, description: "Black Death peaks in Europe", year: 1347, category: "history" },
-    { id: 8, description: "Columbus reaches the Americas", year: 1492, category: "history" },
-    { id: 9, description: "French Revolution begins", year: 1789, category: "history" },
-    { id: 10, description: "US Declaration of Independence", year: 1776, category: "history" },
-    
-    // 20th Century
-    { id: 11, description: "World War I begins", year: 1914, category: "20th-century" },
-    { id: 12, description: "World War II begins", year: 1939, category: "20th-century" },
-    { id: 13, description: "Fall of the Berlin Wall", year: 1989, category: "20th-century" },
-    { id: 14, description: "First human in space (Yuri Gagarin)", year: 1961, category: "20th-century" },
-    { id: 15, description: "Apollo 11 moon landing", year: 1969, category: "20th-century" },
-    
-    // Pop Culture
-    { id: 16, description: "First iPhone released", year: 2007, category: "pop-culture" },
-    { id: 17, description: "Tim Berners-Lee invents the World Wide Web", year: 1989, category: "pop-culture" },
-    { id: 18, description: "First Star Wars movie released", year: 1977, category: "pop-culture" },
-    { id: 19, description: "MTV launches", year: 1981, category: "pop-culture" },
-    { id: 20, description: "Pac-Man video game released", year: 1980, category: "pop-culture" },
-    
-    // Literature
-    { id: 21, description: "Shakespeare writes Hamlet", year: 1601, category: "literature" },
-    { id: 22, description: "Mary Shelley publishes Frankenstein", year: 1818, category: "literature" },
-    { id: 23, description: "George Orwell publishes 1984", year: 1949, category: "literature" },
-    { id: 24, description: "J.K. Rowling publishes first Harry Potter book", year: 1997, category: "literature" },
-    { id: 25, description: "Don Quixote published", year: 1605, category: "literature" },
-    
-    // Music
-    { id: 26, description: "Beethoven composes Symphony No. 5", year: 1808, category: "music" },
-    { id: 27, description: "Beatles release Sgt. Pepper's", year: 1967, category: "music" },
-    { id: 28, description: "Mozart composes The Magic Flute", year: 1791, category: "music" },
-    { id: 29, description: "Woodstock festival", year: 1969, category: "music" },
-    { id: 30, description: "Michael Jackson releases Thriller", year: 1982, category: "music" },
-    
-    // Sport
-    { id: 31, description: "First modern Olympic Games in Athens", year: 1896, category: "sport" },
-    { id: 32, description: "First FIFA World Cup", year: 1930, category: "sport" },
-    { id: 33, description: "Roger Bannister breaks 4-minute mile", year: 1954, category: "sport" },
-    { id: 34, description: "Muhammad Ali beats Sonny Liston", year: 1964, category: "sport" },
-    { id: 35, description: "First Super Bowl", year: 1967, category: "sport" }
-];
+let EVENT_POOL = [];
 
 const VIBE_EMOJIS = ['❤️', '🚲', '🍌', '🎵', '🧠'];
 
@@ -160,6 +111,17 @@ function getCookie(name) {
     return null;
 }
 
+// --- Load Events ---
+async function loadEvents() {
+    try {
+        const response = await fetch('events.json');
+        EVENT_POOL = await response.json();
+    } catch (error) {
+        console.error("Failed to load events", error);
+        alert("Failed to load game data. Please try refreshing.");
+    }
+}
+
 // --- Audio Helpers ---
 let audioCtx;
 
@@ -206,7 +168,11 @@ function playSound(type) {
 
 // --- Game Functions ---
 
-function initGame() {
+async function initGame() {
+    if (EVENT_POOL.length === 0) {
+        await loadEvents();
+    }
+
     // Load high score from cookie
     const savedHighScore = getCookie('historyboardhighscore');
     if (savedHighScore) {
