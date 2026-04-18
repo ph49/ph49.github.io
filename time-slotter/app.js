@@ -65,6 +65,41 @@ if (bestScoreItemEl) {
     });
 }
 
+nextEventContainerEl.addEventListener('dragover', (e) => {
+    e.preventDefault();
+});
+
+nextEventContainerEl.addEventListener('drop', (e) => {
+    e.preventDefault();
+    const data = e.dataTransfer.getData('text/plain');
+    try {
+        const parsedData = JSON.parse(data);
+        const { event, sourceIndex } = parsedData;
+        
+        if (sourceIndex !== undefined) {
+            // Remove from placed
+            placedEvents.splice(sourceIndex, 1);
+            
+            // Reset incorrect status
+            const eventObj = placedEvents.find(ev => ev.id === event.id) || EVENT_POOL.find(ev => ev.id === event.id);
+            // Wait, if it's in placedEvents, I just spliced it! So it's not there anymore.
+            // I should use the `event` object from parsedData or find it in EVENT_POOL.
+            // The parsedData has the event object!
+            // But I need to make sure I use the reference to the object in the pool or a clean copy.
+            // Let's find it in EVENT_POOL to get the clean object.
+            const cleanEvent = EVENT_POOL.find(ev => ev.id === event.id);
+            if (cleanEvent) {
+                cleanEvent.isIncorrect = false; // Reset
+                pendingEvents.push(cleanEvent);
+            }
+            
+            renderGame();
+        }
+    } catch (error) {
+        console.error("Error parsing dropped data in next event area", error);
+    }
+});
+
 // --- Cookie Helpers ---
 function setCookie(name, value, days) {
     let expires = "";
@@ -209,7 +244,7 @@ function renderNextEvent() {
         });
         
         // Add drag events
-        card.addEventListener('dragstart', (e) => handleDragStart(e, event));
+        card.addEventListener('dragstart', (e) => handleDragStart(e, event, undefined));
         
         nextEventContainerEl.appendChild(card);
     });
@@ -233,6 +268,12 @@ function renderTimeline() {
                 <span class="event-description">${event.description}</span>
             </div>
         `;
+        
+        if (event.isIncorrect) {
+            card.draggable = true;
+            card.addEventListener('dragstart', (e) => handleDragStart(e, event, index));
+        }
+        
         timelineEl.appendChild(card);
         
         // Render drop zone after card
@@ -261,7 +302,7 @@ function createDropZone(index) {
 
 // --- Interaction Handlers ---
 
-function handlePlacement(index, eventToPlace, dropZoneEl) {
+function handlePlacement(index, eventToPlace, dropZoneEl, sourceIndex) {
     if (!eventToPlace) {
         if (selectedEvent) {
             eventToPlace = selectedEvent;
@@ -277,25 +318,37 @@ function handlePlacement(index, eventToPlace, dropZoneEl) {
         oldTop = dropZoneEl.getBoundingClientRect().top;
     }
     
+    // If it's a move within the timeline
+    if (sourceIndex !== undefined) {
+        // Remove from old position
+        placedEvents.splice(sourceIndex, 1);
+        // Adjust target index if it shifted!
+        if (index > sourceIndex) {
+            index--;
+        }
+    }
+    
     // Validate placement
     const isCorrect = validatePlacement(eventToPlace, index);
     
     // Always insert the card where user placed it
     placedEvents.splice(index, 0, eventToPlace);
     
-    // Remove from pending
-    const pendingIndex = pendingEvents.indexOf(eventToPlace);
-    if (pendingIndex > -1) {
-        pendingEvents.splice(pendingIndex, 1);
-    }
-    
-    // Reset selection if the placed event was selected
-    if (selectedEvent === eventToPlace) {
-        selectedEvent = null;
+    // Remove from pending if it was there
+    if (sourceIndex === undefined) {
+        const pendingIndex = pendingEvents.indexOf(eventToPlace);
+        if (pendingIndex > -1) {
+            pendingEvents.splice(pendingIndex, 1);
+        }
+        // Reset selection if the placed event was selected
+        if (selectedEvent === eventToPlace) {
+            selectedEvent = null;
+        }
     }
     
     if (isCorrect) {
         playSound('success');
+        eventToPlace.isIncorrect = false; // Mark as correct now!
         score++;
         scoreCurrentEl.textContent = score;
         
@@ -308,7 +361,8 @@ function handlePlacement(index, eventToPlace, dropZoneEl) {
         fillPendingEvents();
         renderGame();
     } else {
-        eventToPlace.isIncorrect = true; // Mark as incorrect
+        playSound('failure');
+        eventToPlace.isIncorrect = true; // Keep as incorrect
         lives--;
         if (livesCountEl) livesCountEl.textContent = lives;
         
@@ -320,7 +374,6 @@ function handlePlacement(index, eventToPlace, dropZoneEl) {
                 initGame();
             }, 100);
         } else {
-            playSound('failure'); // Play failure ONLY if not game over
             fillPendingEvents();
             renderGame();
         }
@@ -373,8 +426,12 @@ function validatePlacement(event, index) {
 
 let scrollInterval = null;
 
-function handleDragStart(e, event) {
-    e.dataTransfer.setData('text/plain', JSON.stringify(event));
+function handleDragStart(e, event, sourceIndex) {
+    const data = {
+        event: event,
+        sourceIndex: sourceIndex
+    };
+    e.dataTransfer.setData('text/plain', JSON.stringify(data));
 }
 
 function handleDragOver(e) {
@@ -418,10 +475,21 @@ function handleDrop(e, index) {
     
     const data = e.dataTransfer.getData('text/plain');
     try {
-        const event = JSON.parse(data);
-        const pendingEvent = pendingEvents.find(ev => ev.id === event.id);
-        if (pendingEvent) {
-            handlePlacement(index, pendingEvent, e.target);
+        const parsedData = JSON.parse(data);
+        const { event, sourceIndex } = parsedData;
+        
+        if (sourceIndex !== undefined) {
+            // It's moving within timeline
+            const placedEvent = placedEvents[sourceIndex];
+            if (placedEvent) {
+                handlePlacement(index, placedEvent, e.target, sourceIndex);
+            }
+        } else {
+            // It's from pending
+            const pendingEvent = pendingEvents.find(ev => ev.id === event.id);
+            if (pendingEvent) {
+                handlePlacement(index, pendingEvent, e.target);
+            }
         }
     } catch (error) {
         console.error("Error parsing dropped data", error);
