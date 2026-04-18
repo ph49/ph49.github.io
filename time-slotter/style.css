@@ -193,9 +193,7 @@ h2 {
     font-weight: 400;
 }
 
-.card.incorrect .event-year {
-    display: none;
-}
+
 
 /* --- Timeline --- */
 .timeline-section {

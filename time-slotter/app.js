@@ -205,7 +205,7 @@ function renderTimeline() {
         card.innerHTML = `
             <div class="card-content">
                 <p class="event-description">${event.description}</p>
-                <p class="event-year">${event.year}</p>
+                <p class="event-year">${event.isIncorrect ? '????' : event.year}</p>
             </div>
         `;
         timelineEl.appendChild(card);
