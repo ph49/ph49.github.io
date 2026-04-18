@@ -90,10 +90,7 @@ h1 {
     transition: var(--transition);
 }
 
-.score-item:hover {
-    border-color: var(--glass-border-bright);
-    transform: translateY(-2px);
-}
+
 
 .score-label {
     font-size: 0.75rem;

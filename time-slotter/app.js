@@ -53,6 +53,18 @@ const livesCountEl = document.getElementById('lives-count');
 const nextEventContainerEl = document.getElementById('next-event-container');
 const timelineEl = document.getElementById('timeline');
 
+const bestScoreItemEl = document.getElementById('best-score-item');
+if (bestScoreItemEl) {
+    bestScoreItemEl.style.cursor = 'pointer';
+    bestScoreItemEl.addEventListener('click', () => {
+        if (confirm("Do you want to clear your high score?")) {
+            highScore = 0;
+            scoreHighEl.textContent = highScore;
+            setCookie('timeSlotterHighScore', highScore, 365);
+        }
+    });
+}
+
 // --- Cookie Helpers ---
 function setCookie(name, value, days) {
     let expires = "";
