@@ -257,7 +257,6 @@ function handlePlacement(index) {
         pickNextEvent();
         renderGame();
     } else {
-        playSound('failure');
         currentEvent.isIncorrect = true; // Mark as incorrect
         lives--;
         if (livesCountEl) livesCountEl.textContent = lives;
@@ -270,6 +269,7 @@ function handlePlacement(index) {
                 initGame();
             }, 100);
         } else {
+            playSound('failure'); // Play failure ONLY if not game over
             pickNextEvent();
             renderGame();
         }

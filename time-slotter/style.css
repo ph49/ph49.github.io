@@ -40,7 +40,8 @@ body {
 .app-container {
     width: 100%;
     max-width: 1200px;
-    min-height: 90vh;
+    height: 90vh; /* Fixed height to fit viewport */
+    overflow: hidden; /* Prevent container from scrolling */
     margin: 2rem;
     padding: 2rem;
     background: var(--glass-bg);
@@ -115,6 +116,7 @@ h1 {
     gap: 4rem;
     flex: 1;
     align-items: flex-start;
+    overflow: hidden; /* Prevent game area from stretching container */
 }
 
 h2 {
@@ -198,6 +200,9 @@ h2 {
 /* --- Timeline --- */
 .timeline-section {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Fill available height */
 }
 
 .timeline-container {
@@ -207,7 +212,7 @@ h2 {
     gap: 1.5rem;
     padding: 2rem 1rem;
     position: relative;
-    height: 600px; /* Fixed height for independent scrolling */
+    flex: 1; /* Fill available space in section */
     overflow-y: auto;
     background: rgba(0, 0, 0, 0.2);
     border-radius: var(--radius);
