@@ -35,6 +35,8 @@ const EVENT_POOL = [
     { id: 30, description: "Curiosity rover lands on Mars", year: 2012 }
 ];
 
+const VIBE_EMOJIS = ['❤️', '🚲', '🍌', '🎵', '🧠'];
+
 // --- Game State ---
 let score = 0;
 let highScore = 0;
@@ -143,6 +145,15 @@ function initGame() {
     
     pickNextEvent();
     renderGame();
+    setRandomVibeEmoji();
+}
+
+function setRandomVibeEmoji() {
+    const emojiEl = document.getElementById('vibe-emoji');
+    if (emojiEl) {
+        const randomIndex = Math.floor(Math.random() * VIBE_EMOJIS.length);
+        emojiEl.textContent = VIBE_EMOJIS[randomIndex];
+    }
 }
 
 function pickNextEvent() {
