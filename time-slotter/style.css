@@ -203,6 +203,22 @@ h2 {
 
 
 
+.placed-card .card-content {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: left;
+    width: 100%;
+}
+
+.placed-card .event-year {
+    font-weight: 700;
+    color: var(--primary);
+    min-width: 60px;
+}
+
 /* --- Timeline --- */
 .timeline-section {
     flex: 1;

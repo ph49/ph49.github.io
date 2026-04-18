@@ -229,8 +229,8 @@ function renderTimeline() {
         card.className = `card placed-card ${event.isIncorrect ? 'incorrect' : ''}`;
         card.innerHTML = `
             <div class="card-content">
-                <p class="event-description">${event.description}</p>
-                <p class="event-year">${event.isIncorrect ? '????' : event.year}</p>
+                <span class="event-year">${event.isIncorrect ? '????' : event.year}</span>
+                <span class="event-description">${event.description}</span>
             </div>
         `;
         timelineEl.appendChild(card);
