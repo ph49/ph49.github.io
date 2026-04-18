@@ -60,7 +60,7 @@ if (bestScoreItemEl) {
         if (confirm("Do you want to clear your high score?")) {
             highScore = 0;
             scoreHighEl.textContent = highScore;
-            setCookie('timeSlotterHighScore', highScore, 365);
+            setCookie('historyboardhighscore', highScore, 365);
         }
     });
 }
@@ -170,7 +170,7 @@ function playSound(type) {
 
 function initGame() {
     // Load high score from cookie
-    const savedHighScore = getCookie('timeSlotterHighScore');
+    const savedHighScore = getCookie('historyboardhighscore');
     if (savedHighScore) {
         highScore = parseInt(savedHighScore, 10);
         scoreHighEl.textContent = highScore;
@@ -355,7 +355,7 @@ function handlePlacement(index, eventToPlace, dropZoneEl, sourceIndex) {
         if (score > highScore) {
             highScore = score;
             scoreHighEl.textContent = highScore;
-            setCookie('timeSlotterHighScore', highScore, 365);
+            setCookie('historyboardhighscore', highScore, 365);
         }
         
         fillPendingEvents();
