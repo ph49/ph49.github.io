@@ -58,7 +58,6 @@
     { "id": 57, "description": "International Space Station starts", "year": 2000, "category": "science" },
     { "id": 58, "description": "First image of a black hole", "year": 2019, "category": "science" },
     
-    // History (Adding some of the previous ones)
     { "id": 59, "description": "Magna Carta signed", "year": 1215, "category": "history" },
     { "id": 60, "description": "Black Death peaks in Europe", "year": 1347, "category": "history" },
     { "id": 61, "description": "Columbus reaches the Americas", "year": 1492, "category": "history" },
