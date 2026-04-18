@@ -1,0 +1,289 @@
+/* Timeline Master - Custom Styling */
+
+/* --- Design System Variables --- */
+:root {
+    --bg-color: #0f111a;
+    --bg-gradient: linear-gradient(135deg, #0f111a 0%, #1a1c2e 50%, #0d0e15 100%);
+    --glass-bg: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-border-bright: rgba(255, 255, 255, 0.2);
+    --primary: #6366f1;
+    --primary-glow: rgba(99, 102, 241, 0.5);
+    --secondary: #ec4899;
+    --accent: #10b981;
+    --text-color: #e2e8f0;
+    --text-muted: #94a3b8;
+    --font-family: 'Outfit', system-ui, -apple-system, sans-serif;
+    --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    --radius: 16px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- Reset & Base --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-family);
+    background: var(--bg-gradient);
+    color: var(--text-color);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+}
+
+.app-container {
+    width: 100%;
+    max-width: 1200px;
+    min-height: 90vh;
+    margin: 2rem;
+    padding: 2rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: calc(var(--radius) * 2);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+/* --- Header & Scoreboard --- */
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--glass-border);
+    padding-bottom: 1.5rem;
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: linear-gradient(to right, #fff, #a5b4fc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.05em;
+}
+
+.scoreboard {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.score-item {
+    background: var(--glass-bg);
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--glass-border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 80px;
+    transition: var(--transition);
+}
+
+.score-item:hover {
+    border-color: var(--glass-border-bright);
+    transform: translateY(-2px);
+}
+
+.score-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    margin-bottom: 0.25rem;
+}
+
+.score-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+/* --- Game Area --- */
+.game-area {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+    flex: 1;
+}
+
+h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* --- Cards --- */
+.card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    width: 220px;
+    height: 140px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
+    opacity: 0.5;
+}
+
+.card:hover {
+    transform: translateY(-5px) scale(1.02);
+    border-color: var(--glass-border-bright);
+    box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.3);
+}
+
+.card.next-card {
+    border-color: var(--primary);
+    box-shadow: 0 0 15px var(--primary-glow);
+    background: rgba(99, 102, 241, 0.1);
+    animation: pulse 2s infinite alternate;
+}
+
+.card.correct {
+    border-color: var(--accent);
+    background: rgba(16, 185, 129, 0.1);
+    animation: flash-green 0.5s ease-out;
+}
+
+.card.incorrect {
+    border-color: var(--secondary);
+    background: rgba(236, 72, 153, 0.1);
+    animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+.event-description {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #fff;
+    font-weight: 400;
+}
+
+/* --- Timeline --- */
+.timeline-section {
+    flex: 1;
+}
+
+.timeline-container {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 2rem 1rem;
+    position: relative;
+    min-height: 200px;
+    overflow-x: auto;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: var(--radius);
+    border: 1px solid var(--glass-border);
+}
+
+/* Horizontal Line */
+.timeline-line {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(to right, transparent, var(--glass-border-bright), transparent);
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Drop Zones (Click to Place) */
+.drop-zone {
+    width: 60px;
+    height: 140px;
+    border: 2px dashed var(--glass-border);
+    border-radius: var(--radius);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: var(--transition);
+    color: var(--text-muted);
+    font-size: 1.5rem;
+    flex-shrink: 0;
+    z-index: 1;
+}
+
+.drop-zone:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: rgba(99, 102, 241, 0.05);
+}
+
+/* --- Animations --- */
+@keyframes pulse {
+    0% { box-shadow: 0 0 5px var(--primary-glow); }
+    100% { box-shadow: 0 0 20px var(--primary-glow); }
+}
+
+@keyframes flash-green {
+    0% { box-shadow: 0 0 0px var(--accent); }
+    50% { box-shadow: 0 0 20px var(--accent); }
+    100% { box-shadow: 0 0 0px var(--accent); }
+}
+
+@keyframes shake {
+    10%, 90% { transform: translate3d(-1px, 0, 0); }
+    20%, 80% { transform: translate3d(2px, 0, 0); }
+    30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+    40%, 60% { transform: translate3d(4px, 0, 0); }
+}
+
+/* --- Footer --- */
+.game-footer {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    border-top: 1px solid var(--glass-border);
+    padding-top: 1.5rem;
+}
+
+/* Custom Scrollbar for Timeline */
+.timeline-container::-webkit-scrollbar {
+    height: 6px;
+}
+
+.timeline-container::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+}
+
+.timeline-container::-webkit-scrollbar-thumb {
+    background: var(--glass-border);
+    border-radius: 3px;
+}
+
+.timeline-container::-webkit-scrollbar-thumb:hover {
+    background: var(--glass-border-bright);
+}
