@@ -128,7 +128,7 @@ function getCookie(name) {
 // --- Load Events ---
 async function loadEvents() {
     try {
-        const response = await fetch('events.json');
+        const response = await fetch('events.json?v=' + Date.now());
         EVENT_POOL = await response.json();
     } catch (error) {
         console.error("Failed to load events", error);
