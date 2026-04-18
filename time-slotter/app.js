@@ -264,8 +264,11 @@ function handlePlacement(index) {
         
         if (lives === 0) {
             playSound('gameover');
-            alert(`Game Over! You ran out of lives. Your score: ${score}`);
-            initGame();
+            renderTimeline(); // Show the red card
+            setTimeout(() => {
+                alert(`Game Over! You ran out of lives. Your score: ${score}`);
+                initGame();
+            }, 100);
         } else {
             pickNextEvent();
             renderGame();
