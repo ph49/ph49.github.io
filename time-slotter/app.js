@@ -40,7 +40,7 @@ const VIBE_EMOJIS = ['❤️', '🚲', '🍌', '🎵', '🧠'];
 // --- Game State ---
 let score = 0;
 let highScore = 0;
-let lives = 3;
+let anachronisms = 0;
 let placedEvents = [];
 let availableEvents = [];
 let pendingEvents = [];
@@ -179,8 +179,8 @@ function initGame() {
     score = 0;
     scoreCurrentEl.textContent = score;
     
-    lives = 3;
-    if (livesCountEl) livesCountEl.textContent = lives;
+    anachronisms = 0;
+    if (livesCountEl) livesCountEl.textContent = `${anachronisms}/3`;
     
     // Reset events
     availableEvents = [...EVENT_POOL];
@@ -363,14 +363,14 @@ function handlePlacement(index, eventToPlace, dropZoneEl, sourceIndex) {
     } else {
         playSound('failure');
         eventToPlace.isIncorrect = true; // Keep as incorrect
-        lives--;
-        if (livesCountEl) livesCountEl.textContent = lives;
+        anachronisms++;
+        if (livesCountEl) livesCountEl.textContent = `${anachronisms}/3`;
         
-        if (lives === 0) {
+        if (anachronisms === 3) {
             playSound('gameover');
             renderTimeline(); // Show the red card
             setTimeout(() => {
-                alert(`Game Over! You ran out of lives. Your score: ${score}`);
+                alert(`Game Over! You reached 3 anachronisms. Your score: ${score}`);
                 initGame();
             }, 100);
         } else {
