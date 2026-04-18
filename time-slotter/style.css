@@ -175,11 +175,15 @@ h2 {
     min-height: 140px;
 }
 
+.card.next-card:hover {
+    transform: none; /* Prevent clipping on hover */
+}
+
 .card.selected {
     border-color: #f59e0b; /* Yellow/Amber */
     box-shadow: 0 0 15px rgba(245, 158, 11, 0.5);
     background: rgba(245, 158, 11, 0.1);
-    transform: translateY(-5px); /* Removed scale to avoid overflow */
+    /* Removed transform entirely to avoid clipping */
 }
 
 .card.correct {
