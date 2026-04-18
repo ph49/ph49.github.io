@@ -262,7 +262,7 @@ h2 {
 .drop-zone {
     min-width: 220px;
     max-width: 100%;
-    width: auto;
+    width: 100%; /* Expand to full width of container */
     height: 20px; /* Base height for easier hit detection */
     overflow: hidden; /* Hide content */
     border: 2px dashed transparent;
