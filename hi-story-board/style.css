@@ -207,20 +207,20 @@ h2 {
 
 
 
-.placed-card .card-content {
+.timeline-item {
     display: flex;
     flex-direction: row;
-    gap: 1rem;
     align-items: center;
-    justify-content: flex-start;
-    text-align: left;
+    gap: 1.5rem;
     width: 100%;
 }
 
-.placed-card .event-year {
+.event-year-floating {
+    min-width: 80px;
+    text-align: right;
     font-weight: 700;
     color: var(--primary);
-    min-width: 60px;
+    font-size: 1.1rem;
 }
 
 /* --- Timeline --- */

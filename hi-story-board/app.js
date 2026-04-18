@@ -267,22 +267,25 @@ function renderTimeline() {
     for (let i = placedEvents.length - 1; i >= 0; i--) {
         const event = placedEvents[i];
         
-        // Render card
-        const card = document.createElement('div');
-        card.className = `card placed-card ${event.isIncorrect ? 'incorrect' : ''}`;
-        card.innerHTML = `
-            <div class="card-content">
-                <span class="event-year">${event.isIncorrect ? '????' : event.year}</span>
-                <span class="event-description">${event.description}</span>
+        // Render timeline item (year + card)
+        const item = document.createElement('div');
+        item.className = 'timeline-item';
+        item.innerHTML = `
+            <div class="event-year-floating">${event.isIncorrect ? '????' : event.year}</div>
+            <div class="card placed-card ${event.isIncorrect ? 'incorrect' : ''}">
+                <div class="card-content">
+                    <span class="event-description">${event.description}</span>
+                </div>
             </div>
         `;
         
+        const card = item.querySelector('.card');
         if (event.isIncorrect) {
             card.draggable = true;
             card.addEventListener('dragstart', (e) => handleDragStart(e, event, i));
         }
         
-        timelineEl.appendChild(card);
+        timelineEl.appendChild(item);
         
         // Render drop zone after card (position before this event in original array)
         const dropZone = createDropZone(i);
