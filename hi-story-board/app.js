@@ -394,10 +394,14 @@ function handlePlacement(index, eventToPlace, dropZoneEl, sourceIndex) {
     
     // Scroll correction
     if (dropZoneEl) {
-        const newCardEl = timelineEl.children[index * 2 + 1];
-        if (newCardEl) {
-            const newTop = newCardEl.getBoundingClientRect().top;
-            timelineEl.scrollTop += (newTop - oldTop);
+        const itemIndex = (placedEvents.length - 1 - index) * 2 + 2;
+        const newItemEl = timelineEl.children[itemIndex];
+        if (newItemEl) {
+            const newCardEl = newItemEl.querySelector('.card');
+            if (newCardEl) {
+                const newTop = newCardEl.getBoundingClientRect().top;
+                timelineEl.scrollTop += (newTop - oldTop);
+            }
         }
     }
 }
