@@ -43,7 +43,8 @@ let highScore = 0;
 let lives = 3;
 let placedEvents = [];
 let availableEvents = [];
-let currentEvent = null;
+let pendingEvents = [];
+let selectedEvent = null;
 
 // --- DOM Elements ---
 const scoreCurrentEl = document.getElementById('score-current');
@@ -137,13 +138,15 @@ function initGame() {
     // Reset events
     availableEvents = [...EVENT_POOL];
     placedEvents = [];
+    pendingEvents = [];
+    selectedEvent = null;
     
     // Pick a random starting event and place it
     const startIndex = Math.floor(Math.random() * availableEvents.length);
     const startEvent = availableEvents.splice(startIndex, 1)[0];
     placedEvents.push(startEvent);
     
-    pickNextEvent();
+    fillPendingEvents();
     renderGame();
     setRandomVibeEmoji();
 }
@@ -156,14 +159,17 @@ function setRandomVibeEmoji() {
     }
 }
 
-function pickNextEvent() {
-    if (availableEvents.length === 0) {
+function fillPendingEvents() {
+    while (pendingEvents.length < 2 && availableEvents.length > 0) {
+        const randomIndex = Math.floor(Math.random() * availableEvents.length);
+        const event = availableEvents.splice(randomIndex, 1)[0];
+        pendingEvents.push(event);
+    }
+    
+    if (pendingEvents.length === 0 && placedEvents.length > 1) {
         alert("Wow! You placed all events correctly! You win!");
         initGame();
-        return;
     }
-    const randomIndex = Math.floor(Math.random() * availableEvents.length);
-    currentEvent = availableEvents.splice(randomIndex, 1)[0];
 }
 
 function renderGame() {
@@ -174,20 +180,27 @@ function renderGame() {
 function renderNextEvent() {
     nextEventContainerEl.innerHTML = '';
     
-    const card = document.createElement('div');
-    card.className = 'card next-card';
-    card.id = 'next-event-card';
-    card.draggable = true;
-    card.innerHTML = `
-        <div class="card-content">
-            <p class="event-description">${currentEvent.description}</p>
-        </div>
-    `;
-    
-    // Add drag events
-    card.addEventListener('dragstart', handleDragStart);
-    
-    nextEventContainerEl.appendChild(card);
+    pendingEvents.forEach((event, index) => {
+        const card = document.createElement('div');
+        card.className = `card next-card ${selectedEvent === event ? 'selected' : ''}`;
+        card.draggable = true;
+        card.innerHTML = `
+            <div class="card-content">
+                <p class="event-description">${event.description}</p>
+            </div>
+        `;
+        
+        // Click to select
+        card.addEventListener('click', () => {
+            selectedEvent = event;
+            renderNextEvent(); // Re-render to show selection
+        });
+        
+        // Add drag events
+        card.addEventListener('dragstart', (e) => handleDragStart(e, event));
+        
+        nextEventContainerEl.appendChild(card);
+    });
 }
 
 function renderTimeline() {
@@ -223,7 +236,7 @@ function createDropZone(index) {
     zone.innerHTML = '+';
     
     // Click to place
-    zone.addEventListener('click', () => handlePlacement(index));
+    zone.addEventListener('click', (e) => handlePlacement(index, null, e.target));
     
     // Drag and drop events
     zone.addEventListener('dragover', handleDragOver);
@@ -236,12 +249,38 @@ function createDropZone(index) {
 
 // --- Interaction Handlers ---
 
-function handlePlacement(index) {
+function handlePlacement(index, eventToPlace, dropZoneEl) {
+    if (!eventToPlace) {
+        if (selectedEvent) {
+            eventToPlace = selectedEvent;
+        } else {
+            alert("Please select an event first!");
+            return;
+        }
+    }
+    
+    // Record position before render
+    let oldTop = 0;
+    if (dropZoneEl) {
+        oldTop = dropZoneEl.getBoundingClientRect().top;
+    }
+    
     // Validate placement
-    const isCorrect = validatePlacement(currentEvent, index);
+    const isCorrect = validatePlacement(eventToPlace, index);
     
     // Always insert the card where user placed it
-    placedEvents.splice(index, 0, currentEvent);
+    placedEvents.splice(index, 0, eventToPlace);
+    
+    // Remove from pending
+    const pendingIndex = pendingEvents.indexOf(eventToPlace);
+    if (pendingIndex > -1) {
+        pendingEvents.splice(pendingIndex, 1);
+    }
+    
+    // Reset selection if the placed event was selected
+    if (selectedEvent === eventToPlace) {
+        selectedEvent = null;
+    }
     
     if (isCorrect) {
         playSound('success');
@@ -254,10 +293,10 @@ function handlePlacement(index) {
             setCookie('timeSlotterHighScore', highScore, 365);
         }
         
-        pickNextEvent();
+        fillPendingEvents();
         renderGame();
     } else {
-        currentEvent.isIncorrect = true; // Mark as incorrect
+        eventToPlace.isIncorrect = true; // Mark as incorrect
         lives--;
         if (livesCountEl) livesCountEl.textContent = lives;
         
@@ -270,8 +309,17 @@ function handlePlacement(index) {
             }, 100);
         } else {
             playSound('failure'); // Play failure ONLY if not game over
-            pickNextEvent();
+            fillPendingEvents();
             renderGame();
+        }
+    }
+    
+    // Scroll correction
+    if (dropZoneEl) {
+        const newCardEl = timelineEl.children[index * 2 + 1];
+        if (newCardEl) {
+            const newTop = newCardEl.getBoundingClientRect().top;
+            timelineEl.scrollTop += (newTop - oldTop);
         }
     }
 }
@@ -313,8 +361,8 @@ function validatePlacement(event, index) {
 
 let scrollInterval = null;
 
-function handleDragStart(e) {
-    e.dataTransfer.setData('text/plain', 'next-card');
+function handleDragStart(e, event) {
+    e.dataTransfer.setData('text/plain', JSON.stringify(event));
 }
 
 function handleDragOver(e) {
@@ -357,8 +405,14 @@ function handleDrop(e, index) {
     clearInterval(scrollInterval);
     
     const data = e.dataTransfer.getData('text/plain');
-    if (data === 'next-card') {
-        handlePlacement(index);
+    try {
+        const event = JSON.parse(data);
+        const pendingEvent = pendingEvents.find(ev => ev.id === event.id);
+        if (pendingEvent) {
+            handlePlacement(index, pendingEvent, e.target);
+        }
+    } catch (error) {
+        console.error("Error parsing dropped data", error);
     }
 }
 
