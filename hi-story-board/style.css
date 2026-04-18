@@ -233,9 +233,9 @@ h2 {
 
 .timeline-container {
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
     align-items: center;
-    justify-content: flex-end; /* Pack items at the top (end of reverse flow) */
+    justify-content: flex-start; /* Pack items at the top */
     gap: 1.5rem;
     padding: 2rem 1rem;
     position: relative;

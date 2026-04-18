@@ -254,11 +254,14 @@ function renderTimeline() {
     // Clear timeline but keep line
     timelineEl.innerHTML = '<div class="timeline-line"></div>';
     
-    // Render initial drop zone
-    const initialDropZone = createDropZone(0);
-    timelineEl.appendChild(initialDropZone);
+    // Render top drop zone (insert at end of original array)
+    const topDropZone = createDropZone(placedEvents.length);
+    timelineEl.appendChild(topDropZone);
     
-    placedEvents.forEach((event, index) => {
+    // Loop backwards through placedEvents
+    for (let i = placedEvents.length - 1; i >= 0; i--) {
+        const event = placedEvents[i];
+        
         // Render card
         const card = document.createElement('div');
         card.className = `card placed-card ${event.isIncorrect ? 'incorrect' : ''}`;
@@ -271,15 +274,15 @@ function renderTimeline() {
         
         if (event.isIncorrect) {
             card.draggable = true;
-            card.addEventListener('dragstart', (e) => handleDragStart(e, event, index));
+            card.addEventListener('dragstart', (e) => handleDragStart(e, event, i));
         }
         
         timelineEl.appendChild(card);
         
-        // Render drop zone after card
-        const dropZone = createDropZone(index + 1);
+        // Render drop zone after card (position before this event in original array)
+        const dropZone = createDropZone(i);
         timelineEl.appendChild(dropZone);
-    });
+    }
 }
 
 function createDropZone(index) {
