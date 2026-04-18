@@ -111,9 +111,10 @@ h1 {
 /* --- Game Area --- */
 .game-area {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 4rem;
     flex: 1;
+    align-items: flex-start;
 }
 
 h2 {
