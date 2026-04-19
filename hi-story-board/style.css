@@ -311,13 +311,41 @@ h2 {
     align-items: center;
     justify-content: flex-start; /* Pack items at the top */
     gap: 0.75rem; /* Reduced gap between items */
-    padding: 1.5rem 1rem; /* Reduced padding */
+    padding: 3rem 1rem; /* Increased padding for annotations */
     position: relative;
     flex: 1; /* Fill available space in section */
     overflow-y: auto;
     background: rgba(0, 0, 0, 0.2);
     border-radius: var(--radius);
     border: 1px solid var(--glass-border);
+}
+
+.timeline-container::before {
+    content: 'FUTURE';
+    position: absolute;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 3rem;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.05);
+    z-index: 0;
+    pointer-events: none;
+    letter-spacing: 0.5em;
+}
+
+.timeline-container::after {
+    content: 'PAST';
+    position: absolute;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 3rem;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.05);
+    z-index: 0;
+    pointer-events: none;
+    letter-spacing: 0.5em;
 }
 
 /* Vertical Line */
