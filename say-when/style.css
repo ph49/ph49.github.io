@@ -186,8 +186,8 @@ h2 {
 }
 
 .drop-zone:hover, .drop-zone.hovered {
-    margin-top: 0;
-    margin-bottom: 0;
+    margin-top: -10px;
+    margin-bottom: -10px;
 }
 
 .drop-zone:hover span, .drop-zone.hovered span {
