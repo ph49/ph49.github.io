@@ -157,14 +157,15 @@ function renderPending() {
         });
         
         el.addEventListener('dragstart', (e) => {
+            el.classList.remove('selected');
             e.dataTransfer.setData('text/plain', JSON.stringify({ eventId: event.id, source: 'pending' }));
             setTimeout(() => {
-                el.classList.add('dragging');
+                el.classList.add('dragging-origin');
             }, 0);
         });
         
         el.addEventListener('dragend', (e) => {
-            el.classList.remove('dragging');
+            el.classList.remove('dragging-origin');
         });
         
         nextEventContainerEl.appendChild(el);
