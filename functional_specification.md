@@ -59,3 +59,4 @@ The user interface is contained within a single screen layout, designed to be re
 *   **Static Application**: The game must run entirely in the user's web browser without any server-side API or database support.
 *   **Data Storage**: Event data is loaded from a static data file included with the application.
 *   **Persistence**: The high score is persisted locally on the user's device to allow scores to persist across sessions without a user account system.
+*   **Screen Real Estate & Mobile Compatibility**: The game must efficiently use screen real estate, particularly on mobile devices. The layout must adapt to fit small screens, with features like independent scrolling for the timeline to ensure a good user experience on mobile browsers.
