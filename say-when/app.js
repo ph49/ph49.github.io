@@ -337,16 +337,22 @@ function createDropZone(index) {
         e.preventDefault();
     });
     
+    let enterCounter = 0;
     zone.addEventListener('dragenter', (e) => {
+        enterCounter++;
         zone.classList.add('hovered');
     });
     
     zone.addEventListener('dragleave', (e) => {
-        zone.classList.remove('hovered');
+        enterCounter--;
+        if (enterCounter === 0) {
+            zone.classList.remove('hovered');
+        }
     });
     
     zone.addEventListener('drop', (e) => {
         e.preventDefault();
+        enterCounter = 0;
         zone.classList.remove('hovered');
         const data = JSON.parse(e.dataTransfer.getData('text/plain'));
         if (data.source === 'pending') {
