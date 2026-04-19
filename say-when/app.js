@@ -34,13 +34,21 @@ function getEventDateString(event) {
 
 let settings = { ...DEFAULT_SETTINGS };
 
+const COOKIE_MAGIC = "V1_";
+
 function loadSettings() {
     const cookie = getCookie('saywhensettings');
     if (cookie) {
-        try {
-            settings = { ...DEFAULT_SETTINGS, ...JSON.parse(cookie) };
-        } catch (e) {
-            console.error('Failed to parse settings cookie:', e);
+        if (cookie.startsWith(COOKIE_MAGIC)) {
+            const jsonStr = cookie.substring(COOKIE_MAGIC.length);
+            try {
+                settings = { ...DEFAULT_SETTINGS, ...JSON.parse(jsonStr) };
+            } catch (e) {
+                console.error('Failed to parse settings cookie:', e);
+                settings = { ...DEFAULT_SETTINGS };
+            }
+        } else {
+            console.log('Invalid or old version cookie found, ignoring.');
             settings = { ...DEFAULT_SETTINGS };
         }
     }
@@ -48,7 +56,8 @@ function loadSettings() {
 }
 
 function saveSettings() {
-    setCookie('saywhensettings', JSON.stringify(settings), 365);
+    const jsonStr = JSON.stringify(settings);
+    setCookie('saywhensettings', COOKIE_MAGIC + jsonStr, 365);
 }
 
 function applySettings() {
