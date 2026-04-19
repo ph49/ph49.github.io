@@ -287,13 +287,13 @@ h2 {
     body {
         padding: 10px;
         align-items: flex-start;
-        height: 100vh;
+        height: 100dvh;
         overflow: hidden;
     }
 
     .terminal-container {
         padding: 10px;
-        height: calc(100vh - 20px);
+        height: calc(100dvh - 20px);
         display: flex;
         flex-direction: column;
     }
