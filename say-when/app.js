@@ -147,7 +147,7 @@ function renderPending() {
     nextEventContainerEl.innerHTML = '';
     pendingEvents.forEach(event => {
         const el = document.createElement('div');
-        el.className = `card ${selectedEvent === event ? 'selected' : ''}`;
+        el.className = `card ${selectedEvent === event ? 'selected' : ''} ${event.isIncorrect ? 'incorrect' : ''}`;
         el.textContent = event.description;
         el.draggable = true;
         
@@ -183,13 +183,6 @@ function renderTimeline() {
         
         item.appendChild(descEl);
         item.appendChild(yearEl);
-        
-        if (event.isIncorrect) {
-            item.draggable = true;
-            item.addEventListener('dragstart', (e) => {
-                e.dataTransfer.setData('text/plain', JSON.stringify({ eventId: event.id, source: 'timeline', index: index }));
-            });
-        }
         
         timelineEl.appendChild(item);
         
@@ -288,6 +281,20 @@ function handlePlacement(index, clickEvent) {
             initGame();
             return;
         }
+        
+        // Automatic return logic
+        setTimeout(() => {
+            placedEvents = placedEvents.filter(e => e !== eventToPlace);
+            pendingEvents.push(eventToPlace);
+            renderGame();
+            
+            const cards = nextEventContainerEl.querySelectorAll('.card');
+            const newCard = Array.from(cards).find(c => c.textContent === eventToPlace.description);
+            if (newCard) {
+                newCard.classList.add('returning');
+                setTimeout(() => newCard.classList.remove('returning'), 500);
+            }
+        }, 1000);
     }
     
     // Refill pending
@@ -348,41 +355,7 @@ categorySelectEl.addEventListener('change', (e) => {
     initGame();
 });
 
-// Drop handler for pending area (return red cards)
-nextEventContainerEl.addEventListener('dragover', (e) => {
-    e.preventDefault();
-});
 
-nextEventContainerEl.addEventListener('dragenter', (e) => {
-    nextEventContainerEl.classList.add('hovered');
-});
-
-nextEventContainerEl.addEventListener('dragleave', (e) => {
-    nextEventContainerEl.classList.remove('hovered');
-});
-
-nextEventContainerEl.addEventListener('drop', (e) => {
-    e.preventDefault();
-    nextEventContainerEl.classList.remove('hovered');
-    const data = JSON.parse(e.dataTransfer.getData('text/plain'));
-    if (data.source === 'timeline') {
-        const event = placedEvents[data.index];
-        if (event && event.isIncorrect) {
-            placedEvents.splice(data.index, 1);
-            event.isIncorrect = false;
-            pendingEvents.push(event);
-            
-            renderGame();
-            
-            const cards = nextEventContainerEl.querySelectorAll('.card');
-            const newCard = Array.from(cards).find(c => c.textContent === event.description);
-            if (newCard) {
-                newCard.classList.add('returning');
-                setTimeout(() => newCard.classList.remove('returning'), 500);
-            }
-        }
-    }
-});
 
 // Start
 loadEvents().then(() => {
