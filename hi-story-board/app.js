@@ -16,6 +16,7 @@ const CATEGORY_EMOJIS = {
     'us-politics': '🇺🇸',
     'extinctions': '🦖',
     'fictional-events': '🔮',
+    'natural-disasters': '🌋',
     'lucky-dip': '🎲'
 };
 
