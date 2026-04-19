@@ -9,10 +9,8 @@ const VIBE_EMOJIS = ['❤️', '🚲', '🍌', '🎵', '🧠'];
 const CATEGORY_EMOJIS = {
     'science': '🔬',
     'history': '📜',
-    '20th-century': '🚀',
     'pop-culture': '🍿',
     'literature': '📚',
-    'music': '🎵',
     'sport': '⚽',
     'boomer-life': '👵',
     'lucky-dip': '🎲'
