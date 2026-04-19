@@ -90,6 +90,11 @@ h2 {
     border-radius: var(--border-radius);
 }
 
+.card.dragging {
+    width: 33.33% !important;
+    opacity: 0.8;
+}
+
 .card:hover, .card.selected {
     background-color: var(--text-color);
     color: var(--bg-color);

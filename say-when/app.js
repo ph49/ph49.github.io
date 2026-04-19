@@ -157,7 +157,12 @@ function renderPending() {
         });
         
         el.addEventListener('dragstart', (e) => {
+            el.classList.add('dragging');
             e.dataTransfer.setData('text/plain', JSON.stringify({ eventId: event.id, source: 'pending' }));
+        });
+        
+        el.addEventListener('dragend', (e) => {
+            el.classList.remove('dragging');
         });
         
         nextEventContainerEl.appendChild(el);
