@@ -209,6 +209,23 @@ h2 {
     margin-top: 15px;
 }
 
+#reset-score-modal {
+    position: absolute;
+    background-color: transparent;
+    z-index: 1000;
+    display: none;
+}
+
+#reset-score-modal .modal-content {
+    background-color: var(--card-bg);
+    padding: 10px;
+    border: 1px solid var(--text-color);
+    border-radius: var(--border-radius);
+    max-width: 200px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 .terminal-button {
     background-color: var(--accent-color);
     color: #ffffff;

@@ -381,8 +381,10 @@ if (newGameBtnEl) {
 // Reset High Score
 const bestScoreContainerEl = document.getElementById('best-score-container');
 if (bestScoreContainerEl) {
-    bestScoreContainerEl.addEventListener('click', () => {
+    bestScoreContainerEl.addEventListener('click', (e) => {
         const modal = document.getElementById('reset-score-modal');
+        modal.style.top = `${e.pageY}px`;
+        modal.style.left = `${e.pageX}px`;
         modal.style.display = 'flex';
     });
 }
