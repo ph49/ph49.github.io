@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A low-tech, geeky timeline game.">
+    <title>Say When! - Geeky Timeline Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="terminal-container">
+        <header class="terminal-header">
+            <h1>> SAY WHEN!</h1>
+            <div class="scoreboard">
+                <div>[ SCORE: <span id="score-current">00</span> ]</div>
+                <div>[ BEST: <span id="score-high">00</span> ]</div>
+                <div>[ LIVES: <span id="lives-count">3/3</span> ]</div>
+            </div>
+            <div class="controls">
+                <label for="category-select">> SELECT CATEGORY:</label>
+                <select id="category-select" class="terminal-select">
+                    <option value="lucky-dip">LUCKY DIP</option>
+                    <option value="science">SCIENCE</option>
+                    <option value="history">HISTORY</option>
+                    <option value="pop-culture">POP CULTURE</option>
+                    <option value="literature">LITERATURE</option>
+                    <option value="sport">SPORT</option>
+                    <option value="boomer-life">BOOMER LIFE</option>
+                    <option value="us-politics">US POLITICS</option>
+                    <option value="extinctions">EXTINCTIONS</option>
+                    <option value="fictional-events">FICTIONAL EVENTS</option>
+                    <option value="natural-disasters">NATURAL DISASTERS</option>
+                </select>
+            </div>
+        </header>
+
+        <main class="terminal-main">
+            <section class="pending-section">
+                <h2>> PENDING EVENTS</h2>
+                <div id="next-event-container" class="pending-container">
+                    <!-- Cards will be inserted here -->
+                </div>
+            </section>
+
+            <section class="timeline-section">
+                <h2>> TIMELINE</h2>
+                <div id="timeline" class="timeline-container">
+                    <!-- Timeline line and items will be inserted here -->
+                </div>
+            </section>
+        </main>
+
+        <footer class="terminal-footer">
+            <p>> SYSTEM READY. VIBE CODED WITH <span id="vibe-emoji">LOVE</span>.</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

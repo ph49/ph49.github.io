@@ -1,0 +1,157 @@
+/* Say When! - Low Tech CSS */
+
+:root {
+    --bg-color: #000000;
+    --text-color: #00ff00; /* Terminal Green */
+    --accent-color: #ff00ff; /* Magenta for highlights */
+    --error-color: #ff0000;
+    --font-family: 'Courier New', Courier, monospace;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-family);
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.terminal-container {
+    width: 100%;
+    max-width: 800px;
+    border: 2px solid var(--text-color);
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+}
+
+header, main, footer {
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-size: 2rem;
+    margin-top: 0;
+    border-bottom: 1px solid var(--text-color);
+    padding-bottom: 10px;
+}
+
+h2 {
+    font-size: 1.2rem;
+    margin-top: 0;
+}
+
+.scoreboard {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+    border: 1px dashed var(--text-color);
+    padding: 10px;
+}
+
+.controls {
+    margin: 10px 0;
+}
+
+.terminal-select {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border: 1px solid var(--text-color);
+    font-family: var(--font-family);
+    padding: 5px;
+    cursor: pointer;
+}
+
+.terminal-select:focus {
+    outline: none;
+    background-color: var(--text-color);
+    color: var(--bg-color);
+}
+
+.pending-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.card {
+    border: 1px solid var(--text-color);
+    padding: 10px;
+    cursor: pointer;
+    background-color: var(--bg-color);
+    width: calc(50% - 5px);
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.card:hover, .card.selected {
+    background-color: var(--text-color);
+    color: var(--bg-color);
+}
+
+.card.incorrect {
+    border-color: var(--error-color);
+    color: var(--error-color);
+}
+
+.card.incorrect:hover {
+    background-color: var(--error-color);
+    color: var(--bg-color);
+}
+
+.timeline-container {
+    border: 1px solid var(--text-color);
+    padding: 10px;
+    min-height: 200px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.timeline-item {
+    border: 1px solid var(--text-color);
+    padding: 5px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.timeline-item.incorrect {
+    border-color: var(--error-color);
+}
+
+.drop-zone {
+    border: 1px dashed var(--text-color);
+    padding: 5px;
+    text-align: center;
+    cursor: pointer;
+    opacity: 0.5;
+}
+
+.drop-zone:hover, .drop-zone.hovered {
+    opacity: 1;
+    background-color: rgba(0, 255, 0, 0.1);
+}
+
+.terminal-footer {
+    border-top: 1px solid var(--text-color);
+    padding-top: 10px;
+    font-size: 0.8rem;
+}
+
+/* Accessibility */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
