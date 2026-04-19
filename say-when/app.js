@@ -101,6 +101,7 @@ function updateDropdown() {
             opt.textContent = text;
         }
     }
+}
 
 
 
