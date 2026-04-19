@@ -58,8 +58,12 @@ function applySettings() {
     if (monthCheck) monthCheck.checked = settings.monthAccuracy;
     if (darkCheck) darkCheck.checked = settings.darkMode;
     
-    const radio = document.querySelector(`input[name="pending-count"][value="${settings.pendingCount}"]`);
-    if (radio) radio.checked = true;
+    const slider = document.getElementById('setting-pending-count');
+    const valueSpan = document.getElementById('pending-count-value');
+    if (slider) {
+        slider.value = settings.pendingCount;
+        if (valueSpan) valueSpan.textContent = settings.pendingCount;
+    }
 }
 
 
@@ -567,12 +571,12 @@ if (saveSettingsBtn) {
         const prefixCheck = document.getElementById('setting-prefix-category');
         const monthCheck = document.getElementById('setting-month-accuracy');
         const darkCheck = document.getElementById('setting-dark-mode');
-        const radio = document.querySelector('input[name="pending-count"]:checked');
+        const slider = document.getElementById('setting-pending-count');
         
         settings.prefixCategory = prefixCheck ? prefixCheck.checked : false;
         settings.monthAccuracy = monthCheck ? monthCheck.checked : false;
         settings.darkMode = darkCheck ? darkCheck.checked : false;
-        settings.pendingCount = radio ? parseInt(radio.value, 10) : 3;
+        settings.pendingCount = slider ? parseInt(slider.value, 10) : 3;
         
         saveSettings();
         applySettings();
@@ -581,6 +585,14 @@ if (saveSettingsBtn) {
         modal.style.display = 'none';
         
         initGame();
+    });
+}
+
+const sliderEl = document.getElementById('setting-pending-count');
+const valueSpanEl = document.getElementById('pending-count-value');
+if (sliderEl) {
+    sliderEl.addEventListener('input', (e) => {
+        if (valueSpanEl) valueSpanEl.textContent = e.target.value;
     });
 }
 
