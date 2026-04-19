@@ -620,19 +620,36 @@ if (saveSettingsBtn) {
         const countsCheck = document.getElementById('setting-show-event-counts');
         const slider = document.getElementById('setting-pending-count');
         
-        settings.prefixCategory = prefixCheck ? prefixCheck.checked : false;
-        settings.monthAccuracy = monthCheck ? monthCheck.checked : false;
-        settings.darkMode = darkCheck ? darkCheck.checked : false;
-        settings.showEventCounts = countsCheck ? countsCheck.checked : false;
-        settings.pendingCount = slider ? parseInt(slider.value, 10) : 3;
+        const newPrefix = prefixCheck ? prefixCheck.checked : false;
+        const newMonth = monthCheck ? monthCheck.checked : false;
+        const newDark = darkCheck ? darkCheck.checked : false;
+        const newCounts = countsCheck ? countsCheck.checked : false;
+        const newPending = slider ? parseInt(slider.value, 10) : 3;
         
-        saveSettings();
-        applySettings();
+        const changed = newPrefix !== settings.prefixCategory ||
+                        newMonth !== settings.monthAccuracy ||
+                        newDark !== settings.darkMode ||
+                        newCounts !== settings.showEventCounts ||
+                        newPending !== settings.pendingCount;
         
-        const modal = document.getElementById('settings-modal');
-        modal.style.display = 'none';
-        
-        initGame();
+        if (changed) {
+            settings.prefixCategory = newPrefix;
+            settings.monthAccuracy = newMonth;
+            settings.darkMode = newDark;
+            settings.showEventCounts = newCounts;
+            settings.pendingCount = newPending;
+            
+            saveSettings();
+            applySettings();
+            
+            const modal = document.getElementById('settings-modal');
+            modal.style.display = 'none';
+            
+            initGame();
+        } else {
+            const modal = document.getElementById('settings-modal');
+            modal.style.display = 'none';
+        }
     });
 }
 
