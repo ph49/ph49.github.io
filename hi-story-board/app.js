@@ -14,6 +14,7 @@ const CATEGORY_EMOJIS = {
     'sport': '⚽',
     'boomer-life': '👵',
     'us-politics': '🇺🇸',
+    'extinctions': '🦖',
     'lucky-dip': '🎲'
 };
 
@@ -309,7 +310,7 @@ function renderTimeline() {
         const item = document.createElement('div');
         item.className = 'timeline-item';
         item.innerHTML = `
-            <div class="event-year-floating">${event.isIncorrect ? '????' : event.year}</div>
+            <div class="event-year-floating">${event.isIncorrect ? '????' : (event.displayYear || event.year)}</div>
             <div class="card placed-card ${event.isIncorrect ? 'incorrect' : ''}">
                 <div class="card-content">
                     <span class="event-description">${currentCategory === 'lucky-dip' ? CATEGORY_EMOJIS[event.category] + ' ' : ''}${event.description}</span>
@@ -434,8 +435,20 @@ function handlePlacement(index, eventToPlace, dropZoneEl, sourceIndex) {
         if (anachronisms === 3) {
             playSound('gameover');
             renderTimeline(); // Show the red card
+            
+            // Construct message for unplaced cards
+            let unplacedInfo = "\n\nCorrect years for unplaced cards:";
+            pendingEvents.forEach(ev => {
+                unplacedInfo += `\n- ${ev.description}: ${ev.displayYear || ev.year}`;
+            });
+            placedEvents.forEach(ev => {
+                if (ev.isIncorrect) {
+                    unplacedInfo += `\n- ${ev.description}: ${ev.displayYear || ev.year}`;
+                }
+            });
+            
             setTimeout(() => {
-                alert(`Game Over! You reached 3 anachronisms. Your score: ${score}`);
+                alert(`Game Over! You reached 3 anachronisms. Your score: ${score}${unplacedInfo}`);
                 initGame();
             }, 100);
         } else {
