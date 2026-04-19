@@ -369,7 +369,7 @@ function createDropZone(index) {
         label = 'AFTER';
     }
     
-    zone.textContent = `[ ${label} ]`;
+    zone.innerHTML = `<span>[ ${label} ]</span>`;
     zone.addEventListener('click', (e) => handlePlacement(index, e));
     
     // Drag and Drop
@@ -593,6 +593,16 @@ if (cancelResetBtnEl) {
         modal.style.display = 'none';
     });
 }
+
+window.addEventListener('click', (e) => {
+    const modal = document.getElementById('reset-score-modal');
+    const container = document.getElementById('best-score-container');
+    if (modal && modal.style.display === 'block') {
+        if (!container.contains(e.target)) {
+            modal.style.display = 'none';
+        }
+    }
+});
 
 // Settings Event Listeners
 const settingsBtn = document.getElementById('settings-btn');

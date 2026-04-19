@@ -166,7 +166,11 @@ h2 {
 }
 
 .drop-zone {
-    padding: 2px;
+    padding: 20px 2px;
+    margin-top: -18px;
+    margin-bottom: -18px;
+    position: relative;
+    z-index: 1;
     text-align: center;
     cursor: pointer;
     opacity: 0.5;
@@ -174,8 +178,13 @@ h2 {
     font-size: 0.8rem;
 }
 
-.drop-zone:hover, .drop-zone.hovered {
-    opacity: 1;
+.drop-zone span {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: var(--border-radius);
+}
+
+.drop-zone:hover span, .drop-zone.hovered span {
     background-color: rgba(0, 255, 0, 0.1);
     outline: 2px dotted var(--success-color);
 }
@@ -244,6 +253,11 @@ h2 {
     justify-content: center;
     gap: 10px;
     margin-top: 15px;
+}
+
+#reset-score-modal .modal-buttons {
+    flex-direction: column;
+    gap: 5px;
 }
 
 #best-score-container {
