@@ -9,6 +9,17 @@ let anachronisms = 0;
 let currentCategory = 'lucky-dip';
 let selectedEvent = null;
 
+const MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+function getEventDateString(event) {
+    if (event.isIncorrect) return '????';
+    let str = event.displayYear || String(event.year);
+    if (event.month !== undefined) {
+        str = `${MONTH_NAMES[event.month - 1]} ${str}`;
+    }
+    return str;
+}
+
 // DOM Elements
 const scoreCurrentEl = document.getElementById('score-current');
 const scoreHighEl = document.getElementById('score-high');
@@ -187,7 +198,7 @@ function renderTimeline() {
         descEl.textContent = event.description;
         
         const yearEl = document.createElement('span');
-        yearEl.textContent = event.isIncorrect ? '????' : (event.displayYear || event.year);
+        yearEl.textContent = getEventDateString(event);
         
         item.appendChild(descEl);
         item.appendChild(yearEl);
@@ -295,7 +306,7 @@ function handlePlacement(index, clickEvent) {
             const sortedAll = allOutstanding.sort((a, b) => a.year - b.year);
             sortedAll.forEach(ev => {
                 const li = document.createElement('li');
-                li.textContent = `${ev.description}: ${ev.displayYear || ev.year}`;
+                li.textContent = `${ev.description}: ${getEventDateString({...ev, isIncorrect: false})}`;
                 list.appendChild(li);
             });
             
@@ -364,8 +375,18 @@ function validatePlacement(event, index) {
         }
     }
     
-    if (prevEvent && event.year < prevEvent.year) return false;
-    if (nextEvent && event.year > nextEvent.year) return false;
+    if (prevEvent) {
+        if (event.year < prevEvent.year) return false;
+        if (event.year === prevEvent.year && event.month !== undefined && prevEvent.month !== undefined) {
+            if (event.month < prevEvent.month) return false;
+        }
+    }
+    if (nextEvent) {
+        if (event.year > nextEvent.year) return false;
+        if (event.year === nextEvent.year && event.month !== undefined && nextEvent.month !== undefined) {
+            if (event.month > nextEvent.month) return false;
+        }
+    }
     
     return true;
 }
