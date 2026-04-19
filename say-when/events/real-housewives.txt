@@ -1,40 +1,60 @@
-2006-03 The Real Housewives of Orange County premieres
-2006-03 Vicki Gunvalson screams about the family van
-2008-03 The Real Housewives of New York City premieres
-2008-10 The Real Housewives of Atlanta premieres
-2009-05 The Real Housewives of New Jersey premieres
-2009-06 Teresa Giudice flips a table at a dinner party
-2009-09 Shereé Whitfield pulls Kim Zolciak's wig
-2010-08 The Real Housewives of D.C. premieres
-2010-10 The Real Housewives of Beverly Hills premieres
-2010-12 Camille Grammer's 'Dinner Party from Hell'
-2011-01 Kim and Kyle Richards fight in a limo
-2011-03 The Real Housewives of Miami premieres
-2014-07 Aviva Drescher throws her prosthetic leg at a party
-2016-01 The Real Housewives of Potomac premieres
-2016-04 The Real Housewives of Dallas premieres
-2017-12 Luann de Lesseps is arrested in Palm Beach
-2020-11 The Real Housewives of Salt Lake City premieres
-2021-03 Jen Shah is arrested by federal agents
-2021-11 The Real Housewives Ultimate Girls Trip premieres
-2022-06 The Real Housewives of Dubai premieres
-2015-10 Brooks Ayers cancer scam revealed
-2010-05 Kelly Bensimon 'Scary Island' breakdown
-2020-07 Sonja Morgan loses teeth
-2016-08 Dorinda Medley 'Make it nice'
-2018-08 Bethenny Frankel 'Mention it all'
-2020-09 Monique and Candiace fight on RHOP
-2018-04 Karen Huger 'Press Conference'
-2021-08 Gizelle Bryant 'Tax Reform' shirt
-2017-05 Phaedra Parks 'Lies' exposed at reunion
-2019-12 Kenya Moore marching band entrance
-2021-02 Bolo the stripper party (RHOA)
-2015-01 Teresa Giudice goes to prison
-2019-10 Joe Giudice deported
-2009-06 Danielle Staub's 19 engaged times
-2011-12 Taylor Armstrong yelling at cat (meme origin)
-2020-11 Erika Jayne's divorce/lawsuits break
-2015-03 Lisa Rinna 'Own it' becomes catchphrase
-2019-02 Kim Richards 'Puppygate' starts
-2019-06 Lisa Vanderpump leaves RHOBH
-2021-09 Mary Cosby's church controversy
+2006-03-21 The Real Housewives of Orange County premieres
+2006-03-21 Vicki Gunvalson screams about the family van
+2008-03-04 The Real Housewives of New York City premieres
+2008-10-07 The Real Housewives of Atlanta premieres
+2009-05-12 The Real Housewives of New Jersey premieres
+2009-06-16 Teresa Giudice flips a table at a dinner party
+2009-08-20 Shereé Whitfield pulls Kim Zolciak's wig
+2010-08-05 The Real Housewives of D.C. premieres
+2010-10-14 The Real Housewives of Beverly Hills premieres
+2010-12-16 Camille Grammer's 'Dinner Party from Hell'
+2011-01-20 Kim and Kyle Richards fight in a limo
+2011-03-11 The Real Housewives of Miami premieres
+2014-07-22 Aviva Drescher throws her prosthetic leg at a party
+2016-01-17 The Real Housewives of Potomac premieres
+2016-04-11 The Real Housewives of Dallas premieres
+2017-12-23 Luann de Lesseps is arrested in Palm Beach
+2020-11-11 The Real Housewives of Salt Lake City premieres
+2021-03-30 Jen Shah is arrested by federal agents
+2021-11-16 The Real Housewives Ultimate Girls Trip premieres
+2022-06-01 The Real Housewives of Dubai premieres
+2015-10-12 Brooks Ayers cancer scam revealed
+2010-05-27 Kelly Bensimon 'Scary Island' breakdown
+2020-07-09 Sonja Morgan loses teeth
+2016-07-12 Dorinda Medley 'Make it nice'
+2018-08-08 Bethenny Frankel 'Mention it all'
+2020-09-27 Monique and Candiace fight on RHOP
+2018-04-01 Karen Huger 'Press Conference'
+2021-08-01 Gizelle Bryant 'Tax Reform' shirt
+2017-05-07 Phaedra Parks 'Lies' exposed at reunion
+2019-12-01 Kenya Moore marching band entrance
+2021-02-01 Bolo the stripper party (RHOA)
+2015-01-05 Teresa Giudice goes to prison
+2019-10-01 Joe Giudice deported
+2009-06-01 Danielle Staub's 19 engaged times
+2011-12-05 Taylor Armstrong yelling at cat (meme origin)
+2020-11-03 Erika Jayne's divorce/lawsuits break
+2015-03-03 Lisa Rinna 'Own it' becomes catchphrase
+2019-02-12 Kim Richards 'Puppygate' starts
+2019-06-04 Lisa Vanderpump leaves RHOBH
+2021-09-12 Mary Cosby's church controversy
+2015-10-12 Vicki Gunvalson's cancer scam season ends
+2013-01-07 Vanderpump Rules spin-off premieres
+2023-03-03 Tom Sandoval 'Scandoval' breaks
+2020-12-13 Monique Samuels binder at reunion
+2020-11-11 Mary Cosby calls Jen Shah a 'thug'
+2015-03-03 Lisa Rinna throws a wine glass
+2014-02-23 Real Housewives of Melbourne premieres
+2015-01-12 Real Housewives of Cheshire premieres
+2012-04-04 Real Housewives of Vancouver premieres
+2016-08-22 Real Housewives of Auckland premieres
+2018-08-03 Real Housewives of Johannesburg premieres
+2017-02-26 Real Housewives of Sydney premieres
+2009-04-14 The Real Housewives of New York City Season 2 reunion
+2011-01-27 The Real Housewives of Beverly Hills Season 1 reunion
+2012-04-15 The Real Housewives of Atlanta Season 4 reunion
+2013-05-23 The Real Housewives of Orange County Season 8 premieres
+2010-10-12 The Real Housewives of D.C. Season 1 finale
+2009-11-24 Salahi White House crashers incident
+2012-05-20 The Real Housewives of New Jersey S4 E1
+2013-06-02 The Real Housewives of New Jersey S5 E1
