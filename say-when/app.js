@@ -16,25 +16,7 @@ const DEFAULT_SETTINGS = {
     pendingCount: 3
 };
 
-const CATEGORY_EMOJIS = {
-    'science': '🔬',
-    'history': '📜',
-    'literature': '📚',
-    'sport': '⚽',
-    'boomer-life': '📻',
-    'pop-culture': '🎬',
-    'extinctions': '🦖',
-    'us-politics': '🇺🇸',
-    'fictional-events': '🦄',
-    'natural-disasters': '🌋',
-    'real-housewives': '🥂',
-    'lgbtq': '🌈',
-    'psych': '🧠',
-    'tiktok-trends': '📱',
-    'f1': '🏎',
-    'memes': '🤡',
-    'lucky-dip': '🎲'
-};
+const CATEGORY_EMOJIS = {};
 
 const MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
@@ -164,15 +146,30 @@ async function loadEvents() {
     try {
         const response = await fetch('events/categories.txt?v=' + Date.now());
         const text = await response.text();
-        const files = text.split('\n').map(f => f.trim()).filter(f => f);
+        const lines = text.split('\n').map(l => l.trim()).filter(l => l);
         
-        const promises = files.map(async (file) => {
+        // Clear dynamic options, keep Lucky Dip
+        categorySelectEl.innerHTML = '<option value="lucky-dip">🎲 LUCKY DIP</option>';
+        
+        const promises = lines.map(async (line) => {
+            const parts = line.split(/\s+/);
+            const file = parts[0];
+            const emoji = parts[1] || '📄'; // Fallback
+            
+            const category = file.replace('.txt', '');
+            CATEGORY_EMOJIS[category] = emoji; // Store in map
+            
+            // Add option to dropdown
+            const option = document.createElement('option');
+            option.value = category;
+            option.textContent = `${emoji} ${category.toUpperCase().replace('-', ' ')}`;
+            categorySelectEl.appendChild(option);
+            
             const res = await fetch(`events/${file}?v=` + Date.now());
             const content = await res.text();
-            const category = file.replace('.txt', '');
-            const lines = content.split('\n').map(l => l.trim()).filter(l => l);
+            const fileLines = content.split('\n').map(l => l.trim()).filter(l => l);
             
-            return lines.map(line => {
+            return fileLines.map(line => {
                 const match = line.match(/^(\d{1,4}(?:-\d{2}){0,2})\s+(.+)$/);
                 if (match) {
                     const datePart = match[1];
