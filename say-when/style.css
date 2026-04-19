@@ -226,6 +226,21 @@ h2 {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.popover-button {
+    background-color: #e9ecef;
+    color: #212529;
+    border: 1px solid #ced4da;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-family: var(--font-family);
+    font-size: 0.9rem;
+    border-radius: var(--border-radius);
+}
+
+.popover-button:hover {
+    background-color: #dde2e6;
+}
+
 .terminal-button {
     background-color: var(--accent-color);
     color: #ffffff;
