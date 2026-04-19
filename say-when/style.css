@@ -10,6 +10,14 @@
     --border-radius: 4px; /* Slightly rounded corners */
 }
 
+body.dark-mode {
+    --bg-color: #212529;
+    --card-bg: #343a40;
+    --text-color: #f8f9fa;
+    --accent-color: #0d6efd;
+    --error-color: #ea868f;
+}
+
 body {
     background-color: var(--bg-color);
     color: var(--text-color);
@@ -226,6 +234,21 @@ h2 {
     background-color: transparent;
     z-index: 1000;
     display: none;
+}
+
+.settings-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.settings-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.settings-group input[type="checkbox"],
+.settings-group input[type="radio"] {
+    margin-right: 10px;
 }
 
 #reset-score-modal .modal-content {

@@ -9,6 +9,46 @@ let anachronisms = 0;
 let currentCategory = 'lucky-dip';
 let selectedEvent = null;
 
+const DEFAULT_SETTINGS = {
+    prefixCategory: false,
+    monthAccuracy: false,
+    darkMode: false,
+    pendingCount: 3
+};
+
+let settings = { ...DEFAULT_SETTINGS };
+
+function loadSettings() {
+    const cookie = getCookie('saywhensettings');
+    if (cookie) {
+        settings = { ...DEFAULT_SETTINGS, ...JSON.parse(cookie) };
+    }
+    applySettings();
+}
+
+function saveSettings() {
+    setCookie('saywhensettings', JSON.stringify(settings), 365);
+}
+
+function applySettings() {
+    if (settings.darkMode) {
+        document.body.classList.add('dark-mode');
+    } else {
+        document.body.classList.remove('dark-mode');
+    }
+    
+    const prefixCheck = document.getElementById('setting-prefix-category');
+    const monthCheck = document.getElementById('setting-month-accuracy');
+    const darkCheck = document.getElementById('setting-dark-mode');
+    
+    if (prefixCheck) prefixCheck.checked = settings.prefixCategory;
+    if (monthCheck) monthCheck.checked = settings.monthAccuracy;
+    if (darkCheck) darkCheck.checked = settings.darkMode;
+    
+    const radio = document.querySelector(`input[name="pending-count"][value="${settings.pendingCount}"]`);
+    if (radio) radio.checked = true;
+}
+
 
 
 // DOM Elements
@@ -168,7 +208,7 @@ function initGame() {
 }
 
 function fillPending(availableEvents) {
-    while (pendingEvents.length < 2 && availableEvents.length > 0) {
+    while (pendingEvents.length < settings.pendingCount && availableEvents.length > 0) {
         const randomIndex = Math.floor(Math.random() * availableEvents.length);
         pendingEvents.push(availableEvents.splice(randomIndex, 1)[0]);
     }
@@ -184,7 +224,12 @@ function renderPending() {
     pendingEvents.forEach(event => {
         const el = document.createElement('div');
         el.className = `card ${selectedEvent === event ? 'selected' : ''} ${event.isIncorrect ? 'incorrect' : ''}`;
-        el.textContent = event.description;
+        
+        let text = event.description;
+        if (settings.prefixCategory) {
+            text = `[${event.category}] ${text}`;
+        }
+        el.textContent = text;
         el.draggable = true;
         
         el.addEventListener('click', () => {
@@ -220,7 +265,11 @@ function renderTimeline() {
         item.dataset.id = event.id;
         
         const descEl = document.createElement('span');
-        descEl.textContent = event.description;
+        let text = event.description;
+        if (settings.prefixCategory) {
+            text = `[${event.category}] ${text}`;
+        }
+        descEl.textContent = text;
         
         const yearEl = document.createElement('span');
         yearEl.textContent = event.isIncorrect ? '????' : (event.displayYear || event.year);
@@ -400,8 +449,18 @@ function validatePlacement(event, index) {
         }
     }
     
-    if (prevEvent && event.year < prevEvent.year) return false;
-    if (nextEvent && event.year > nextEvent.year) return false;
+    if (prevEvent) {
+        if (event.year < prevEvent.year) return false;
+        if (settings.monthAccuracy && event.year === prevEvent.year && event.month !== undefined && prevEvent.month !== undefined) {
+            if (event.month < prevEvent.month) return false;
+        }
+    }
+    if (nextEvent) {
+        if (event.year > nextEvent.year) return false;
+        if (settings.monthAccuracy && event.year === nextEvent.year && event.month !== undefined && nextEvent.month !== undefined) {
+            if (event.month > nextEvent.month) return false;
+        }
+    }
     
     return true;
 }
@@ -455,10 +514,49 @@ if (cancelResetBtnEl) {
     });
 }
 
+// Settings Event Listeners
+const settingsBtn = document.getElementById('settings-btn');
+if (settingsBtn) {
+    settingsBtn.addEventListener('click', () => {
+        const modal = document.getElementById('settings-modal');
+        modal.style.display = 'flex';
+    });
+}
 
+const closeSettingsBtn = document.getElementById('close-settings-btn');
+if (closeSettingsBtn) {
+    closeSettingsBtn.addEventListener('click', () => {
+        const modal = document.getElementById('settings-modal');
+        modal.style.display = 'none';
+    });
+}
+
+const saveSettingsBtn = document.getElementById('save-settings-btn');
+if (saveSettingsBtn) {
+    saveSettingsBtn.addEventListener('click', () => {
+        const prefixCheck = document.getElementById('setting-prefix-category');
+        const monthCheck = document.getElementById('setting-month-accuracy');
+        const darkCheck = document.getElementById('setting-dark-mode');
+        const radio = document.querySelector('input[name="pending-count"]:checked');
+        
+        settings.prefixCategory = prefixCheck ? prefixCheck.checked : false;
+        settings.monthAccuracy = monthCheck ? monthCheck.checked : false;
+        settings.darkMode = darkCheck ? darkCheck.checked : false;
+        settings.pendingCount = radio ? parseInt(radio.value, 10) : 3;
+        
+        saveSettings();
+        applySettings();
+        
+        const modal = document.getElementById('settings-modal');
+        modal.style.display = 'none';
+        
+        initGame();
+    });
+}
 
 // Start
 loadEvents().then(() => {
+    loadSettings();
     const hash = window.location.hash;
     if (hash) {
         const match = hash.match(/c=([^&]+)/i);

@@ -28,6 +28,7 @@
                 </div>
                 <div>ANACHRONISMS: <span id="lives-count">0/3</span></div>
             </div>
+            <button id="settings-btn" class="terminal-button">SETTINGS</button>
             <div class="controls">
                 <label for="category-select">SELECT CATEGORY:</label>
                 <select id="category-select" class="terminal-select">
@@ -83,7 +84,37 @@
         </div>
     </div>
 
-
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h2>SETTINGS</h2>
+            <div class="settings-group">
+                <label>
+                    <input type="checkbox" id="setting-prefix-category"> Prefix event with category
+                </label>
+            </div>
+            <div class="settings-group">
+                <label>
+                    <input type="checkbox" id="setting-month-accuracy"> Month accuracy
+                </label>
+            </div>
+            <div class="settings-group">
+                <label>
+                    <input type="checkbox" id="setting-dark-mode"> Dark mode
+                </label>
+            </div>
+            <div class="settings-group">
+                <label>Pending cards:</label>
+                <label><input type="radio" name="pending-count" value="1"> 1</label>
+                <label><input type="radio" name="pending-count" value="2"> 2</label>
+                <label><input type="radio" name="pending-count" value="3" checked> 3</label>
+            </div>
+            <div class="modal-buttons">
+                <button id="save-settings-btn" class="terminal-button">SAVE</button>
+                <button id="close-settings-btn" class="terminal-button">CLOSE</button>
+            </div>
+        </div>
+    </div>
 
     <script src="app.js"></script>
 </body>
