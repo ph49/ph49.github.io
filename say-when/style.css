@@ -137,11 +137,7 @@ h2 {
     background-color: rgba(0, 255, 0, 0.1);
 }
 
-.terminal-footer {
-    border-top: 1px solid var(--text-color);
-    padding-top: 10px;
-    font-size: 0.8rem;
-}
+
 
 /* Accessibility */
 .sr-only {
@@ -171,7 +167,7 @@ h2 {
         flex-direction: column;
     }
 
-    header, footer {
+    header {
         flex-shrink: 0;
     }
 
