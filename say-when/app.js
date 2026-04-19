@@ -154,7 +154,7 @@ async function loadEvents() {
         const promises = lines.map(async (line) => {
             const parts = line.split(/\s+/);
             const file = parts[0];
-            const emoji = parts[1] || '📄'; // Fallback
+            const emoji = parts[1] || '❓'; // Fallback
             
             const category = file.replace('.txt', '');
             CATEGORY_EMOJIS[category] = emoji; // Store in map
