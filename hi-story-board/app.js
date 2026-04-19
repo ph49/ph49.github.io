@@ -14,6 +14,7 @@ const CATEGORY_EMOJIS = {
     'literature': '📚',
     'music': '🎵',
     'sport': '⚽',
+    'boomer-life': '👵',
     'lucky-dip': '🎲'
 };
 
