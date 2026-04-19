@@ -14,7 +14,8 @@ const DEFAULT_SETTINGS = {
     monthAccuracy: false,
     darkMode: false,
     pendingCount: 3,
-    showEventCounts: false
+    showEventCounts: false,
+    luckyDipCategories: []
 };
 
 const categoryCounts = {};
@@ -52,6 +53,11 @@ function loadSettings() {
             settings = { ...DEFAULT_SETTINGS };
         }
     }
+    
+    if (settings.luckyDipCategories.length === 0) {
+        settings.luckyDipCategories = Object.keys(CATEGORY_EMOJIS);
+    }
+    
     applySettings();
 }
 
@@ -83,6 +89,11 @@ function applySettings() {
         slider.value = settings.pendingCount;
         if (valueSpan) valueSpan.textContent = settings.pendingCount;
     }
+    
+    const checkboxes = document.querySelectorAll('input[name="lucky-dip-category"]');
+    checkboxes.forEach(cb => {
+        cb.checked = settings.luckyDipCategories.includes(cb.value);
+    });
     
     updateDropdown();
 }
@@ -206,6 +217,19 @@ async function loadEvents() {
             option.textContent = `${emoji} ${category.toUpperCase().replace('-', ' ')}`;
             categorySelectEl.appendChild(option);
             
+            // Add checkbox to settings modal
+            const checkboxList = document.getElementById('lucky-dip-categories-list');
+            if (checkboxList) {
+                const label = document.createElement('label');
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.name = 'lucky-dip-category';
+                checkbox.value = category;
+                label.appendChild(checkbox);
+                label.appendChild(document.createTextNode(` ${emoji} ${category.toUpperCase().replace('-', ' ')}`));
+                checkboxList.appendChild(label);
+            }
+            
             const res = await fetch(`events/${file}?v=` + Date.now());
             const content = await res.text();
             const fileLines = content.split('\n').map(l => l.trim()).filter(l => l);
@@ -258,7 +282,7 @@ function initGame() {
     // Filter events by category
     let availableEvents = [];
     if (currentCategory === 'lucky-dip') {
-        availableEvents = [...EVENT_POOL];
+        availableEvents = EVENT_POOL.filter(e => settings.luckyDipCategories.includes(e.category));
     } else {
         availableEvents = EVENT_POOL.filter(e => e.category === currentCategory);
     }
@@ -636,11 +660,15 @@ if (saveSettingsBtn) {
         const newCounts = countsCheck ? countsCheck.checked : false;
         const newPending = slider ? parseInt(slider.value, 10) : 3;
         
+        const checkboxes = document.querySelectorAll('input[name="lucky-dip-category"]:checked');
+        const newLuckyDipCategories = Array.from(checkboxes).map(cb => cb.value);
+        
         const changed = newPrefix !== settings.prefixCategory ||
                         newMonth !== settings.monthAccuracy ||
                         newDark !== settings.darkMode ||
                         newCounts !== settings.showEventCounts ||
-                        newPending !== settings.pendingCount;
+                        newPending !== settings.pendingCount ||
+                        JSON.stringify(newLuckyDipCategories) !== JSON.stringify(settings.luckyDipCategories);
         
         if (changed) {
             settings.prefixCategory = newPrefix;
@@ -648,6 +676,7 @@ if (saveSettingsBtn) {
             settings.darkMode = newDark;
             settings.showEventCounts = newCounts;
             settings.pendingCount = newPending;
+            settings.luckyDipCategories = newLuckyDipCategories;
             
             saveSettings();
             applySettings();
