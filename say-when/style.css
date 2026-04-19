@@ -100,7 +100,7 @@ h2 {
     color: var(--bg-color);
 }
 
-.card.incorrect {
+.card.incorrect, .timeline-item.incorrect {
     border-color: var(--error-color);
     color: var(--error-color);
     background-color: #ffebeb;
