@@ -174,6 +174,7 @@ h2 {
 .drop-zone:hover, .drop-zone.hovered {
     opacity: 1;
     background-color: rgba(0, 255, 0, 0.1);
+    outline: 2px dotted var(--accent-color);
 }
 
 .pending-container.hovered {
