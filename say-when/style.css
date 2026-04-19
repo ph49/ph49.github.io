@@ -1,11 +1,13 @@
-/* Say When! - Low Tech CSS */
+/* Say When! - Functional Web Style */
 
 :root {
-    --bg-color: #ffffff;
+    --bg-color: #f8f9fa; /* Softer off-white */
+    --card-bg: #ffffff; /* White for cards */
     --text-color: #212529;
     --accent-color: #0d6efd;
     --error-color: #dc3545;
     --font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --border-radius: 4px; /* Slightly rounded corners */
 }
 
 body {
@@ -23,8 +25,8 @@ body {
 .terminal-container {
     width: 100%;
     max-width: 800px;
-    border: 1px solid var(--text-color);
     padding: 20px;
+    /* Border removed as requested */
 }
 
 header, main, footer {
@@ -56,12 +58,13 @@ h2 {
 }
 
 .terminal-select {
-    background-color: var(--bg-color);
+    background-color: var(--card-bg);
     color: var(--text-color);
     border: 1px solid var(--text-color);
     font-family: var(--font-family);
     padding: 5px;
     cursor: pointer;
+    border-radius: var(--border-radius);
 }
 
 .terminal-select:focus {
@@ -80,10 +83,11 @@ h2 {
     border: 1px solid var(--text-color);
     padding: 10px;
     cursor: pointer;
-    background-color: var(--bg-color);
+    background-color: var(--card-bg);
     width: calc(50% - 5px);
     box-sizing: border-box;
     text-align: center;
+    border-radius: var(--border-radius);
 }
 
 .card:hover, .card.selected {
@@ -117,6 +121,8 @@ h2 {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-radius: var(--border-radius);
+    background-color: var(--card-bg);
 }
 
 .timeline-item.incorrect {
@@ -129,6 +135,7 @@ h2 {
     text-align: center;
     cursor: pointer;
     opacity: 0.5;
+    border-radius: var(--border-radius);
 }
 
 .drop-zone:hover, .drop-zone.hovered {

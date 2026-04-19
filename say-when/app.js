@@ -166,6 +166,7 @@ function renderTimeline() {
     placedEvents.forEach((event, index) => {
         const item = document.createElement('div');
         item.className = `timeline-item ${event.isIncorrect ? 'incorrect' : ''}`;
+        item.dataset.id = event.id;
         
         const descEl = document.createElement('span');
         descEl.textContent = event.description;
@@ -195,11 +196,11 @@ function createDropZone(index) {
     }
     
     zone.textContent = `[ ${label} ]`;
-    zone.addEventListener('click', () => handlePlacement(index));
+    zone.addEventListener('click', (e) => handlePlacement(index, e));
     return zone;
 }
 
-function handlePlacement(index) {
+function handlePlacement(index, clickEvent) {
     if (!selectedEvent) {
         alert("SELECT AN EVENT FIRST.");
         return;
@@ -216,6 +217,14 @@ function handlePlacement(index) {
     // Remove from pending
     pendingEvents = pendingEvents.filter(e => e !== eventToPlace);
     selectedEvent = null;
+    
+    // Record cursor position if event provided
+    let cursorY = null;
+    let containerRect = null;
+    if (clickEvent) {
+        containerRect = timelineEl.getBoundingClientRect();
+        cursorY = clickEvent.clientY - containerRect.top;
+    }
     
     if (correct) {
         playSound('success');
@@ -247,12 +256,25 @@ function handlePlacement(index) {
     } else {
         availableEvents = EVENT_POOL.filter(e => e.category === currentCategory);
     }
-    // Remove already placed or pending events from available
     const usedIds = new Set([...placedEvents, ...pendingEvents].map(e => e.id));
     availableEvents = availableEvents.filter(e => !usedIds.has(e.id));
     
     fillPending(availableEvents);
     renderGame();
+    
+    // Scroll manipulation
+    if (clickEvent && cursorY !== null) {
+        const newItemEl = timelineEl.querySelector(`.timeline-item[data-id="${eventToPlace.id}"]`);
+        if (newItemEl) {
+            const cardRect = newItemEl.getBoundingClientRect();
+            const cardCenterOffset = cardRect.height / 2;
+            
+            const currentOffset = cardRect.top - containerRect.top;
+            const targetOffset = cursorY - cardCenterOffset;
+            
+            timelineEl.scrollTop += (currentOffset - targetOffset);
+        }
+    }
 }
 
 function validatePlacement(event, index) {
