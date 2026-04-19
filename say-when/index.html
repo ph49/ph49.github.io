@@ -13,7 +13,7 @@
             <h1>SAY WHEN!</h1>
             <div class="scoreboard">
                 <div>SCORE: <span id="score-current">00</span></div>
-                <div>BEST: <span id="score-high">00</span></div>
+                <div id="best-score-container" class="clickable">BEST: <span id="score-high">00</span></div>
                 <div>LIVES: <span id="lives-count">3/3</span></div>
             </div>
             <div class="controls">
@@ -51,6 +51,18 @@
         </main>
 
 
+    </div>
+
+    <!-- Game Over Modal -->
+    <div id="game-over-modal" class="modal">
+        <div class="modal-content">
+            <h2>GAME OVER</h2>
+            <p>Correct dates for outstanding cards:</p>
+            <ul id="outstanding-cards-list">
+                <!-- List items will be inserted here -->
+            </ul>
+            <button id="new-game-btn" class="terminal-button">NEW GAME</button>
+        </div>
     </div>
 
     <script src="app.js"></script>

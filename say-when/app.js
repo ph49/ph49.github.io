@@ -278,8 +278,19 @@ function handlePlacement(index, clickEvent) {
         
         if (anachronisms === 3) {
             playSound('gameover');
-            alert(`GAME OVER. SCORE: ${score}`);
-            initGame();
+            
+            const modal = document.getElementById('game-over-modal');
+            const list = document.getElementById('outstanding-cards-list');
+            list.innerHTML = '';
+            
+            const sortedPending = [...pendingEvents].sort((a, b) => a.year - b.year);
+            sortedPending.forEach(ev => {
+                const li = document.createElement('li');
+                li.textContent = `${ev.description}: ${ev.displayYear || ev.year}`;
+                list.appendChild(li);
+            });
+            
+            modal.style.display = 'flex';
             return;
         }
         
@@ -355,6 +366,28 @@ categorySelectEl.addEventListener('change', (e) => {
     currentCategory = e.target.value;
     initGame();
 });
+
+// Modal "New Game" button
+const newGameBtnEl = document.getElementById('new-game-btn');
+if (newGameBtnEl) {
+    newGameBtnEl.addEventListener('click', () => {
+        const modal = document.getElementById('game-over-modal');
+        modal.style.display = 'none';
+        initGame();
+    });
+}
+
+// Reset High Score
+const bestScoreContainerEl = document.getElementById('best-score-container');
+if (bestScoreContainerEl) {
+    bestScoreContainerEl.addEventListener('click', () => {
+        if (confirm("RESET HIGH SCORE TO 0?")) {
+            highScore = 0;
+            scoreHighEl.textContent = '00';
+            setCookie('saywhenhighscore', highScore, 365);
+        }
+    });
+}
 
 
 
