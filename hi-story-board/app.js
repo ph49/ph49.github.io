@@ -13,6 +13,7 @@ const CATEGORY_EMOJIS = {
     'literature': '📚',
     'sport': '⚽',
     'boomer-life': '👵',
+    'us-politics': '🇺🇸',
     'lucky-dip': '🎲'
 };
 
