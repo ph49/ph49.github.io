@@ -321,6 +321,9 @@ function renderTimeline() {
         if (event.isIncorrect) {
             card.draggable = true;
             card.addEventListener('dragstart', (e) => handleDragStart(e, event, i));
+            card.addEventListener('dragend', () => {
+                document.body.classList.remove('dragging-red-card');
+            });
             // Click to select red card
             card.addEventListener('click', (e) => {
                 e.stopPropagation();
@@ -375,10 +378,13 @@ function handlePlacement(index, eventToPlace, dropZoneEl, sourceIndex) {
         oldTop = dropZoneEl.getBoundingClientRect().top;
     }
     
-    // Prevent duplicate placement
+    // Prevent duplicate placement or reordering of red cards
     const existingIndex = placedEvents.indexOf(eventToPlace);
     if (existingIndex > -1) {
-        // It's already in the timeline!
+        if (eventToPlace.isIncorrect) {
+            // Don't allow moving red cards within timeline
+            return;
+        }
         // Remove from old position
         placedEvents.splice(existingIndex, 1);
         // Adjust target index if it shifted!
@@ -495,6 +501,10 @@ function handleDragStart(e, event, sourceIndex) {
         sourceIndex: sourceIndex
     };
     e.dataTransfer.setData('text/plain', JSON.stringify(data));
+    
+    if (sourceIndex !== undefined) {
+        document.body.classList.add('dragging-red-card');
+    }
 }
 
 function handleDragOver(e) {
@@ -542,8 +552,7 @@ function handleDrop(e, index) {
         const { event, sourceIndex } = parsedData;
         
         if (sourceIndex !== undefined) {
-            // Prevent moving within timeline
-            alert("You cannot reorder cards in the timeline. Drag them back to the pending area to try again.");
+            // Prevent moving within timeline (handled by CSS pointer-events, but fallback here)
             return;
         } else {
             // It's from pending

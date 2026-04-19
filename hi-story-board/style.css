@@ -355,6 +355,10 @@ h2 {
     min-height: 100px;
 }
 
+body.dragging-red-card .timeline-container .drop-zone {
+    pointer-events: none;
+}
+
 /* --- Animations --- */
 @keyframes pulse {
     0% { box-shadow: 0 0 5px var(--primary-glow); }
