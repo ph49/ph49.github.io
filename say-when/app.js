@@ -16,6 +16,26 @@ const DEFAULT_SETTINGS = {
     pendingCount: 3
 };
 
+const CATEGORY_EMOJIS = {
+    'science': '🔬',
+    'history': '📜',
+    'literature': '📚',
+    'sport': '⚽',
+    'boomer-life': '📻',
+    'pop-culture': '🎬',
+    'extinctions': '🦖',
+    'us-politics': '🇺🇸',
+    'fictional-events': '🦄',
+    'natural-disasters': '🌋',
+    'real-housewives': '🥂',
+    'lgbtq': '🌈',
+    'psych': '🧠',
+    'tiktok-trends': '📱',
+    'f1': '🏎',
+    'memes': '🤡',
+    'lucky-dip': '🎲'
+};
+
 let settings = { ...DEFAULT_SETTINGS };
 
 function loadSettings() {
@@ -227,7 +247,8 @@ function renderPending() {
         
         let text = event.description;
         if (settings.prefixCategory) {
-            text = `[${event.category}] ${text}`;
+            const emoji = CATEGORY_EMOJIS[event.category] || '';
+            text = `${emoji} ${text}`;
         }
         el.textContent = text;
         el.draggable = true;
@@ -267,7 +288,8 @@ function renderTimeline() {
         const descEl = document.createElement('span');
         let text = event.description;
         if (settings.prefixCategory) {
-            text = `[${event.category}] ${text}`;
+            const emoji = CATEGORY_EMOJIS[event.category] || '';
+            text = `${emoji} ${text}`;
         }
         descEl.textContent = text;
         

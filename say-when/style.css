@@ -41,11 +41,30 @@ header, main, footer {
     margin-bottom: 20px;
 }
 
-h1 {
-    font-size: 2rem;
-    margin-top: 0;
+.title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     border-bottom: 1px solid var(--text-color);
     padding-bottom: 10px;
+}
+
+h1 {
+    font-size: 2rem;
+    margin: 0;
+}
+
+.icon-button {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-color);
+    padding: 0 5px;
+}
+
+.icon-button:hover {
+    color: var(--accent-color);
 }
 
 h2 {
