@@ -262,6 +262,7 @@ function handlePlacement(index, clickEvent) {
     
     if (correct) {
         playSound('success');
+        eventToPlace.isIncorrect = false; // Reset incorrect state
         score++;
         scoreCurrentEl.textContent = String(score).padStart(2, '0');
         if (score > highScore) {
