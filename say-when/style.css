@@ -176,12 +176,18 @@ h2 {
     opacity: 0.5;
     border-radius: var(--border-radius);
     font-size: 0.8rem;
+    transition: margin 0.2s ease;
 }
 
 .drop-zone span {
-    display: inline-block;
+    display: block;
     padding: 2px 6px;
     border-radius: var(--border-radius);
+}
+
+.drop-zone:hover, .drop-zone.hovered {
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .drop-zone:hover span, .drop-zone.hovered span {
