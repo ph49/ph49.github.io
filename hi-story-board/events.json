@@ -428,5 +428,13 @@
     { "id": 475, "description": "USS Enterprise starts 5-year mission", "year": 2265, "category": "fictional-events" },
     { "id": 476, "description": "Borg attempt to assimilate Earth (First Contact)", "year": 2373, "category": "fictional-events" },
     { "id": 477, "description": "WALL-E meets EVE", "year": 2805, "category": "fictional-events" },
-    { "id": 478, "description": "Taylor arrives on Planet of the Apes", "year": 3978, "category": "fictional-events" }
+    { "id": 478, "description": "Taylor arrives on Planet of the Apes", "year": 3978, "category": "fictional-events" },
+    { "id": 479, "description": "Chinese paddlefish declared extinct", "year": 2022, "category": "extinctions" },
+    { "id": 480, "description": "Smooth handfish declared extinct", "year": 2023, "category": "extinctions" },
+    { "id": 481, "description": "Ivory-billed woodpecker declared extinct", "year": 2021, "category": "extinctions" },
+    { "id": 482, "description": "Bachman's warbler declared extinct", "year": 2023, "category": "extinctions" },
+    { "id": 483, "description": "Lonesome George, last Pinta Island tortoise, dies", "year": 2012, "category": "extinctions" },
+    { "id": 484, "description": "Christmas Island forest skink goes extinct", "year": 2014, "category": "extinctions" },
+    { "id": 485, "description": "Hawaiian tree snail (George) goes extinct", "year": 2019, "category": "extinctions" },
+    { "id": 486, "description": "Splendid poison frog declared extinct", "year": 2020, "category": "extinctions" }
 ]
