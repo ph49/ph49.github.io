@@ -436,5 +436,12 @@
     { "id": 483, "description": "Lonesome George, last Pinta Island tortoise, dies", "year": 2012, "category": "extinctions" },
     { "id": 484, "description": "Christmas Island forest skink goes extinct", "year": 2014, "category": "extinctions" },
     { "id": 485, "description": "Hawaiian tree snail (George) goes extinct", "year": 2019, "category": "extinctions" },
-    { "id": 486, "description": "Splendid poison frog declared extinct", "year": 2020, "category": "extinctions" }
+    { "id": 486, "description": "Splendid poison frog declared extinct", "year": 2020, "category": "extinctions" },
+    { "id": 487, "description": "Aurochs goes extinct", "year": 1627, "category": "extinctions" },
+    { "id": 488, "description": "Bluebuck goes extinct", "year": 1799, "category": "extinctions" },
+    { "id": 489, "description": "Falkland Island wolf goes extinct", "year": 1876, "category": "extinctions" },
+    { "id": 490, "description": "Heath Hen goes extinct", "year": 1932, "category": "extinctions" },
+    { "id": 491, "description": "Balinese tiger goes extinct", "year": 1937, "category": "extinctions" },
+    { "id": 492, "description": "Golden toad goes extinct", "year": 1989, "category": "extinctions" },
+    { "id": 493, "description": "Po'ouli goes extinct", "year": 2004, "category": "extinctions" }
 ]
