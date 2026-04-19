@@ -210,7 +210,7 @@ h2 {
 }
 
 #reset-score-modal {
-    position: absolute;
+    position: fixed;
     background-color: transparent;
     z-index: 1000;
     display: none;
