@@ -390,7 +390,8 @@ if (bestScoreContainerEl) {
 // Modal "Yes" button for reset
 const confirmResetBtnEl = document.getElementById('confirm-reset-btn');
 if (confirmResetBtnEl) {
-    confirmResetBtnEl.addEventListener('click', () => {
+    confirmResetBtnEl.addEventListener('click', (e) => {
+        e.stopPropagation();
         highScore = 0;
         scoreHighEl.textContent = '00';
         setCookie('saywhenhighscore', highScore, 365);
@@ -402,7 +403,8 @@ if (confirmResetBtnEl) {
 // Modal "No" button for reset
 const cancelResetBtnEl = document.getElementById('cancel-reset-btn');
 if (cancelResetBtnEl) {
-    cancelResetBtnEl.addEventListener('click', () => {
+    cancelResetBtnEl.addEventListener('click', (e) => {
+        e.stopPropagation();
         const modal = document.getElementById('reset-score-modal');
         modal.style.display = 'none';
     });
