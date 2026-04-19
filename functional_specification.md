@@ -46,7 +46,7 @@ The user interface is contained within a single screen layout, designed to be re
 *   **Timeline Section**: A visual line representing the chronology of events. It contains:
     *   Correctly placed event cards with their years displayed.
     *   Incorrectly placed event cards (highlighted, year hidden).
-    *   Interactive zones between cards where new events can be placed.
+    *   Interactive zones between cards where new events can be placed. These zones will display labels like "BEFORE", "AFTER", or "BETWEEN" depending on their position.
 
 ## 5. User Interactions
 *   **Placement**:

@@ -186,7 +186,15 @@ function renderTimeline() {
 function createDropZone(index) {
     const zone = document.createElement('div');
     zone.className = 'drop-zone';
-    zone.textContent = '[ PLACE HERE ]';
+    
+    let label = 'BETWEEN';
+    if (index === 0) {
+        label = 'BEFORE';
+    } else if (index === placedEvents.length) {
+        label = 'AFTER';
+    }
+    
+    zone.textContent = `[ ${label} ]`;
     zone.addEventListener('click', () => handlePlacement(index));
     return zone;
 }
