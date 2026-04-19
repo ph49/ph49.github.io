@@ -54,7 +54,7 @@
     </div>
 
     <!-- Game Over Modal -->
-    <div id="game-over-modal" class="modal">
+    <div id="game-over-modal" class="modal" style="display: none;">
         <div class="modal-content">
             <h2>GAME OVER</h2>
             <p>Correct dates for outstanding cards:</p>
@@ -62,6 +62,18 @@
                 <!-- List items will be inserted here -->
             </ul>
             <button id="new-game-btn" class="terminal-button">NEW GAME</button>
+        </div>
+    </div>
+
+    <!-- Reset Score Confirmation Modal -->
+    <div id="reset-score-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h2>RESET HIGH SCORE?</h2>
+            <p>Are you sure you want to reset your best score to 0?</p>
+            <div class="modal-buttons">
+                <button id="confirm-reset-btn" class="terminal-button">YES</button>
+                <button id="cancel-reset-btn" class="terminal-button">NO</button>
+            </div>
         </div>
     </div>
 

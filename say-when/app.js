@@ -381,11 +381,29 @@ if (newGameBtnEl) {
 const bestScoreContainerEl = document.getElementById('best-score-container');
 if (bestScoreContainerEl) {
     bestScoreContainerEl.addEventListener('click', () => {
-        if (confirm("RESET HIGH SCORE TO 0?")) {
-            highScore = 0;
-            scoreHighEl.textContent = '00';
-            setCookie('saywhenhighscore', highScore, 365);
-        }
+        const modal = document.getElementById('reset-score-modal');
+        modal.style.display = 'flex';
+    });
+}
+
+// Modal "Yes" button for reset
+const confirmResetBtnEl = document.getElementById('confirm-reset-btn');
+if (confirmResetBtnEl) {
+    confirmResetBtnEl.addEventListener('click', () => {
+        highScore = 0;
+        scoreHighEl.textContent = '00';
+        setCookie('saywhenhighscore', highScore, 365);
+        const modal = document.getElementById('reset-score-modal');
+        modal.style.display = 'none';
+    });
+}
+
+// Modal "No" button for reset
+const cancelResetBtnEl = document.getElementById('cancel-reset-btn');
+if (cancelResetBtnEl) {
+    cancelResetBtnEl.addEventListener('click', () => {
+        const modal = document.getElementById('reset-score-modal');
+        modal.style.display = 'none';
     });
 }
 
