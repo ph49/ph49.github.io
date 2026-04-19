@@ -283,8 +283,9 @@ function handlePlacement(index, clickEvent) {
             const list = document.getElementById('outstanding-cards-list');
             list.innerHTML = '';
             
-            const sortedPending = [...pendingEvents].sort((a, b) => a.year - b.year);
-            sortedPending.forEach(ev => {
+            const allOutstanding = [...pendingEvents, eventToPlace];
+            const sortedAll = allOutstanding.sort((a, b) => a.year - b.year);
+            sortedAll.forEach(ev => {
                 const li = document.createElement('li');
                 li.textContent = `${ev.description}: ${ev.displayYear || ev.year}`;
                 list.appendChild(li);
