@@ -103,6 +103,7 @@ h2 {
 .card.incorrect {
     border-color: var(--error-color);
     color: var(--error-color);
+    background-color: #ffebeb;
 }
 
 .card.incorrect:hover {
