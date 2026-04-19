@@ -149,10 +149,17 @@ function renderPending() {
         const el = document.createElement('div');
         el.className = `card ${selectedEvent === event ? 'selected' : ''}`;
         el.textContent = event.description;
+        el.draggable = true;
+        
         el.addEventListener('click', () => {
             selectedEvent = event;
             renderPending();
         });
+        
+        el.addEventListener('dragstart', (e) => {
+            e.dataTransfer.setData('text/plain', JSON.stringify({ eventId: event.id, source: 'pending' }));
+        });
+        
         nextEventContainerEl.appendChild(el);
     });
 }
@@ -177,6 +184,13 @@ function renderTimeline() {
         item.appendChild(descEl);
         item.appendChild(yearEl);
         
+        if (event.isIncorrect) {
+            item.draggable = true;
+            item.addEventListener('dragstart', (e) => {
+                e.dataTransfer.setData('text/plain', JSON.stringify({ eventId: event.id, source: 'timeline', index: index }));
+            });
+        }
+        
         timelineEl.appendChild(item);
         
         // Drop zone after item
@@ -197,6 +211,33 @@ function createDropZone(index) {
     
     zone.textContent = `[ ${label} ]`;
     zone.addEventListener('click', (e) => handlePlacement(index, e));
+    
+    // Drag and Drop
+    zone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+    });
+    
+    zone.addEventListener('dragenter', (e) => {
+        zone.classList.add('hovered');
+    });
+    
+    zone.addEventListener('dragleave', (e) => {
+        zone.classList.remove('hovered');
+    });
+    
+    zone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        zone.classList.remove('hovered');
+        const data = JSON.parse(e.dataTransfer.getData('text/plain'));
+        if (data.source === 'pending') {
+            const event = pendingEvents.find(ev => ev.id === data.eventId);
+            if (event) {
+                selectedEvent = event;
+                handlePlacement(index, e);
+            }
+        }
+    });
+    
     return zone;
 }
 
@@ -305,6 +346,42 @@ function validatePlacement(event, index) {
 categorySelectEl.addEventListener('change', (e) => {
     currentCategory = e.target.value;
     initGame();
+});
+
+// Drop handler for pending area (return red cards)
+nextEventContainerEl.addEventListener('dragover', (e) => {
+    e.preventDefault();
+});
+
+nextEventContainerEl.addEventListener('dragenter', (e) => {
+    nextEventContainerEl.classList.add('hovered');
+});
+
+nextEventContainerEl.addEventListener('dragleave', (e) => {
+    nextEventContainerEl.classList.remove('hovered');
+});
+
+nextEventContainerEl.addEventListener('drop', (e) => {
+    e.preventDefault();
+    nextEventContainerEl.classList.remove('hovered');
+    const data = JSON.parse(e.dataTransfer.getData('text/plain'));
+    if (data.source === 'timeline') {
+        const event = placedEvents[data.index];
+        if (event && event.isIncorrect) {
+            placedEvents.splice(data.index, 1);
+            event.isIncorrect = false;
+            pendingEvents.push(event);
+            
+            renderGame();
+            
+            const cards = nextEventContainerEl.querySelectorAll('.card');
+            const newCard = Array.from(cards).find(c => c.textContent === event.description);
+            if (newCard) {
+                newCard.classList.add('returning');
+                setTimeout(() => newCard.classList.remove('returning'), 500);
+            }
+        }
+    }
 });
 
 // Start

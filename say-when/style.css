@@ -142,7 +142,24 @@ h2 {
     background-color: rgba(0, 255, 0, 0.1);
 }
 
+.pending-container.hovered {
+    border: 1px dashed var(--accent-color);
+}
 
+.card.returning {
+    animation: returnToPending 0.5s ease-out;
+}
+
+@keyframes returnToPending {
+    from {
+        transform: scale(1.2);
+        opacity: 0.5;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
 
 /* Accessibility */
 .sr-only {
