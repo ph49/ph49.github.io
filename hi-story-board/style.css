@@ -160,7 +160,7 @@ h1 {
     flex-direction: row;
     gap: 4rem;
     flex: 1;
-    align-items: flex-start;
+    align-items: stretch; /* Equal height columns */
     overflow: hidden; /* Prevent game area from stretching container */
 }
 
@@ -171,6 +171,13 @@ h2 {
     margin-bottom: 1.5rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
+}
+
+.next-event-section {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 220px; /* Fixed width for next events column */
 }
 
 /* --- Cards --- */
@@ -228,16 +235,17 @@ h2 {
 }
 
 #next-event-container {
-    min-height: 160px;
+    flex: 1; /* Fill available vertical space */
     border: 2px dashed transparent;
     border-radius: var(--radius);
     display: flex;
     flex-direction: column; /* Arrange tiles vertically */
     gap: 1.5rem;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start; /* Pack items at top */
     padding: 1rem;
     transition: var(--transition);
+    background: rgba(0, 0, 0, 0.1); /* Subtle background to show area */
 }
 
 #next-event-container.hovered {
