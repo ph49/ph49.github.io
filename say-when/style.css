@@ -148,7 +148,7 @@ h2 {
     flex-direction: column;
     gap: 10px;
     overflow-y: auto;
-    max-height: 500px;
+    max-height: 70dvh;
 }
 
 .timeline-item {

@@ -198,7 +198,7 @@ async function loadEvents() {
             categoryCounts[category] = fileLines.length;
             
             return fileLines.map(line => {
-                const match = line.match(/^(\d{1,4}(?:-\d{2}){0,2})\s+(.+)$/);
+                const match = line.match(/^(-?\d+(?:-\d{2}){0,2})\s+(.+)$/);
                 if (match) {
                     const datePart = match[1];
                     const description = match[2];
