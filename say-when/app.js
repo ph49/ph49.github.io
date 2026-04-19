@@ -37,7 +37,12 @@ let settings = { ...DEFAULT_SETTINGS };
 function loadSettings() {
     const cookie = getCookie('saywhensettings');
     if (cookie) {
-        settings = { ...DEFAULT_SETTINGS, ...JSON.parse(cookie) };
+        try {
+            settings = { ...DEFAULT_SETTINGS, ...JSON.parse(cookie) };
+        } catch (e) {
+            console.error('Failed to parse settings cookie:', e);
+            settings = { ...DEFAULT_SETTINGS };
+        }
     }
     applySettings();
 }
