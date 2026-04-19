@@ -105,7 +105,7 @@ function initGame() {
     selectedEvent = null;
     
     scoreCurrentEl.textContent = '00';
-    livesCountEl.textContent = '3/3';
+    livesCountEl.textContent = '0/3';
     
     // Filter events by category
     let availableEvents = [];
@@ -274,7 +274,7 @@ function handlePlacement(index, clickEvent) {
         playSound('failure');
         eventToPlace.isIncorrect = true;
         anachronisms++;
-        livesCountEl.textContent = `${3 - anachronisms}/3`;
+        livesCountEl.textContent = `${anachronisms}/3`;
         
         if (anachronisms === 3) {
             playSound('gameover');
