@@ -1,0 +1,16 @@
+science.txt
+history.txt
+literature.txt
+sport.txt
+boomer-life.txt
+pop-culture.txt
+extinctions.txt
+us-politics.txt
+fictional-events.txt
+natural-disasters.txt
+real-housewives.txt
+lgbtq.txt
+psych.txt
+tiktok-trends.txt
+f1.txt
+memes.txt

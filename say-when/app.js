@@ -91,8 +91,42 @@ if (savedHighScore) {
 
 async function loadEvents() {
     try {
-        const response = await fetch('events.json?v=' + Date.now());
-        EVENT_POOL = await response.json();
+        const response = await fetch('events/categories.txt?v=' + Date.now());
+        const text = await response.text();
+        const files = text.split('\n').map(f => f.trim()).filter(f => f);
+        
+        const promises = files.map(async (file) => {
+            const res = await fetch(`events/${file}?v=` + Date.now());
+            const content = await res.text();
+            const category = file.replace('.txt', '');
+            const lines = content.split('\n').map(l => l.trim()).filter(l => l);
+            
+            return lines.map(line => {
+                const match = line.match(/^(\d{1,4}(?:-\d{2}){0,2})\s+(.+)$/);
+                if (match) {
+                    const datePart = match[1];
+                    const description = match[2];
+                    const dateParts = datePart.split('-');
+                    const year = parseInt(dateParts[0], 10);
+                    const month = dateParts[1] ? parseInt(dateParts[1], 10) : undefined;
+                    const day = dateParts[2] ? parseInt(dateParts[2], 10) : undefined;
+                    return {
+                        id: 0, // Temporary
+                        description,
+                        year,
+                        month,
+                        day,
+                        category
+                    };
+                }
+                return null;
+            }).filter(e => e);
+        });
+        
+        const results = await Promise.all(promises);
+        EVENT_POOL = results.flat();
+        EVENT_POOL.forEach((e, i) => e.id = i + 1);
+        
     } catch (error) {
         console.error("Failed to load events", error);
         alert("SYSTEM ERROR: FAILED TO LOAD GAME DATA.");
