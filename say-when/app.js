@@ -13,8 +13,11 @@ const DEFAULT_SETTINGS = {
     prefixCategory: false,
     monthAccuracy: false,
     darkMode: false,
-    pendingCount: 3
+    pendingCount: 3,
+    showEventCounts: false
 };
+
+const categoryCounts = {};
 
 const CATEGORY_EMOJIS = {};
 
@@ -53,10 +56,12 @@ function applySettings() {
     const prefixCheck = document.getElementById('setting-prefix-category');
     const monthCheck = document.getElementById('setting-month-accuracy');
     const darkCheck = document.getElementById('setting-dark-mode');
+    const countsCheck = document.getElementById('setting-show-event-counts');
     
     if (prefixCheck) prefixCheck.checked = settings.prefixCategory;
     if (monthCheck) monthCheck.checked = settings.monthAccuracy;
     if (darkCheck) darkCheck.checked = settings.darkMode;
+    if (countsCheck) countsCheck.checked = settings.showEventCounts;
     
     const slider = document.getElementById('setting-pending-count');
     const valueSpan = document.getElementById('pending-count-value');
@@ -64,7 +69,24 @@ function applySettings() {
         slider.value = settings.pendingCount;
         if (valueSpan) valueSpan.textContent = settings.pendingCount;
     }
+    
+    updateDropdown();
 }
+
+function updateDropdown() {
+    const options = categorySelectEl.options;
+    for (let i = 0; i < options.length; i++) {
+        const opt = options[i];
+        const cat = opt.value;
+        if (cat !== 'lucky-dip') {
+            const emoji = CATEGORY_EMOJIS[cat] || '❓';
+            let text = `${emoji} ${cat.toUpperCase().replace('-', ' ')}`;
+            if (settings.showEventCounts && categoryCounts[cat] !== undefined) {
+                text += ` (${categoryCounts[cat]})`;
+            }
+            opt.textContent = text;
+        }
+    }
 
 
 
@@ -173,6 +195,8 @@ async function loadEvents() {
             const content = await res.text();
             const fileLines = content.split('\n').map(l => l.trim()).filter(l => l);
             
+            categoryCounts[category] = fileLines.length;
+            
             return fileLines.map(line => {
                 const match = line.match(/^(\d{1,4}(?:-\d{2}){0,2})\s+(.+)$/);
                 if (match) {
@@ -198,6 +222,7 @@ async function loadEvents() {
         const results = await Promise.all(promises);
         EVENT_POOL = results.flat();
         EVENT_POOL.forEach((e, i) => e.id = i + 1);
+        updateDropdown();
         
     } catch (error) {
         console.error("Failed to load events", error);
@@ -577,11 +602,13 @@ if (saveSettingsBtn) {
         const prefixCheck = document.getElementById('setting-prefix-category');
         const monthCheck = document.getElementById('setting-month-accuracy');
         const darkCheck = document.getElementById('setting-dark-mode');
+        const countsCheck = document.getElementById('setting-show-event-counts');
         const slider = document.getElementById('setting-pending-count');
         
         settings.prefixCategory = prefixCheck ? prefixCheck.checked : false;
         settings.monthAccuracy = monthCheck ? monthCheck.checked : false;
         settings.darkMode = darkCheck ? darkCheck.checked : false;
+        settings.showEventCounts = countsCheck ? countsCheck.checked : false;
         settings.pendingCount = slider ? parseInt(slider.value, 10) : 3;
         
         saveSettings();
