@@ -15,6 +15,7 @@ const CATEGORY_EMOJIS = {
     'boomer-life': '👵',
     'us-politics': '🇺🇸',
     'extinctions': '🦖',
+    'fictional-events': '🔮',
     'lucky-dip': '🎲'
 };
 
