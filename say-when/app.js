@@ -10,12 +10,12 @@ let currentCategory = 'lucky-dip';
 let selectedEvent = null;
 
 const DEFAULT_SETTINGS = {
-    prefixCategory: false,
+    prefixCategory: true,
     monthAccuracy: false,
     darkMode: false,
-    pendingCount: 3,
+    pendingCount: 2,
     showEventCounts: false,
-    luckyDipCategories: null
+    luckyDipCategories: ['history', 'sport', 'pop-culture']
 };
 
 const categoryCounts = {};
@@ -55,7 +55,7 @@ function loadSettings() {
     }
     
     if (!settings.luckyDipCategories) {
-        settings.luckyDipCategories = Object.keys(CATEGORY_EMOJIS);
+        settings.luckyDipCategories = ['history', 'sport', 'pop-culture'];
     }
     
     applySettings();

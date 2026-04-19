@@ -14,3 +14,4 @@ psych.txt 🧠
 tiktok-trends.txt 📱
 f1.txt 🏎
 memes.txt 🤡
+doranime.txt 🉐
