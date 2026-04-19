@@ -31,7 +31,7 @@ Say When! is a timeline-based quiz game where players test their knowledge by pl
 *   **Audio Feedback**: The game provides distinct audio cues for success, failure, and game over states.
 
 ## 4. User Interface
-The user interface is contained within a single screen layout, designed to be responsive across different device types.
+The user interface is contained within a single screen layout, designed to be responsive across different device types. On small screens, the timeline section becomes scrollable independently to fit within the viewport.
 
 ### 4.1 Header
 *   **Title**: Displays the game name "Say When!".
