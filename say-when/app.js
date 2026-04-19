@@ -15,7 +15,7 @@ const DEFAULT_SETTINGS = {
     darkMode: false,
     pendingCount: 3,
     showEventCounts: false,
-    luckyDipCategories: []
+    luckyDipCategories: null
 };
 
 const categoryCounts = {};
@@ -54,7 +54,7 @@ function loadSettings() {
         }
     }
     
-    if (settings.luckyDipCategories.length === 0) {
+    if (!settings.luckyDipCategories) {
         settings.luckyDipCategories = Object.keys(CATEGORY_EMOJIS);
     }
     
