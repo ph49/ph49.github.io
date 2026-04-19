@@ -36,6 +36,17 @@ const CATEGORY_EMOJIS = {
     'lucky-dip': '🎲'
 };
 
+const MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+function getEventDateString(event) {
+    if (event.isIncorrect) return '????';
+    let str = event.displayYear || String(event.year);
+    if (settings.monthAccuracy && event.month !== undefined) {
+        str = `${MONTH_NAMES[event.month - 1]} ${str}`;
+    }
+    return str;
+}
+
 let settings = { ...DEFAULT_SETTINGS };
 
 function loadSettings() {
@@ -294,7 +305,7 @@ function renderTimeline() {
         descEl.textContent = text;
         
         const yearEl = document.createElement('span');
-        yearEl.textContent = event.isIncorrect ? '????' : (event.displayYear || event.year);
+        yearEl.textContent = getEventDateString(event);
         
         item.appendChild(descEl);
         item.appendChild(yearEl);
@@ -402,7 +413,7 @@ function handlePlacement(index, clickEvent) {
             const sortedAll = allOutstanding.sort((a, b) => a.year - b.year);
             sortedAll.forEach(ev => {
                 const li = document.createElement('li');
-                li.textContent = `${ev.description}: ${ev.displayYear || ev.year}`;
+                li.textContent = `${ev.description}: ${getEventDateString({...ev, isIncorrect: false})}`;
                 list.appendChild(li);
             });
             
