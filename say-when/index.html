@@ -13,7 +13,18 @@
             <h1>SAY WHEN!</h1>
             <div class="scoreboard">
                 <div>SCORE: <span id="score-current">00</span></div>
-                <div id="best-score-container" class="clickable">BEST: <span id="score-high">00</span></div>
+                <div id="best-score-container" class="clickable">
+                    BEST: <span id="score-high">00</span>
+                    <!-- Reset Score Confirmation Modal -->
+                    <div id="reset-score-modal" class="modal" style="display: none;">
+                        <div class="modal-content">
+                            <div class="modal-buttons">
+                                <button id="confirm-reset-btn" class="popover-button">RESET TO 0</button>
+                                <button id="cancel-reset-btn" class="popover-button">CANCEL</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div>LIVES: <span id="lives-count">3/3</span></div>
             </div>
             <div class="controls">
@@ -65,15 +76,7 @@
         </div>
     </div>
 
-    <!-- Reset Score Confirmation Modal -->
-    <div id="reset-score-modal" class="modal" style="display: none;">
-        <div class="modal-content">
-            <div class="modal-buttons">
-                <button id="confirm-reset-btn" class="popover-button">RESET TO 0</button>
-                <button id="cancel-reset-btn" class="popover-button">CANCEL</button>
-            </div>
-        </div>
-    </div>
+
 
     <script src="app.js"></script>
 </body>

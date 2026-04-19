@@ -209,8 +209,14 @@ h2 {
     margin-top: 15px;
 }
 
+#best-score-container {
+    position: relative;
+}
+
 #reset-score-modal {
-    position: fixed;
+    position: absolute;
+    top: 100%;
+    left: 0;
     background-color: transparent;
     z-index: 1000;
     display: none;
