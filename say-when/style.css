@@ -28,14 +28,17 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
 }
 
 .terminal-container {
     width: 100%;
     max-width: 800px;
     padding: 20px;
-    /* Border removed as requested */
+    height: calc(100dvh - 40px);
+    display: flex;
+    flex-direction: column;
 }
 
 header, main, footer {
@@ -134,7 +137,7 @@ h2 {
     background-color: #ffebeb;
 }
 
-.card.incorrect:hover {
+.card.incorrect:hover, .card.incorrect.selected {
     background-color: var(--error-color);
     color: var(--bg-color);
 }
@@ -142,13 +145,13 @@ h2 {
 .timeline-container {
     border: 1px solid var(--text-color);
     padding: 10px;
-    min-height: 200px;
     position: relative;
     display: flex;
     flex-direction: column;
     gap: 10px;
+    flex: 1;
     overflow-y: auto;
-    max-height: 70dvh;
+    min-height: 0;
 }
 
 .timeline-item {
@@ -163,6 +166,29 @@ h2 {
 
 .timeline-item.incorrect {
     border-color: var(--error-color);
+}
+
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 0;
+}
+
+.timeline-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+header {
+    flex-shrink: 0;
+}
+
+.pending-section {
+    flex-shrink: 0;
 }
 
 .drop-zone {
@@ -235,6 +261,13 @@ h2 {
     width: 90%;
     text-align: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modal-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 15px;
 }
 
 .modal h2 {
@@ -370,45 +403,11 @@ h2 {
 @media (max-width: 600px) {
     body {
         padding: 10px;
-        align-items: flex-start;
-        height: 100dvh;
-        overflow: hidden;
     }
 
     .terminal-container {
         padding: 10px;
         height: calc(100dvh - 20px);
-        display: flex;
-        flex-direction: column;
-    }
-
-    header {
-        flex-shrink: 0;
-    }
-
-    main {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-        min-height: 0;
-    }
-
-    .pending-section {
-        flex-shrink: 0;
-    }
-
-    .timeline-section {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        min-height: 0;
-    }
-
-    .timeline-container {
-        flex: 1;
-        overflow-y: auto;
-        min-height: 0;
     }
 
     h1 {

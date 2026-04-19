@@ -480,6 +480,10 @@ function handlePlacement(index, clickEvent) {
             const list = document.getElementById('outstanding-cards-list');
             list.innerHTML = '';
             
+            // Set score and high score in modal
+            document.getElementById('game-over-score').textContent = `You correctly located ${score} events on the timeline.`;
+            document.getElementById('game-over-high-score').textContent = `Your best ever score was ${highScore}.`;
+            
             const allOutstanding = [...pendingEvents, eventToPlace];
             const sortedAll = allOutstanding.sort((a, b) => a.year - b.year);
             sortedAll.forEach(ev => {
@@ -487,6 +491,32 @@ function handlePlacement(index, clickEvent) {
                 li.textContent = `${ev.description}: ${getEventDateString({...ev, isIncorrect: false})}`;
                 list.appendChild(li);
             });
+            
+            // Share button handler
+            const shareBtn = document.getElementById('share-btn');
+            shareBtn.onclick = () => {
+                const categoryName = currentCategory === 'lucky-dip' ? 'Lucky Dip' : currentCategory;
+                const text = `I scored ${score} playing the ${categoryName} category on SAY WHEN!`;
+                const url = window.location.href;
+                
+                if (navigator.share) {
+                    navigator.share({
+                        title: 'Say When!',
+                        text: text,
+                        url: url
+                    }).then(() => {
+                        console.log('Thanks for sharing!');
+                    }).catch(console.error);
+                } else {
+                    // Fallback: Copy to clipboard
+                    const shareText = `${text} ${url}`;
+                    navigator.clipboard.writeText(shareText).then(() => {
+                        alert('Score copied to clipboard!');
+                    }).catch(err => {
+                        console.error('Could not copy text: ', err);
+                    });
+                }
+            };
             
             modal.style.display = 'flex';
             return;
@@ -510,7 +540,7 @@ function handlePlacement(index, clickEvent) {
     // Refill pending
     let availableEvents = [];
     if (currentCategory === 'lucky-dip') {
-        availableEvents = [...EVENT_POOL];
+        availableEvents = EVENT_POOL.filter(e => settings.luckyDipCategories.includes(e.category));
     } else {
         availableEvents = EVENT_POOL.filter(e => e.category === currentCategory);
     }

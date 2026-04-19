@@ -63,11 +63,16 @@
     <div id="game-over-modal" class="modal" style="display: none;">
         <div class="modal-content">
             <h2>GAME OVER</h2>
-            <p>Correct Dates</p>
+            <p id="game-over-score"></p>
+            <p id="game-over-high-score"></p>
+            <p>Here are the ones you didn't get:</p>
             <ul id="outstanding-cards-list">
                 <!-- List items will be inserted here -->
             </ul>
-            <button id="new-game-btn" class="terminal-button">NEW GAME</button>
+            <div class="modal-actions">
+                <button id="new-game-btn" class="terminal-button">NEW GAME</button>
+                <button id="share-btn" class="terminal-button">SHARE</button>
+            </div>
         </div>
     </div>
 
