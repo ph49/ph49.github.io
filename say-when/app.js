@@ -414,5 +414,16 @@ if (cancelResetBtnEl) {
 
 // Start
 loadEvents().then(() => {
+    const hash = window.location.hash;
+    if (hash) {
+        const match = hash.match(/c=([^&]+)/i);
+        if (match) {
+            const cat = match[1].toLowerCase();
+            currentCategory = cat;
+            if (categorySelectEl) {
+                categorySelectEl.value = cat;
+            }
+        }
+    }
     initGame();
 });
