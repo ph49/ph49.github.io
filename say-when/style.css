@@ -91,7 +91,9 @@ h2 {
 }
 
 .card.dragging {
-    opacity: 0.4 !important;
+    background-color: var(--card-bg) !important;
+    color: var(--text-color) !important;
+    opacity: 1 !important;
 }
 
 .card:hover, .card.selected {
