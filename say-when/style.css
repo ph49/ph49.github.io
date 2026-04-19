@@ -1,11 +1,11 @@
 /* Say When! - Low Tech CSS */
 
 :root {
-    --bg-color: #000000;
-    --text-color: #00ff00; /* Terminal Green */
-    --accent-color: #ff00ff; /* Magenta for highlights */
-    --error-color: #ff0000;
-    --font-family: 'Courier New', Courier, monospace;
+    --bg-color: #ffffff;
+    --text-color: #212529;
+    --accent-color: #0d6efd;
+    --error-color: #dc3545;
+    --font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 body {
@@ -23,9 +23,8 @@ body {
 .terminal-container {
     width: 100%;
     max-width: 800px;
-    border: 2px solid var(--text-color);
+    border: 1px solid var(--text-color);
     padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
 }
 
 header, main, footer {
