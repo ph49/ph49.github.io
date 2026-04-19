@@ -365,6 +365,7 @@ function validatePlacement(event, index) {
 // Event Listeners
 categorySelectEl.addEventListener('change', (e) => {
     currentCategory = e.target.value;
+    window.location.hash = `c=${currentCategory}`;
     initGame();
 });
 
