@@ -135,6 +135,7 @@ h2 {
     cursor: pointer;
     opacity: 0.5;
     border-radius: var(--border-radius);
+    font-size: 0.8rem;
 }
 
 .drop-zone:hover, .drop-zone.hovered {
