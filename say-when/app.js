@@ -194,6 +194,29 @@ if (savedHighScore) {
     scoreHighEl.textContent = String(highScore).padStart(2, '0');
 }
 
+function parseEventLines(fileLines, category) {
+    return fileLines.map(line => {
+        const match = line.match(/^(-?\d+(?:-\d{2}){0,2})\s+(.+)$/);
+        if (match) {
+            const datePart = match[1];
+            const description = match[2];
+            const dateParts = datePart.split('-');
+            const year = parseInt(dateParts[0], 10);
+            const month = dateParts[1] ? parseInt(dateParts[1], 10) : undefined;
+            const day = dateParts[2] ? parseInt(dateParts[2], 10) : undefined;
+            return {
+                id: 0, // Temporary
+                description,
+                year,
+                month,
+                day,
+                category
+            };
+        }
+        return null;
+    }).filter(e => e);
+}
+
 async function loadEvents() {
     try {
         const response = await fetch('events/categories.txt?v=' + Date.now());
@@ -236,27 +259,10 @@ async function loadEvents() {
             
             categoryCounts[category] = fileLines.length;
             
-            return fileLines.map(line => {
-                const match = line.match(/^(-?\d+(?:-\d{2}){0,2})\s+(.+)$/);
-                if (match) {
-                    const datePart = match[1];
-                    const description = match[2];
-                    const dateParts = datePart.split('-');
-                    const year = parseInt(dateParts[0], 10);
-                    const month = dateParts[1] ? parseInt(dateParts[1], 10) : undefined;
-                    const day = dateParts[2] ? parseInt(dateParts[2], 10) : undefined;
-                    return {
-                        id: 0, // Temporary
-                        description,
-                        year,
-                        month,
-                        day,
-                        category
-                    };
-                }
-                return null;
-            }).filter(e => e);
+            return parseEventLines(fileLines, category);
         });
+        
+
         
         const results = await Promise.all(promises);
         EVENT_POOL = results.flat();
@@ -721,6 +727,8 @@ if (saveSettingsBtn) {
         }
     });
 }
+
+
 
 const sliderEl = document.getElementById('setting-pending-count');
 const valueSpanEl = document.getElementById('pending-count-value');

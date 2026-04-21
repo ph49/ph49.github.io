@@ -15,3 +15,4 @@ tiktok-trends.txt 📱
 f1.txt 🏎
 memes.txt 🤡
 doranime.txt 🉐
+swifties.txt 🧣
