@@ -254,8 +254,8 @@
                 correctBtn.classList.add('correct');
             }
 
-            // Exactly 1.5s (1500ms) delay before moving to next question
-            setTimeout(advanceQuestion, 1500);
+            // Exactly 2.5s (2500ms) delay before moving to next question
+            setTimeout(advanceQuestion, 2500);
         }
     }
 
