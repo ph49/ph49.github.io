@@ -198,14 +198,18 @@
         bestScoreEl.textContent = best;
     }
 
+    let targetScore = 10;
+    let totalQuestionsAsked = 0;
+    let unsolvedPool = [];
+
     function startNewRound() {
         isAnsweringLocked = false;
         currentScore = 0;
-        currentQuestionIndex = 0;
+        totalQuestionsAsked = 0;
         correctlyGuessedThisRound = [];
         
         currentScoreEl.textContent = '0';
-        questionNumEl.textContent = '1';
+        questionNumEl.textContent = '0';
         if (cardSolvedRow) cardSolvedRow.innerHTML = '';
 
         const pool = getActiveDataset();
@@ -215,18 +219,27 @@
             return;
         }
 
-        // Shuffle pool and select 10 (or pool.length if fewer than 10)
-        const shuffled = shuffleArray([...pool]);
-        roundQuestions = shuffled.slice(0, Math.min(10, shuffled.length));
+        targetScore = Math.min(10, pool.length);
+        const targetScoreEl = document.getElementById('target-score');
+        if (targetScoreEl) targetScoreEl.textContent = targetScore;
 
+        unsolvedPool = shuffleArray([...pool]);
         renderQuestion();
     }
 
     function renderQuestion() {
         isAnsweringLocked = false;
-        questionNumEl.textContent = currentQuestionIndex + 1;
-        const currentTarget = roundQuestions[currentQuestionIndex];
+        totalQuestionsAsked++;
+        questionNumEl.textContent = totalQuestionsAsked;
+
         const pool = datasets[currentGrade];
+        if (!pool || pool.length === 0) return;
+
+        if (unsolvedPool.length === 0) {
+            unsolvedPool = shuffleArray([...pool]);
+        }
+
+        const currentTarget = unsolvedPool.shift();
 
         // Pick 4 distractors from pool
         const distractors = shuffleArray(
@@ -280,8 +293,9 @@
         } else {
             selectedBtn.classList.add('incorrect');
 
-            // Record in missed kanji list
+            // Record in missed kanji list & re-enqueue for extra practice
             addMissedKanji(targetKanjiItem);
+            unsolvedPool.push(targetKanjiItem);
 
             // Highlight correct button
             const buttons = Array.from(optionsGrid.children);
@@ -304,25 +318,21 @@
     }
 
     function advanceQuestion() {
-        currentQuestionIndex++;
-        if (currentQuestionIndex < roundQuestions.length) {
-            renderQuestion();
-        } else {
+        if (currentScore >= targetScore) {
             finishRound();
+        } else {
+            renderQuestion();
         }
     }
 
     function finishRound() {
-        const total = roundQuestions.length;
-        modalScore.textContent = `${currentScore}/${total}`;
+        modalScore.textContent = `${currentScore}/${targetScore} Target Reached!`;
 
-        const percentage = Math.round((currentScore / total) * 100);
-        if (percentage === 100) {
-            modalFeedback.textContent = '🎉 Perfect score! 素晴らしい!';
-        } else if (percentage >= 70) {
-            modalFeedback.textContent = '👍 Well done! Great progress!';
+        const accuracy = Math.round((currentScore / totalQuestionsAsked) * 100);
+        if (accuracy === 100) {
+            modalFeedback.textContent = `🎉 Flawless! 10/10 in 10 questions! 素晴らしい!`;
         } else {
-            modalFeedback.textContent = '💪 Keep practicing! You will get better!';
+            modalFeedback.textContent = `👍 Completed in ${totalQuestionsAsked} questions (${accuracy}% accuracy)!`;
         }
 
         // Render modal correct kanji chips
@@ -338,11 +348,11 @@
             });
         }
 
-        // Save best score
+        // Save best score (fewest questions taken to complete 10 correct)
         const key = `kanji_best_${currentGrade}_${currentMode}`;
         const previousBest = parseInt(localStorage.getItem(key) || '0', 10);
-        if (currentScore > previousBest) {
-            localStorage.setItem(key, currentScore);
+        if (previousBest === 0 || totalQuestionsAsked < previousBest) {
+            localStorage.setItem(key, totalQuestionsAsked);
             updateBestScore();
         }
 
