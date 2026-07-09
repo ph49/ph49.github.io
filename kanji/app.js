@@ -26,13 +26,9 @@
     const questionNumEl = document.getElementById('question-num');
     const currentScoreEl = document.getElementById('current-score');
     const bestScoreEl = document.getElementById('best-score');
-    const questionCard = document.getElementById('question-card');
-    const questionTextEl = document.getElementById('question-text');
+    const cardSolvedRow = document.getElementById('card-solved-row');
+    const cardMainContent = document.getElementById('card-main-content');
     const optionsGrid = document.getElementById('options-grid');
-
-    const correctCountEl = document.getElementById('correct-count');
-    const totalRoundCountEl = document.getElementById('total-round-count');
-    const correctKanjiGrid = document.getElementById('correct-kanji-grid');
 
     const fcCurrentNum = document.getElementById('fc-current-num');
     const fcTotalNum = document.getElementById('fc-total-num');
@@ -169,12 +165,11 @@
         
         currentScoreEl.textContent = '0';
         questionNumEl.textContent = '1';
-        correctCountEl.textContent = '0';
-        correctKanjiGrid.innerHTML = '';
+        if (cardSolvedRow) cardSolvedRow.innerHTML = '';
 
         const pool = getActiveDataset();
         if (!pool || pool.length === 0) {
-            questionTextEl.textContent = "No Kanji available for review!";
+            cardMainContent.innerHTML = `<div class="definition-display">No Kanji available for review!</div>`;
             optionsGrid.innerHTML = `<button class="primary-btn" onclick="location.reload()">Reset</button>`;
             return;
         }
@@ -182,7 +177,6 @@
         // Shuffle pool and select 10 (or pool.length if fewer than 10)
         const shuffled = shuffleArray([...pool]);
         roundQuestions = shuffled.slice(0, Math.min(10, shuffled.length));
-        totalRoundCountEl.textContent = roundQuestions.length;
 
         renderQuestion();
     }
@@ -204,7 +198,7 @@
 
         if (currentMode === 'kanjiToDef' || currentMode === 'weak') {
             // Display Kanji, Pick Definition
-            questionCard.innerHTML = `<div class="kanji-display">${currentTarget.kanji}</div>`;
+            cardMainContent.innerHTML = `<div class="kanji-display">${currentTarget.kanji}</div>`;
             options.forEach(opt => {
                 const btn = document.createElement('button');
                 btn.className = 'option-btn';
@@ -214,7 +208,7 @@
             });
         } else if (currentMode === 'defToKanji') {
             // Display Definition, Pick Kanji
-            questionCard.innerHTML = `<div class="definition-display">${currentTarget.definition}</div>`;
+            cardMainContent.innerHTML = `<div class="definition-display">${currentTarget.definition}</div>`;
             options.forEach(opt => {
                 const btn = document.createElement('button');
                 btn.className = 'option-btn kanji-opt';
@@ -234,7 +228,7 @@
             currentScore++;
             currentScoreEl.textContent = currentScore;
 
-            // Record correctly guessed kanji
+            // Record correctly guessed kanji and render inside the question card
             correctlyGuessedThisRound.push(targetKanjiItem);
             renderCorrectChip(targetKanjiItem);
 
@@ -266,11 +260,10 @@
     }
 
     function renderCorrectChip(item) {
-        correctCountEl.textContent = correctlyGuessedThisRound.length;
-        const chip = document.createElement('div');
-        chip.className = 'kanji-chip';
-        chip.innerHTML = `${item.kanji}<span class="tooltip">${item.definition}</span>`;
-        correctKanjiGrid.appendChild(chip);
+        const badge = document.createElement('div');
+        badge.className = 'solved-mini-badge';
+        badge.innerHTML = `${item.kanji}<span class="tooltip">${item.definition}</span>`;
+        cardSolvedRow.appendChild(badge);
     }
 
     function advanceQuestion() {
