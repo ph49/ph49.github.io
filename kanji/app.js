@@ -232,8 +232,8 @@
             correctlyGuessedThisRound.push(targetKanjiItem);
             renderCorrectChip(targetKanjiItem);
 
-            // Advance after brief feedback
-            setTimeout(advanceQuestion, 300);
+            // Advance after 1.5s delay on correct answer
+            setTimeout(advanceQuestion, 1500);
         } else {
             selectedBtn.classList.add('incorrect');
 
