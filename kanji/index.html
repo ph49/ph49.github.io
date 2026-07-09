@@ -50,6 +50,12 @@
             <div class="options-grid" id="options-grid">
                 <!-- 5 option buttons will be rendered here -->
             </div>
+
+            <!-- Correctly Guessed Kanji Area -->
+            <div class="progress-kanji-section" id="progress-kanji-section">
+                <div class="progress-title">Correctly Guessed This Round (<span id="correct-count">0</span>/<span id="total-round-count">10</span>)</div>
+                <div class="kanji-chips-grid" id="correct-kanji-grid"></div>
+            </div>
         </div>
 
         <!-- Flashcard View (Hidden by default) -->
@@ -84,6 +90,12 @@
             <h2 class="modal-title">Round Complete!</h2>
             <div class="score-badge" id="modal-score">8/10</div>
             <p id="modal-feedback" style="color: var(--text-muted); margin-bottom: 1rem;"></p>
+            
+            <div class="progress-kanji-section" style="border-top: none; margin-top: 0.5rem; padding-top: 0;">
+                <div class="progress-title">Kanji Mastered This Round</div>
+                <div class="kanji-chips-grid" id="modal-correct-kanji-grid" style="justify-content: center;"></div>
+            </div>
+
             <div class="modal-actions">
                 <button class="primary-btn" id="modal-play-again">Play Again</button>
                 <button class="secondary-btn" id="modal-review-weak">Review Missed Kanji</button>

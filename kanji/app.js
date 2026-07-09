@@ -11,6 +11,7 @@
     let roundQuestions = [];
     let currentQuestionIndex = 0;
     let currentScore = 0;
+    let correctlyGuessedThisRound = [];
     let isAnsweringLocked = false;
     let missedKanji = JSON.parse(localStorage.getItem('kanji_missed') || '[]');
 
@@ -29,6 +30,10 @@
     const questionTextEl = document.getElementById('question-text');
     const optionsGrid = document.getElementById('options-grid');
 
+    const correctCountEl = document.getElementById('correct-count');
+    const totalRoundCountEl = document.getElementById('total-round-count');
+    const correctKanjiGrid = document.getElementById('correct-kanji-grid');
+
     const fcCurrentNum = document.getElementById('fc-current-num');
     const fcTotalNum = document.getElementById('fc-total-num');
     const flashcard = document.getElementById('flashcard');
@@ -40,6 +45,7 @@
     const resultsModal = document.getElementById('results-modal');
     const modalScore = document.getElementById('modal-score');
     const modalFeedback = document.getElementById('modal-feedback');
+    const modalCorrectKanjiGrid = document.getElementById('modal-correct-kanji-grid');
     const modalPlayAgain = document.getElementById('modal-play-again');
     const modalReviewWeak = document.getElementById('modal-review-weak');
 
@@ -159,8 +165,12 @@
         isAnsweringLocked = false;
         currentScore = 0;
         currentQuestionIndex = 0;
+        correctlyGuessedThisRound = [];
+        
         currentScoreEl.textContent = '0';
         questionNumEl.textContent = '1';
+        correctCountEl.textContent = '0';
+        correctKanjiGrid.innerHTML = '';
 
         const pool = getActiveDataset();
         if (!pool || pool.length === 0) {
@@ -172,6 +182,7 @@
         // Shuffle pool and select 10 (or pool.length if fewer than 10)
         const shuffled = shuffleArray([...pool]);
         roundQuestions = shuffled.slice(0, Math.min(10, shuffled.length));
+        totalRoundCountEl.textContent = roundQuestions.length;
 
         renderQuestion();
     }
@@ -222,7 +233,12 @@
             selectedBtn.classList.add('correct');
             currentScore++;
             currentScoreEl.textContent = currentScore;
-            // Advance after very brief feedback
+
+            // Record correctly guessed kanji
+            correctlyGuessedThisRound.push(targetKanjiItem);
+            renderCorrectChip(targetKanjiItem);
+
+            // Advance after brief feedback
             setTimeout(advanceQuestion, 300);
         } else {
             selectedBtn.classList.add('incorrect');
@@ -244,9 +260,17 @@
                 correctBtn.classList.add('correct');
             }
 
-            // Exactly 0.5s (500ms) delay before moving to next question
-            setTimeout(advanceQuestion, 500);
+            // Exactly 1.5s (1500ms) delay before moving to next question
+            setTimeout(advanceQuestion, 1500);
         }
+    }
+
+    function renderCorrectChip(item) {
+        correctCountEl.textContent = correctlyGuessedThisRound.length;
+        const chip = document.createElement('div');
+        chip.className = 'kanji-chip';
+        chip.innerHTML = `${item.kanji}<span class="tooltip">${item.definition}</span>`;
+        correctKanjiGrid.appendChild(chip);
     }
 
     function advanceQuestion() {
@@ -269,6 +293,19 @@
             modalFeedback.textContent = '👍 Well done! Great progress!';
         } else {
             modalFeedback.textContent = '💪 Keep practicing! You will get better!';
+        }
+
+        // Render modal correct kanji chips
+        modalCorrectKanjiGrid.innerHTML = '';
+        if (correctlyGuessedThisRound.length === 0) {
+            modalCorrectKanjiGrid.innerHTML = '<span style="color: var(--text-muted); font-size: 0.9rem;">None this round</span>';
+        } else {
+            correctlyGuessedThisRound.forEach(item => {
+                const chip = document.createElement('div');
+                chip.className = 'kanji-chip';
+                chip.innerHTML = `${item.kanji}<span class="tooltip">${item.definition}</span>`;
+                modalCorrectKanjiGrid.appendChild(chip);
+            });
         }
 
         // Save best score
