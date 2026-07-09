@@ -45,8 +45,13 @@
     const modalPlayAgain = document.getElementById('modal-play-again');
     const modalReviewWeak = document.getElementById('modal-review-weak');
 
-    // Load Datasets
     async function loadData() {
+        if (window.KANJI_DATASETS) {
+            datasets = window.KANJI_DATASETS;
+            initApp();
+            return;
+        }
+
         try {
             const [g1, g2, g3] = await Promise.all([
                 fetch('data/grade1.json').then(res => res.json()),
