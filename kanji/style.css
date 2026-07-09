@@ -177,7 +177,8 @@ header {
     border: 1px solid var(--glass-border);
     border-radius: 14px;
     padding: 0.9rem 1.25rem;
-    color: var(--text-color);
+    color: #e2e8f0 !important;
+    -webkit-text-fill-color: #e2e8f0 !important;
     font-family: var(--font-main);
     font-size: 1.1rem;
     font-weight: 600;
@@ -187,6 +188,11 @@ header {
     display: flex;
     align-items: center;
     justify-content: flex-start;
+}
+
+.option-btn span {
+    color: #e2e8f0;
+    -webkit-text-fill-color: #e2e8f0;
 }
 
 .option-btn.kanji-opt {
