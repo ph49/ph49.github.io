@@ -165,7 +165,7 @@
         
         currentScoreEl.textContent = '0';
         questionNumEl.textContent = '1';
-        if (cardSolvedRow) cardSolvedRow.innerHTML = '';
+        if (cardSolvedRow) cardSolvedRow.innerHTML = '<span class="none-yet">(None yet)</span>';
 
         const pool = getActiveDataset();
         if (!pool || pool.length === 0) {
@@ -260,6 +260,9 @@
     }
 
     function renderCorrectChip(item) {
+        if (correctlyGuessedThisRound.length === 1 && cardSolvedRow) {
+            cardSolvedRow.innerHTML = '';
+        }
         const badge = document.createElement('div');
         badge.className = 'solved-mini-badge';
         badge.innerHTML = `${item.kanji}<span class="tooltip">${item.definition}</span>`;
