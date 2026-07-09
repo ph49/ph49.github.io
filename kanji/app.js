@@ -146,6 +146,8 @@
             flashcardView.style.display = 'none';
             quizView.style.display = 'block';
             startNewRound();
+        });
+
         // Global keyboard shortcut listener
         document.addEventListener('keydown', (e) => {
             if (resultsModal.classList.contains('active')) {
