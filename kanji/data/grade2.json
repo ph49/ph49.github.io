@@ -1,0 +1,566 @@
+[
+  {
+    "kanji": "引",
+    "definition": "pull, draw"
+  },
+  {
+    "kanji": "羽",
+    "definition": "feather, wing"
+  },
+  {
+    "kanji": "雲",
+    "definition": "cloud"
+  },
+  {
+    "kanji": "園",
+    "definition": "park, garden"
+  },
+  {
+    "kanji": "遠",
+    "definition": "far, distant"
+  },
+  {
+    "kanji": "何",
+    "definition": "what"
+  },
+  {
+    "kanji": "科",
+    "definition": "department, subject"
+  },
+  {
+    "kanji": "夏",
+    "definition": "summer"
+  },
+  {
+    "kanji": "家",
+    "definition": "house, family"
+  },
+  {
+    "kanji": "歌",
+    "definition": "song, sing"
+  },
+  {
+    "kanji": "画",
+    "definition": "picture, stroke"
+  },
+  {
+    "kanji": "回",
+    "definition": "times, turn"
+  },
+  {
+    "kanji": "会",
+    "definition": "meet, society"
+  },
+  {
+    "kanji": "海",
+    "definition": "sea, ocean"
+  },
+  {
+    "kanji": "絵",
+    "definition": "picture, drawing"
+  },
+  {
+    "kanji": "外",
+    "definition": "outside"
+  },
+  {
+    "kanji": "角",
+    "definition": "corner, horn, angle"
+  },
+  {
+    "kanji": "楽",
+    "definition": "comfort, music, pleasure"
+  },
+  {
+    "kanji": "活",
+    "definition": "lively, activity"
+  },
+  {
+    "kanji": "春",
+    "definition": "spring (season)"
+  },
+  {
+    "kanji": "秋",
+    "definition": "autumn, fall"
+  },
+  {
+    "kanji": "冬",
+    "definition": "winter"
+  },
+  {
+    "kanji": "間",
+    "definition": "interval, space, between"
+  },
+  {
+    "kanji": "丸",
+    "definition": "round, circle"
+  },
+  {
+    "kanji": "岩",
+    "definition": "boulder, rock"
+  },
+  {
+    "kanji": "顔",
+    "definition": "face"
+  },
+  {
+    "kanji": "汽",
+    "definition": "steam"
+  },
+  {
+    "kanji": "記",
+    "definition": "record, write down"
+  },
+  {
+    "kanji": "帰",
+    "definition": "return, go home"
+  },
+  {
+    "kanji": "弓",
+    "definition": "bow (archery)"
+  },
+  {
+    "kanji": "牛",
+    "definition": "cow, bull"
+  },
+  {
+    "kanji": "魚",
+    "definition": "fish"
+  },
+  {
+    "kanji": "京",
+    "definition": "capital (city)"
+  },
+  {
+    "kanji": "強",
+    "definition": "strong"
+  },
+  {
+    "kanji": "教",
+    "definition": "teach, religion"
+  },
+  {
+    "kanji": "近",
+    "definition": "near, close"
+  },
+  {
+    "kanji": "兄",
+    "definition": "older brother"
+  },
+  {
+    "kanji": "形",
+    "definition": "shape, form"
+  },
+  {
+    "kanji": "計",
+    "definition": "measure, plan"
+  },
+  {
+    "kanji": "元",
+    "definition": "origin, base"
+  },
+  {
+    "kanji": "言",
+    "definition": "say, word"
+  },
+  {
+    "kanji": "原",
+    "definition": "meadow, plain, origin"
+  },
+  {
+    "kanji": "戸",
+    "definition": "door"
+  },
+  {
+    "kanji": "古",
+    "definition": "old"
+  },
+  {
+    "kanji": "午",
+    "definition": "noon"
+  },
+  {
+    "kanji": "後",
+    "definition": "after, behind"
+  },
+  {
+    "kanji": "語",
+    "definition": "language, word"
+  },
+  {
+    "kanji": "工",
+    "definition": "craft, construction"
+  },
+  {
+    "kanji": "公",
+    "definition": "public"
+  },
+  {
+    "kanji": "交",
+    "definition": "intersect, mix"
+  },
+  {
+    "kanji": "光",
+    "definition": "light, ray"
+  },
+  {
+    "kanji": "考",
+    "definition": "think, consider"
+  },
+  {
+    "kanji": "行",
+    "definition": "go, conduct"
+  },
+  {
+    "kanji": "高",
+    "definition": "tall, high, expensive"
+  },
+  {
+    "kanji": "黄",
+    "definition": "yellow"
+  },
+  {
+    "kanji": "合",
+    "definition": "fit, join, match"
+  },
+  {
+    "kanji": "谷",
+    "definition": "valley"
+  },
+  {
+    "kanji": "国",
+    "definition": "country, nation"
+  },
+  {
+    "kanji": "黒",
+    "definition": "black"
+  },
+  {
+    "kanji": "今",
+    "definition": "now"
+  },
+  {
+    "kanji": "才",
+    "definition": "ability, years old"
+  },
+  {
+    "kanji": "細",
+    "definition": "thin, detailed"
+  },
+  {
+    "kanji": "作",
+    "definition": "make, work"
+  },
+  {
+    "kanji": "算",
+    "definition": "calculate, count"
+  },
+  {
+    "kanji": "止",
+    "definition": "stop"
+  },
+  {
+    "kanji": "市",
+    "definition": "city, market"
+  },
+  {
+    "kanji": "矢",
+    "definition": "arrow"
+  },
+  {
+    "kanji": "姉",
+    "definition": "older sister"
+  },
+  {
+    "kanji": "思",
+    "definition": "think, feel"
+  },
+  {
+    "kanji": "紙",
+    "definition": "paper"
+  },
+  {
+    "kanji": "寺",
+    "definition": "Buddhist temple"
+  },
+  {
+    "kanji": "自",
+    "definition": "self"
+  },
+  {
+    "kanji": "時",
+    "definition": "time, hour"
+  },
+  {
+    "kanji": "室",
+    "definition": "room"
+  },
+  {
+    "kanji": "社",
+    "definition": "company, shrine"
+  },
+  {
+    "kanji": "弱",
+    "definition": "weak"
+  },
+  {
+    "kanji": "首",
+    "definition": "neck, head, leader"
+  },
+  {
+    "kanji": "重",
+    "definition": "heavy, main"
+  },
+  {
+    "kanji": "野",
+    "definition": "field, plain"
+  },
+  {
+    "kanji": "用",
+    "definition": "use, business"
+  },
+  {
+    "kanji": "曜",
+    "definition": "day of the week"
+  },
+  {
+    "kanji": "来",
+    "definition": "come, next"
+  },
+  {
+    "kanji": "里",
+    "definition": "hometown, village"
+  },
+  {
+    "kanji": "理",
+    "definition": "reason, logic"
+  },
+  {
+    "kanji": "話",
+    "definition": "talk, speak, story"
+  },
+  {
+    "kanji": "知",
+    "definition": "know, wisdom"
+  },
+  {
+    "kanji": "地",
+    "definition": "earth, ground, land"
+  },
+  {
+    "kanji": "池",
+    "definition": "pond"
+  },
+  {
+    "kanji": "昼",
+    "definition": "daytime, noon"
+  },
+  {
+    "kanji": "長",
+    "definition": "long, chief"
+  },
+  {
+    "kanji": "鳥",
+    "definition": "bird"
+  },
+  {
+    "kanji": "朝",
+    "definition": "morning"
+  },
+  {
+    "kanji": "直",
+    "definition": "straight, fix, direct"
+  },
+  {
+    "kanji": "通",
+    "definition": "pass through, commute"
+  },
+  {
+    "kanji": "弟",
+    "definition": "younger brother"
+  },
+  {
+    "kanji": "店",
+    "definition": "shop, store"
+  },
+  {
+    "kanji": "点",
+    "definition": "point, spot"
+  },
+  {
+    "kanji": "電",
+    "definition": "electricity"
+  },
+  {
+    "kanji": "刀",
+    "definition": "sword, knife"
+  },
+  {
+    "kanji": "当",
+    "definition": "hit, right, appropriate"
+  },
+  {
+    "kanji": "東",
+    "definition": "east"
+  },
+  {
+    "kanji": "答",
+    "definition": "answer, reply"
+  },
+  {
+    "kanji": "頭",
+    "definition": "head"
+  },
+  {
+    "kanji": "同",
+    "definition": "same"
+  },
+  {
+    "kanji": "道",
+    "definition": "road, path, way"
+  },
+  {
+    "kanji": "読",
+    "definition": "read"
+  },
+  {
+    "kanji": "内",
+    "definition": "inside, inner"
+  },
+  {
+    "kanji": "南",
+    "definition": "south"
+  },
+  {
+    "kanji": "肉",
+    "definition": "meat, flesh"
+  },
+  {
+    "kanji": "馬",
+    "definition": "horse"
+  },
+  {
+    "kanji": "売",
+    "definition": "sell"
+  },
+  {
+    "kanji": "買",
+    "definition": "buy"
+  },
+  {
+    "kanji": "麦",
+    "definition": "wheat, barley"
+  },
+  {
+    "kanji": "半",
+    "definition": "half"
+  },
+  {
+    "kanji": "番",
+    "definition": "turn, number, watch"
+  },
+  {
+    "kanji": "父",
+    "definition": "father"
+  },
+  {
+    "kanji": "母",
+    "definition": "mother"
+  },
+  {
+    "kanji": "風",
+    "definition": "wind, style"
+  },
+  {
+    "kanji": "分",
+    "definition": "part, minute, understand"
+  },
+  {
+    "kanji": "聞",
+    "definition": "listen, hear, ask"
+  },
+  {
+    "kanji": "米",
+    "definition": "rice, America"
+  },
+  {
+    "kanji": "歩",
+    "definition": "walk, step"
+  },
+  {
+    "kanji": "方",
+    "definition": "direction, person"
+  },
+  {
+    "kanji": "北",
+    "definition": "north"
+  },
+  {
+    "kanji": "毎",
+    "definition": "every"
+  },
+  {
+    "kanji": "妹",
+    "definition": "younger sister"
+  },
+  {
+    "kanji": "万",
+    "definition": "ten thousand"
+  },
+  {
+    "kanji": "明",
+    "definition": "bright, clear"
+  },
+  {
+    "kanji": "毛",
+    "definition": "hair, fur"
+  },
+  {
+    "kanji": "門",
+    "definition": "gate"
+  },
+  {
+    "kanji": "夜",
+    "definition": "night, evening"
+  },
+  {
+    "kanji": "友",
+    "definition": "friend"
+  },
+  {
+    "kanji": "親",
+    "definition": "parent, intimate"
+  },
+  {
+    "kanji": "身",
+    "definition": "body, self"
+  },
+  {
+    "kanji": "食",
+    "definition": "eat, food"
+  },
+  {
+    "kanji": "多",
+    "definition": "many, much"
+  },
+  {
+    "kanji": "少",
+    "definition": "few, little"
+  },
+  {
+    "kanji": "太",
+    "definition": "fat, thick"
+  },
+  {
+    "kanji": "新",
+    "definition": "new"
+  },
+  {
+    "kanji": "開",
+    "definition": "open"
+  },
+  {
+    "kanji": "西",
+    "definition": "west"
+  }
+]

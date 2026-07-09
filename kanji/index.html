@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanji Master - Japanese Flashcards</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <a href="../index.html" class="back-link">&larr; Back to Projects</a>
+    </header>
+
+    <div class="container">
+        <h1 class="app-title">漢字 Kanji Master</h1>
+
+        <div class="controls-group">
+            <!-- Grade Selector -->
+            <div class="tab-bar" id="grade-tabs">
+                <button class="tab-btn active" data-grade="grade1">Grade 1</button>
+                <button class="tab-btn" data-grade="grade2">Grade 2</button>
+                <button class="tab-btn" data-grade="grade3">Grade 3</button>
+            </div>
+
+            <!-- Mode Selector -->
+            <div class="tab-bar" id="mode-tabs">
+                <button class="tab-btn active" data-mode="kanjiToDef">Kanji &rarr; Def</button>
+                <button class="tab-btn" data-mode="defToKanji">Def &rarr; Kanji</button>
+                <button class="tab-btn" data-mode="flashcards">Flashcards</button>
+                <button class="tab-btn" data-mode="weak">Review Weak</button>
+            </div>
+        </div>
+
+        <!-- Quiz View -->
+        <div id="quiz-view">
+            <div class="stats-bar">
+                <span>Question <strong id="question-num">1</strong>/10</span>
+                <span>Score: <strong id="current-score">0</strong></span>
+                <span>Best: <strong id="best-score">0</strong></span>
+            </div>
+
+            <div class="question-card" id="question-card">
+                <div class="kanji-display" id="question-text">一</div>
+            </div>
+
+            <div class="options-grid" id="options-grid">
+                <!-- 5 option buttons will be rendered here -->
+            </div>
+        </div>
+
+        <!-- Flashcard View (Hidden by default) -->
+        <div id="flashcard-view" style="display: none;">
+            <div class="stats-bar">
+                <span>Card <strong id="fc-current-num">1</strong>/<span id="fc-total-num">80</span></span>
+            </div>
+
+            <div class="flashcard-container">
+                <div class="flashcard" id="flashcard">
+                    <div class="card-face card-front">
+                        <div class="kanji-display" id="fc-front-text">一</div>
+                        <span class="card-hint">Click to flip</span>
+                    </div>
+                    <div class="card-face card-back">
+                        <div class="definition-display" id="fc-back-text">one</div>
+                        <span class="card-hint">Click to flip</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flashcard-nav">
+                <button class="nav-btn" id="fc-prev-btn">&larr; Previous</button>
+                <button class="nav-btn" id="fc-next-btn">Next &rarr;</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Modal -->
+    <div class="modal-overlay" id="results-modal">
+        <div class="modal-content">
+            <h2 class="modal-title">Round Complete!</h2>
+            <div class="score-badge" id="modal-score">8/10</div>
+            <p id="modal-feedback" style="color: var(--text-muted); margin-bottom: 1rem;"></p>
+            <div class="modal-actions">
+                <button class="primary-btn" id="modal-play-again">Play Again</button>
+                <button class="secondary-btn" id="modal-review-weak">Review Missed Kanji</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,702 @@
+[
+  {
+    "kanji": "丁",
+    "definition": "street, ward, even number"
+  },
+  {
+    "kanji": "世",
+    "definition": "world, society, generation"
+  },
+  {
+    "kanji": "両",
+    "definition": "both, counter for vehicles"
+  },
+  {
+    "kanji": "主",
+    "definition": "master, main, owner"
+  },
+  {
+    "kanji": "乗",
+    "definition": "ride, board, multiply"
+  },
+  {
+    "kanji": "予",
+    "definition": "previous, advance, predict"
+  },
+  {
+    "kanji": "事",
+    "definition": "thing, matter, business"
+  },
+  {
+    "kanji": "仕",
+    "definition": "serve, do"
+  },
+  {
+    "kanji": "他",
+    "definition": "other, another"
+  },
+  {
+    "kanji": "代",
+    "definition": "substitute, generation, fee"
+  },
+  {
+    "kanji": "住",
+    "definition": "dwell, reside, live"
+  },
+  {
+    "kanji": "使",
+    "definition": "use, messenger"
+  },
+  {
+    "kanji": "係",
+    "definition": "person in charge, connection"
+  },
+  {
+    "kanji": "倍",
+    "definition": "double, times, fold"
+  },
+  {
+    "kanji": "全",
+    "definition": "all, whole, complete"
+  },
+  {
+    "kanji": "具",
+    "definition": "tool, utensil, ingredient"
+  },
+  {
+    "kanji": "写",
+    "definition": "copy, photograph"
+  },
+  {
+    "kanji": "列",
+    "definition": "row, column, line"
+  },
+  {
+    "kanji": "助",
+    "definition": "help, rescue, assist"
+  },
+  {
+    "kanji": "勉",
+    "definition": "exert, strive"
+  },
+  {
+    "kanji": "動",
+    "definition": "move, motion"
+  },
+  {
+    "kanji": "勝",
+    "definition": "win, victory"
+  },
+  {
+    "kanji": "化",
+    "definition": "change, transform"
+  },
+  {
+    "kanji": "区",
+    "definition": "ward, district, section"
+  },
+  {
+    "kanji": "医",
+    "definition": "doctor, medicine"
+  },
+  {
+    "kanji": "去",
+    "definition": "past, leave, go away"
+  },
+  {
+    "kanji": "反",
+    "definition": "anti-, oppose, reverse"
+  },
+  {
+    "kanji": "取",
+    "definition": "take, fetch"
+  },
+  {
+    "kanji": "受",
+    "definition": "receive, accept"
+  },
+  {
+    "kanji": "号",
+    "definition": "number, signal, issue"
+  },
+  {
+    "kanji": "向",
+    "definition": "face, head toward"
+  },
+  {
+    "kanji": "君",
+    "definition": "you, lord"
+  },
+  {
+    "kanji": "味",
+    "definition": "taste, flavor"
+  },
+  {
+    "kanji": "命",
+    "definition": "life, command, fate"
+  },
+  {
+    "kanji": "和",
+    "definition": "peace, Japan, harmony"
+  },
+  {
+    "kanji": "品",
+    "definition": "article, goods, quality"
+  },
+  {
+    "kanji": "員",
+    "definition": "member, employee"
+  },
+  {
+    "kanji": "商",
+    "definition": "commerce, merchant"
+  },
+  {
+    "kanji": "問",
+    "definition": "question, ask"
+  },
+  {
+    "kanji": "坂",
+    "definition": "slope, hill"
+  },
+  {
+    "kanji": "央",
+    "definition": "center, middle"
+  },
+  {
+    "kanji": "始",
+    "definition": "begin, start"
+  },
+  {
+    "kanji": "委",
+    "definition": "committee, entrust"
+  },
+  {
+    "kanji": "守",
+    "definition": "protect, guard, keep"
+  },
+  {
+    "kanji": "安",
+    "definition": "peaceful, cheap, safe"
+  },
+  {
+    "kanji": "定",
+    "definition": "determine, fix, decide"
+  },
+  {
+    "kanji": "実",
+    "definition": "truth, reality, fruit"
+  },
+  {
+    "kanji": "客",
+    "definition": "guest, customer"
+  },
+  {
+    "kanji": "宮",
+    "definition": "shrine, palace"
+  },
+  {
+    "kanji": "宿",
+    "definition": "inn, lodging"
+  },
+  {
+    "kanji": "対",
+    "definition": "opposite, vs, pair"
+  },
+  {
+    "kanji": "局",
+    "definition": "bureau, office, station"
+  },
+  {
+    "kanji": "屋",
+    "definition": "roof, shop, house"
+  },
+  {
+    "kanji": "岸",
+    "definition": "shore, bank, coast"
+  },
+  {
+    "kanji": "島",
+    "definition": "island"
+  },
+  {
+    "kanji": "州",
+    "definition": "state, province, sandbar"
+  },
+  {
+    "kanji": "巣",
+    "definition": "nest, rookery"
+  },
+  {
+    "kanji": "師",
+    "definition": "teacher, master, expert"
+  },
+  {
+    "kanji": "席",
+    "definition": "seat, place"
+  },
+  {
+    "kanji": "帯",
+    "definition": "belt, zone, obi"
+  },
+  {
+    "kanji": "平",
+    "definition": "flat, calm, peace"
+  },
+  {
+    "kanji": "幸",
+    "definition": "happiness, good fortune"
+  },
+  {
+    "kanji": "度",
+    "definition": "degree, time, occurrence"
+  },
+  {
+    "kanji": "庫",
+    "definition": "warehouse, storehouse"
+  },
+  {
+    "kanji": "庭",
+    "definition": "garden, yard"
+  },
+  {
+    "kanji": "式",
+    "definition": "style, ceremony, formula"
+  },
+  {
+    "kanji": "役",
+    "definition": "role, service, duty"
+  },
+  {
+    "kanji": "待",
+    "definition": "wait, depend on"
+  },
+  {
+    "kanji": "急",
+    "definition": "hurry, sudden, steep"
+  },
+  {
+    "kanji": "息",
+    "definition": "breath, son"
+  },
+  {
+    "kanji": "悪",
+    "definition": "bad, evil, wrong"
+  },
+  {
+    "kanji": "悲",
+    "definition": "sad, grieve"
+  },
+  {
+    "kanji": "想",
+    "definition": "thought, idea, imagine"
+  },
+  {
+    "kanji": "意",
+    "definition": "mind, meaning, intention"
+  },
+  {
+    "kanji": "感",
+    "definition": "feeling, emotion, sense"
+  },
+  {
+    "kanji": "所",
+    "definition": "place, location"
+  },
+  {
+    "kanji": "打",
+    "definition": "hit, strike, knock"
+  },
+  {
+    "kanji": "払",
+    "definition": "pay, clear out"
+  },
+  {
+    "kanji": "投",
+    "definition": "throw, launch"
+  },
+  {
+    "kanji": "拾",
+    "definition": "pick up, gather"
+  },
+  {
+    "kanji": "指",
+    "definition": "finger, point to"
+  },
+  {
+    "kanji": "放",
+    "definition": "release, let go, emit"
+  },
+  {
+    "kanji": "整",
+    "definition": "organize, arrange"
+  },
+  {
+    "kanji": "旅",
+    "definition": "travel, trip"
+  },
+  {
+    "kanji": "族",
+    "definition": "family, tribe, group"
+  },
+  {
+    "kanji": "昔",
+    "definition": "old times, past"
+  },
+  {
+    "kanji": "昭",
+    "definition": "shining, bright"
+  },
+  {
+    "kanji": "暑",
+    "definition": "hot (weather)"
+  },
+  {
+    "kanji": "暗",
+    "definition": "dark, gloomy"
+  },
+  {
+    "kanji": "曲",
+    "definition": "song, melody, bend"
+  },
+  {
+    "kanji": "有",
+    "definition": "exist, possess, have"
+  },
+  {
+    "kanji": "服",
+    "definition": "clothes, obey"
+  },
+  {
+    "kanji": "期",
+    "definition": "period, term, time"
+  },
+  {
+    "kanji": "板",
+    "definition": "board, plank"
+  },
+  {
+    "kanji": "柱",
+    "definition": "pillar, column"
+  },
+  {
+    "kanji": "根",
+    "definition": "root, foundation"
+  },
+  {
+    "kanji": "植",
+    "definition": "plant (vegetation)"
+  },
+  {
+    "kanji": "業",
+    "definition": "business, industry, task"
+  },
+  {
+    "kanji": "様",
+    "definition": "manner, Mr./Ms., appearance"
+  },
+  {
+    "kanji": "横",
+    "definition": "side, horizontal"
+  },
+  {
+    "kanji": "橋",
+    "definition": "bridge"
+  },
+  {
+    "kanji": "次",
+    "definition": "next, order"
+  },
+  {
+    "kanji": "歯",
+    "definition": "tooth"
+  },
+  {
+    "kanji": "死",
+    "definition": "death, die"
+  },
+  {
+    "kanji": "流",
+    "definition": "stream, flow, current"
+  },
+  {
+    "kanji": "消",
+    "definition": "extinguish, erase, disappear"
+  },
+  {
+    "kanji": "深",
+    "definition": "deep"
+  },
+  {
+    "kanji": "温",
+    "definition": "warm, temperature"
+  },
+  {
+    "kanji": "港",
+    "definition": "harbor, port"
+  },
+  {
+    "kanji": "湖",
+    "definition": "lake"
+  },
+  {
+    "kanji": "湯",
+    "definition": "hot water, bath"
+  },
+  {
+    "kanji": "登",
+    "definition": "climb, ascend"
+  },
+  {
+    "kanji": "皮",
+    "definition": "skin, hide, leather"
+  },
+  {
+    "kanji": "皿",
+    "definition": "dish, plate"
+  },
+  {
+    "kanji": "相",
+    "definition": "mutual, minister, aspect"
+  },
+  {
+    "kanji": "県",
+    "definition": "prefecture"
+  },
+  {
+    "kanji": "真",
+    "definition": "true, pure, exact"
+  },
+  {
+    "kanji": "着",
+    "definition": "wear, arrive"
+  },
+  {
+    "kanji": "短",
+    "definition": "short, brief"
+  },
+  {
+    "kanji": "研",
+    "definition": "sharpen, study, research"
+  },
+  {
+    "kanji": "礼",
+    "definition": "bow, thanks, manners"
+  },
+  {
+    "kanji": "神",
+    "definition": "god, spirit"
+  },
+  {
+    "kanji": "祭",
+    "definition": "festival, worship"
+  },
+  {
+    "kanji": "福",
+    "definition": "blessing, fortune, luck"
+  },
+  {
+    "kanji": "秒",
+    "definition": "second (time)"
+  },
+  {
+    "kanji": "章",
+    "definition": "chapter, badge, essay"
+  },
+  {
+    "kanji": "童",
+    "definition": "child, juvenile"
+  },
+  {
+    "kanji": "笛",
+    "definition": "whistle, flute"
+  },
+  {
+    "kanji": "第",
+    "definition": "ordinal number prefix"
+  },
+  {
+    "kanji": "筆",
+    "definition": "writing brush, pen"
+  },
+  {
+    "kanji": "等",
+    "definition": "equal, class, etc."
+  },
+  {
+    "kanji": "箱",
+    "definition": "box, chest"
+  },
+  {
+    "kanji": "級",
+    "definition": "grade, rank, class"
+  },
+  {
+    "kanji": "終",
+    "definition": "end, finish"
+  },
+  {
+    "kanji": "緑",
+    "definition": "green"
+  },
+  {
+    "kanji": "練",
+    "definition": "practice, train, refine"
+  },
+  {
+    "kanji": "羊",
+    "definition": "sheep"
+  },
+  {
+    "kanji": "美",
+    "definition": "beautiful, beauty"
+  },
+  {
+    "kanji": "習",
+    "definition": "learn, custom"
+  },
+  {
+    "kanji": "者",
+    "definition": "person (professional)"
+  },
+  {
+    "kanji": "育",
+    "definition": "nurture, raise, grow"
+  },
+  {
+    "kanji": "表",
+    "definition": "surface, express, chart"
+  },
+  {
+    "kanji": "詩",
+    "definition": "poem, poetry"
+  },
+  {
+    "kanji": "調",
+    "definition": "investigate, tone, tune"
+  },
+  {
+    "kanji": "談",
+    "definition": "discuss, talk"
+  },
+  {
+    "kanji": "豆",
+    "definition": "bean, pea"
+  },
+  {
+    "kanji": "負",
+    "definition": "lose, defeat, owe"
+  },
+  {
+    "kanji": "起",
+    "definition": "wake up, happen, rouse"
+  },
+  {
+    "kanji": "路",
+    "definition": "road, path, route"
+  },
+  {
+    "kanji": "転",
+    "definition": "revolve, turn, fall"
+  },
+  {
+    "kanji": "軽",
+    "definition": "lightweight, easy"
+  },
+  {
+    "kanji": "農",
+    "definition": "agriculture, farming"
+  },
+  {
+    "kanji": "返",
+    "definition": "return, reply, answer"
+  },
+  {
+    "kanji": "追",
+    "definition": "chase, pursue"
+  },
+  {
+    "kanji": "送",
+    "definition": "send, escort"
+  },
+  {
+    "kanji": "速",
+    "definition": "fast, quick, speed"
+  },
+  {
+    "kanji": "進",
+    "definition": "advance, proceed, move forward"
+  },
+  {
+    "kanji": "遊",
+    "definition": "play, travel, idle"
+  },
+  {
+    "kanji": "運",
+    "definition": "carry, luck, destiny"
+  },
+  {
+    "kanji": "部",
+    "definition": "section, part, department"
+  },
+  {
+    "kanji": "都",
+    "definition": "capital, metropolis"
+  },
+  {
+    "kanji": "鉄",
+    "definition": "iron, steel"
+  },
+  {
+    "kanji": "銀",
+    "definition": "silver"
+  },
+  {
+    "kanji": "院",
+    "definition": "institution, hospital, hall"
+  },
+  {
+    "kanji": "陽",
+    "definition": "sun, positive, male"
+  },
+  {
+    "kanji": "集",
+    "definition": "gather, collect"
+  },
+  {
+    "kanji": "面",
+    "definition": "face, surface, mask"
+  },
+  {
+    "kanji": "駅",
+    "definition": "station"
+  },
+  {
+    "kanji": "鼻",
+    "definition": "nose"
+  },
+  {
+    "kanji": "持",
+    "definition": "hold, possess"
+  },
+  {
+    "kanji": "寒",
+    "definition": "cold"
+  },
+  {
+    "kanji": "熱",
+    "definition": "fever, heat"
+  },
+  {
+    "kanji": "重",
+    "definition": "heavy, main"
+  },
+  {
+    "kanji": "遅",
+    "definition": "late, slow"
+  },
+  {
+    "kanji": "狭",
+    "definition": "narrow"
+  }
+]
