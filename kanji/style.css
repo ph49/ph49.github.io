@@ -134,7 +134,7 @@ header {
     color: #fff;
 }
 
-/* Question Box */
+/* Question Box - flex center so big kanji stays in middle */
 .question-card {
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid var(--glass-border);
@@ -180,6 +180,7 @@ header {
     gap: 0.75rem;
 }
 
+/* option buttons. flex-start so text doesnt get pushed to right edge */
 .option-btn {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid var(--glass-border);
@@ -216,6 +217,7 @@ header {
     transform: translateY(-2px);
 }
 
+/* key badge hint (1-5). tried making this a circle but square looks better */
 .key-badge {
     background: rgba(255, 255, 255, 0.1);
     border: 1px solid var(--glass-border);

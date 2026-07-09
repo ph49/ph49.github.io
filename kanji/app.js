@@ -1,5 +1,5 @@
 (function () {
-    // State
+    // main state stuff. probly should use an object or class for this but whatever
     let datasets = {
         grade1: [],
         grade2: [],
@@ -13,12 +13,13 @@
     let currentScore = 0;
     let correctlyGuessedThisRound = [];
     let isAnsweringLocked = false;
+    // load missed kanji from localstorage. hope JSON.parse doesnt crash if someone tampers whith it
     let missedKanji = JSON.parse(localStorage.getItem('kanji_missed') || '[]');
 
     // Flashcard state
     let flashcardIndex = 0;
 
-    // DOM Elements
+    // DOM Elements - hopefully none of these ID's change in index.html or this whole thing breaks
     const gradeTabs = document.getElementById('grade-tabs');
     const modeTabs = document.getElementById('mode-tabs');
     const quizView = document.getElementById('quiz-view');
@@ -45,6 +46,7 @@
     const modalPlayAgain = document.getElementById('modal-play-again');
     const modalReviewWeak = document.getElementById('modal-review-weak');
 
+    // Load Datasets (uses window.KANJI_DATASETS if embedded in data.js because CORS on file:// is annoying)
     async function loadData() {
         if (window.KANJI_DATASETS) {
             datasets = window.KANJI_DATASETS;
@@ -75,7 +77,7 @@
     }
 
     function setupEventListeners() {
-        // Grade selector
+        // Grade selector tab handler. took me 20 mins to realize e.target was clicking the span inside the button lol
         gradeTabs.addEventListener('click', (e) => {
             const btn = e.target.closest('.tab-btn');
             if (!btn) return;
@@ -130,7 +132,7 @@
             }
         });
 
-        // Modal actions
+        // Modal button actions
         modalPlayAgain.addEventListener('click', () => {
             resultsModal.classList.remove('active');
             startNewRound();
@@ -138,7 +140,7 @@
 
         modalReviewWeak.addEventListener('click', () => {
             resultsModal.classList.remove('active');
-            // Switch to Weak Mode
+            // Switch to Weak Mode automatically when user clicks review
             modeTabs.querySelectorAll('.tab-btn').forEach(b => {
                 b.classList.toggle('active', b.dataset.mode === 'weak');
             });
@@ -148,7 +150,7 @@
             startNewRound();
         });
 
-        // Global keyboard shortcut listener
+        // Global keyboard shortcut listener so we dont have to keep clicking with mouse
         document.addEventListener('keydown', (e) => {
             if (resultsModal.classList.contains('active')) {
                 if (e.key === 'Enter' || e.key === ' ') {
@@ -202,6 +204,7 @@
     let totalQuestionsAsked = 0;
     let unsolvedPool = [];
 
+    // starts a brand new round. resets all counters and shuffles pool
     function startNewRound() {
         isAnsweringLocked = false;
         currentScore = 0;
@@ -235,13 +238,14 @@
         const pool = datasets[currentGrade];
         if (!pool || pool.length === 0) return;
 
+        // if we ran out of items in unsolvedPool before getting 10 right, refill it
         if (unsolvedPool.length === 0) {
             unsolvedPool = shuffleArray([...pool]);
         }
 
         const currentTarget = unsolvedPool.shift();
 
-        // Pick 4 distractors from pool
+        // Pick 4 distractors from pool (make sure distractor is not same as target!)
         const distractors = shuffleArray(
             pool.filter(item => item.kanji !== currentTarget.kanji)
         ).slice(0, 4);
@@ -275,6 +279,7 @@
         }
     }
 
+    // answer handler. locks clicking so user cant double-click and skip questions by mistake
     function handleAnswer(isCorrect, selectedBtn, targetKanjiItem) {
         if (isAnsweringLocked) return;
         isAnsweringLocked = true;
@@ -297,7 +302,7 @@
             addMissedKanji(targetKanjiItem);
             unsolvedPool.push(targetKanjiItem);
 
-            // Highlight correct button
+            // Highlight correct button so user sees what it was
             const buttons = Array.from(optionsGrid.children);
             const correctBtn = buttons.find(b => b.dataset.kanji === targetKanjiItem.kanji);
 
@@ -305,7 +310,7 @@
                 correctBtn.classList.add('correct');
             }
 
-            // Exactly 1.0s (1000ms) delay before moving to next question on error
+            // Exactly 1.0s (1000ms) delay before moving to next question on error (why 1000ms? because 2.5s was way too long)
             setTimeout(advanceQuestion, 1000);
         }
     }
@@ -390,7 +395,7 @@
         }
     }
 
-    // Helper: Shuffle Array
+    // Fisher-Yates shufle algorithm (stole this off stack overflow)
     function shuffleArray(array) {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
