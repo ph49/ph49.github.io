@@ -141,6 +141,40 @@
             flashcardView.style.display = 'none';
             quizView.style.display = 'block';
             startNewRound();
+        // Global keyboard shortcut listener
+        document.addEventListener('keydown', (e) => {
+            if (resultsModal.classList.contains('active')) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    resultsModal.classList.remove('active');
+                    startNewRound();
+                }
+                return;
+            }
+
+            if (quizView.style.display !== 'none' && !isAnsweringLocked) {
+                const num = parseInt(e.key, 10);
+                if (!isNaN(num) && num >= 1 && num <= 5) {
+                    const buttons = optionsGrid.children;
+                    if (buttons[num - 1]) {
+                        e.preventDefault();
+                        buttons[num - 1].click();
+                    }
+                }
+            }
+
+            if (flashcardView.style.display !== 'none') {
+                if (e.key === 'ArrowRight' || e.key === ' ') {
+                    e.preventDefault();
+                    fcNextBtn.click();
+                } else if (e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    fcPrevBtn.click();
+                } else if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    flashcard.click();
+                }
+            }
         });
     }
 
@@ -199,20 +233,22 @@
         if (currentMode === 'kanjiToDef' || currentMode === 'weak') {
             // Display Kanji, Pick Definition
             cardMainContent.innerHTML = `<div class="kanji-display">${currentTarget.kanji}</div>`;
-            options.forEach(opt => {
+            options.forEach((opt, idx) => {
                 const btn = document.createElement('button');
                 btn.className = 'option-btn';
-                btn.textContent = opt.definition;
+                btn.dataset.kanji = opt.kanji;
+                btn.innerHTML = `<span class="key-badge">${idx + 1}</span> <span>${opt.definition}</span>`;
                 btn.addEventListener('click', () => handleAnswer(opt.kanji === currentTarget.kanji, btn, currentTarget));
                 optionsGrid.appendChild(btn);
             });
         } else if (currentMode === 'defToKanji') {
             // Display Definition, Pick Kanji
             cardMainContent.innerHTML = `<div class="definition-display">${currentTarget.definition}</div>`;
-            options.forEach(opt => {
+            options.forEach((opt, idx) => {
                 const btn = document.createElement('button');
                 btn.className = 'option-btn kanji-opt';
-                btn.textContent = opt.kanji;
+                btn.dataset.kanji = opt.kanji;
+                btn.innerHTML = `<span class="key-badge">${idx + 1}</span> <span>${opt.kanji}</span>`;
                 btn.addEventListener('click', () => handleAnswer(opt.kanji === currentTarget.kanji, btn, currentTarget));
                 optionsGrid.appendChild(btn);
             });
@@ -242,13 +278,7 @@
 
             // Highlight correct button
             const buttons = Array.from(optionsGrid.children);
-            const correctBtn = buttons.find(b => {
-                if (currentMode === 'kanjiToDef' || currentMode === 'weak') {
-                    return b.textContent === targetKanjiItem.definition;
-                } else {
-                    return b.textContent === targetKanjiItem.kanji;
-                }
-            });
+            const correctBtn = buttons.find(b => b.dataset.kanji === targetKanjiItem.kanji);
 
             if (correctBtn) {
                 correctBtn.classList.add('correct');
