@@ -232,8 +232,8 @@
             correctlyGuessedThisRound.push(targetKanjiItem);
             renderCorrectChip(targetKanjiItem);
 
-            // Advance after 1.5s delay on correct answer
-            setTimeout(advanceQuestion, 1500);
+            // Advance after brief feedback (300ms)
+            setTimeout(advanceQuestion, 300);
         } else {
             selectedBtn.classList.add('incorrect');
 
@@ -254,8 +254,8 @@
                 correctBtn.classList.add('correct');
             }
 
-            // Exactly 2.5s (2500ms) delay before moving to next question
-            setTimeout(advanceQuestion, 2500);
+            // Exactly 1.0s (1000ms) delay before moving to next question
+            setTimeout(advanceQuestion, 1000);
         }
     }
 
