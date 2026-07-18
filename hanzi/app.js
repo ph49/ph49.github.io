@@ -274,20 +274,30 @@
         optionsGrid.innerHTML = '';
 
         if (currentMode === 'hanziToDef' || currentMode === 'weak') {
-            // Display Hanzi -> Pick Pinyin & Definition
+            // Display Hanzi -> Pick Definition (No Pinyin)
             cardMainContent.innerHTML = `<div class="hanzi-display">${currentTargetItem.hanzi}</div>`;
             options.forEach((opt, idx) => {
                 const btn = document.createElement('button');
                 btn.className = 'option-btn';
                 btn.dataset.hanzi = opt.hanzi;
-                btn.innerHTML = `<span class="key-badge">${idx + 1}</span> <span class="opt-pinyin">${opt.pinyin}</span> <span>— ${opt.definition}</span>`;
+                btn.innerHTML = `<span class="key-badge">${idx + 1}</span> <span>${opt.definition}</span>`;
+                btn.addEventListener('click', () => handleAnswer(opt.hanzi === currentTargetItem.hanzi, btn, currentTargetItem));
+                optionsGrid.appendChild(btn);
+            });
+        } else if (currentMode === 'hanziToPinyin') {
+            // Display Hanzi -> Pick Pinyin (No English)
+            cardMainContent.innerHTML = `<div class="hanzi-display">${currentTargetItem.hanzi}</div>`;
+            options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.dataset.hanzi = opt.hanzi;
+                btn.innerHTML = `<span class="key-badge">${idx + 1}</span> <span class="opt-pinyin">${opt.pinyin}</span>`;
                 btn.addEventListener('click', () => handleAnswer(opt.hanzi === currentTargetItem.hanzi, btn, currentTargetItem));
                 optionsGrid.appendChild(btn);
             });
         } else if (currentMode === 'defToHanzi') {
-            // Display Pinyin & Definition -> Pick Hanzi
+            // Display Definition -> Pick Hanzi
             cardMainContent.innerHTML = `
-                <div class="pinyin-display">${currentTargetItem.pinyin}</div>
                 <div class="definition-display">${currentTargetItem.definition}</div>
             `;
             options.forEach((opt, idx) => {
