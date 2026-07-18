@@ -134,6 +134,28 @@ header {
     color: #fff;
 }
 
+.sound-toggle-btn {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    color: var(--text-muted);
+    padding: 0.25rem 0.6rem;
+    font-family: var(--font-main);
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.sound-toggle-btn:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.sound-toggle-btn.muted {
+    opacity: 0.6;
+}
+
 /* Question Box */
 .question-card {
     background: rgba(255, 255, 255, 0.03);

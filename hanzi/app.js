@@ -15,6 +15,8 @@
 
     let flashcardIndex = 0;
 
+    let isAudioMuted = localStorage.getItem('hanzi_audio_muted') === 'true';
+
     // DOM Elements
     const gradeTabs = document.getElementById('grade-tabs');
     const modeTabs = document.getElementById('mode-tabs');
@@ -28,6 +30,7 @@
     const cardMainContent = document.getElementById('card-main-content');
     const optionsGrid = document.getElementById('options-grid');
     const quizAudioBtn = document.getElementById('quiz-audio-btn');
+    const soundToggleBtn = document.getElementById('sound-toggle-btn');
 
     const fcCurrentNum = document.getElementById('fc-current-num');
     const fcTotalNum = document.getElementById('fc-total-num');
@@ -49,13 +52,25 @@
     let currentTargetItem = null;
 
     // TTS Pronunciation helper
-    function speakHanzi(text) {
+    function speakHanzi(text, force = false) {
+        if (!force && isAudioMuted) return;
         if (!text || !('speechSynthesis' in window)) return;
         window.speechSynthesis.cancel(); // Stop any ongoing speech
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = 'zh-CN';
         utterance.rate = 0.85; // Slightly slower for language learners
         window.speechSynthesis.speak(utterance);
+    }
+
+    function updateSoundToggleUI() {
+        if (!soundToggleBtn) return;
+        if (isAudioMuted) {
+            soundToggleBtn.textContent = '🔇 Sound Off';
+            soundToggleBtn.classList.add('muted');
+        } else {
+            soundToggleBtn.textContent = '🔊 Sound On';
+            soundToggleBtn.classList.remove('muted');
+        }
     }
 
     async function loadData() {
@@ -83,11 +98,20 @@
 
     function initApp() {
         setupEventListeners();
+        updateSoundToggleUI();
         updateBestScore();
         startNewRound();
     }
 
     function setupEventListeners() {
+        if (soundToggleBtn) {
+            soundToggleBtn.addEventListener('click', () => {
+                isAudioMuted = !isAudioMuted;
+                localStorage.setItem('hanzi_audio_muted', isAudioMuted);
+                updateSoundToggleUI();
+            });
+        }
+
         gradeTabs.addEventListener('click', (e) => {
             const btn = e.target.closest('.tab-btn');
             if (!btn) return;
@@ -121,17 +145,17 @@
             }
         });
 
-        // Quiz Audio
+        // Quiz Audio (forced speak when explicitly clicking 🔊 icon)
         quizAudioBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            if (currentTargetItem) speakHanzi(currentTargetItem.hanzi);
+            if (currentTargetItem) speakHanzi(currentTargetItem.hanzi, true);
         });
 
-        // Flashcard Audio
+        // Flashcard Audio (forced speak when explicitly clicking 🔊 icon)
         fcAudioBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             const pool = getActiveDataset();
-            if (pool[flashcardIndex]) speakHanzi(pool[flashcardIndex].hanzi);
+            if (pool[flashcardIndex]) speakHanzi(pool[flashcardIndex].hanzi, true);
         });
 
         // Flashcard flip & nav
