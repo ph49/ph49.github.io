@@ -301,6 +301,7 @@
             // Record in missed kanji list & re-enqueue for extra practice
             addMissedKanji(targetKanjiItem);
             unsolvedPool.push(targetKanjiItem);
+            renderMissedChip(targetKanjiItem);
 
             // Highlight correct button so user sees what it was
             const buttons = Array.from(optionsGrid.children);
@@ -318,6 +319,13 @@
     function renderCorrectChip(item) {
         const badge = document.createElement('div');
         badge.className = 'solved-mini-badge';
+        badge.innerHTML = `${item.kanji}<span class="tooltip">${item.definition}</span>`;
+        cardSolvedRow.appendChild(badge);
+    }
+
+    function renderMissedChip(item) {
+        const badge = document.createElement('div');
+        badge.className = 'solved-mini-badge incorrect-badge';
         badge.innerHTML = `${item.kanji}<span class="tooltip">${item.definition}</span>`;
         cardSolvedRow.appendChild(badge);
     }

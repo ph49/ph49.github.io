@@ -318,6 +318,7 @@
             selectedBtn.classList.add('incorrect');
             addMissedHanzi(targetItem);
             unsolvedPool.push(targetItem);
+            renderMissedChip(targetItem);
 
             const buttons = Array.from(optionsGrid.children);
             const correctBtn = buttons.find(b => b.dataset.hanzi === targetItem.hanzi);
@@ -330,6 +331,13 @@
     function renderCorrectChip(item) {
         const badge = document.createElement('div');
         badge.className = 'solved-mini-badge';
+        badge.innerHTML = `${item.hanzi}<span class="tooltip">${item.pinyin}: ${item.definition}</span>`;
+        cardSolvedRow.appendChild(badge);
+    }
+
+    function renderMissedChip(item) {
+        const badge = document.createElement('div');
+        badge.className = 'solved-mini-badge incorrect-badge';
         badge.innerHTML = `${item.hanzi}<span class="tooltip">${item.pinyin}: ${item.definition}</span>`;
         cardSolvedRow.appendChild(badge);
     }
