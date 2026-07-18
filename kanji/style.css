@@ -462,6 +462,20 @@ header {
     z-index: 5;
 }
 
+.card-missed-row {
+    position: absolute;
+    bottom: 0.75rem;
+    left: 1rem;
+    right: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    min-height: 32px;
+    z-index: 5;
+}
+
 .card-solved-row .none-yet {
     font-size: 0.85rem;
     color: rgba(255, 255, 255, 0.3);

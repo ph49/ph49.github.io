@@ -477,6 +477,20 @@ header {
     z-index: 5;
 }
 
+.card-missed-row {
+    position: absolute;
+    bottom: 0.75rem;
+    left: 1rem;
+    right: 3.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    min-height: 32px;
+    z-index: 5;
+}
+
 .solved-mini-badge {
     background: rgba(16, 185, 129, 0.25);
     border: 1.5px solid #10b981;

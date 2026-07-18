@@ -24,6 +24,7 @@
     const currentScoreEl = document.getElementById('current-score');
     const bestScoreEl = document.getElementById('best-score');
     const cardSolvedRow = document.getElementById('card-solved-row');
+    const cardMissedRow = document.getElementById('card-missed-row');
     const cardMainContent = document.getElementById('card-main-content');
     const optionsGrid = document.getElementById('options-grid');
     const quizAudioBtn = document.getElementById('quiz-audio-btn');
@@ -233,6 +234,7 @@
         currentScoreEl.textContent = '0';
         questionNumEl.textContent = '0';
         if (cardSolvedRow) cardSolvedRow.innerHTML = '';
+        if (cardMissedRow) cardMissedRow.innerHTML = '';
 
         const pool = getActiveDataset();
         if (!pool || pool.length === 0) {
@@ -339,7 +341,7 @@
         const badge = document.createElement('div');
         badge.className = 'solved-mini-badge incorrect-badge';
         badge.innerHTML = `${item.hanzi}<span class="tooltip">${item.pinyin}: ${item.definition}</span>`;
-        cardSolvedRow.appendChild(badge);
+        cardMissedRow.appendChild(badge);
     }
 
     function advanceQuestion() {
