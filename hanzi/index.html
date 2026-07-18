@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hands on Hanzi - Simplified Chinese Flashcards</title>
+    <!-- Google Fonts: Noto Sans SC for Chinese typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;600;800&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <a href="../index.html" class="back-link">&larr; Back to Projects</a>
+    </header>
+
+    <div class="container">
+        <h1 class="app-title">汉字 Hands on Hanzi</h1>
+
+        <div class="controls-group">
+            <!-- HSK Level Selector -->
+            <div class="tab-bar" id="grade-tabs">
+                <button class="tab-btn active" data-grade="hsk1">HSK 1</button>
+                <button class="tab-btn" data-grade="hsk2">HSK 2</button>
+                <button class="tab-btn" data-grade="hsk3">HSK 3</button>
+            </div>
+
+            <!-- Mode Selector -->
+            <div class="tab-bar" id="mode-tabs">
+                <button class="tab-btn active" data-mode="hanziToDef">Hanzi &rarr; Def</button>
+                <button class="tab-btn" data-mode="defToHanzi">Def &rarr; Hanzi</button>
+                <button class="tab-btn" data-mode="flashcards">Flashcards</button>
+                <button class="tab-btn" data-mode="weak">Review Weak</button>
+            </div>
+        </div>
+
+        <!-- Quiz View -->
+        <div id="quiz-view">
+            <div class="stats-bar">
+                <span>Correct: <strong id="current-score">0</strong>/<span id="target-score">10</span></span>
+                <span>Questions: <strong id="question-num">0</strong></span>
+                <span>Best: <strong id="best-score">0</strong></span>
+            </div>
+
+            <div class="question-card" id="question-card">
+                <div class="card-solved-row" id="card-solved-row"></div>
+                <div class="card-main-content" id="card-main-content">
+                    <div class="hanzi-display" id="question-text">一</div>
+                </div>
+                <button class="audio-btn" id="quiz-audio-btn" title="Pronounce word">🔊</button>
+            </div>
+
+            <div class="options-grid" id="options-grid">
+                <!-- 5 option buttons will be rendered here -->
+            </div>
+        </div>
+
+        <!-- Flashcard View (Hidden by default) -->
+        <div id="flashcard-view" style="display: none;">
+            <div class="stats-bar">
+                <span>Card <strong id="fc-current-num">1</strong>/<span id="fc-total-num">80</span></span>
+            </div>
+
+            <div class="flashcard-container">
+                <div class="flashcard" id="flashcard">
+                    <div class="card-face card-front">
+                        <div class="hanzi-display" id="fc-front-text">一</div>
+                        <button class="audio-btn fc-audio" id="fc-audio-btn" title="Listen">🔊</button>
+                        <span class="card-hint">Click to flip</span>
+                    </div>
+                    <div class="card-face card-back">
+                        <div class="pinyin-display" id="fc-pinyin-text">yī</div>
+                        <div class="definition-display" id="fc-back-text">one</div>
+                        <span class="card-hint">Click to flip</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flashcard-nav">
+                <button class="nav-btn" id="fc-prev-btn">&larr; Previous</button>
+                <button class="nav-btn" id="fc-next-btn">Next &rarr;</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Modal -->
+    <div class="modal-overlay" id="results-modal">
+        <div class="modal-content">
+            <h2 class="modal-title">Round Complete!</h2>
+            <div class="score-badge" id="modal-score">8/10</div>
+            <p id="modal-feedback" style="color: var(--text-muted); margin-bottom: 1rem;"></p>
+            
+            <div class="progress-kanji-section" style="border-top: none; margin-top: 0.5rem; padding-top: 0;">
+                <div class="kanji-chips-grid" id="modal-correct-kanji-grid" style="justify-content: center;"></div>
+            </div>
+
+            <div class="modal-actions">
+                <button class="primary-btn" id="modal-play-again">Play Again</button>
+                <button class="secondary-btn" id="modal-review-weak">Review Missed Words</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="data.js?v=1.0"></script>
+    <script src="app.js?v=1.0"></script>
+</body>
+</html>
