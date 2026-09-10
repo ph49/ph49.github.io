@@ -45,6 +45,7 @@
         wordInput: document.getElementById('word-input'),
         submitBtn: document.getElementById('submit-btn'),
         feedbackMsg: document.getElementById('feedback-msg'),
+        btnNextWord: document.getElementById('btn-next-word'),
         btnShowMe: document.getElementById('btn-show-me'),
         btnHint: document.getElementById('btn-hint'),
         btnUndo: document.getElementById('btn-undo'),
@@ -364,6 +365,7 @@
         elements.wordInput.placeholder = `Type a ${nextLen}-letter word...`;
 
         // Button states
+        elements.btnNextWord.disabled = state.isRevealing || remainingSteps === 0;
         elements.btnShowMe.disabled = state.isRevealing || remainingSteps === 0;
         elements.btnHint.disabled = state.isRevealing || remainingSteps === 0;
         elements.btnUndo.disabled = state.isRevealing || state.chain.length <= 1;
@@ -528,6 +530,42 @@
         }
     }
 
+    // Show just the one next word
+    function showNextWord() {
+        if (state.isRevealing || state.optimalSubChain.length === 0) return;
+
+        const nextStep = state.optimalSubChain[0];
+        const prevWord = state.currentWord;
+        state.currentWord = nextStep.word;
+
+        let letterInfo;
+        if (state.mode === 'anagram') {
+            letterInfo = findAddedLetterInfo(prevWord, nextStep.word);
+        } else {
+            letterInfo = { letter: nextStep.addedLetter, index: nextStep.addedIndex };
+        }
+
+        state.chain.push({
+            word: nextStep.word,
+            source: 'ai',
+            addedLetter: letterInfo.letter,
+            addedIndex: letterInfo.index
+        });
+
+        sound.step();
+        recalculateOptimal();
+        renderLadder();
+        elements.wordInput.value = '';
+        elements.wordInput.focus();
+
+        if (state.chain.length === state.longestPossible) {
+            sound.fanfare();
+            showFeedback(`Reached the end of the chain (${state.chain.length} words)!`, 'info');
+        } else {
+            showFeedback(`Revealed "${nextStep.word.toUpperCase()}" (+${letterInfo.letter.toUpperCase()}). Keep going!`, 'info');
+        }
+    }
+
     // "Show Me" optimal chain generator
     function showMe() {
         if (state.isRevealing) return;
@@ -660,6 +698,7 @@
             }
         });
 
+        elements.btnNextWord.addEventListener('click', showNextWord);
         elements.btnShowMe.addEventListener('click', showMe);
         elements.btnHint.addEventListener('click', giveHint);
         elements.btnUndo.addEventListener('click', undo);
