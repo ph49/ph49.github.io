@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Letter Ladder — The Add-a-Letter Word Game</title>
+    <meta name="description" content="Build the longest word chain by adding one letter at a time. Discover optimal word ladders, test your vocabulary, and see how deep your chain can go.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Top Navigation -->
+    <header class="app-header">
+        <a href="../index.html" class="back-link" id="nav-back">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+            Portfolio
+        </a>
+        <div class="header-controls">
+            <button class="icon-btn" id="sound-toggle" title="Toggle Sound" aria-label="Toggle Sound">
+                <span id="sound-icon">🔊</span>
+            </button>
+            <button class="icon-btn" id="btn-help" title="How to Play" aria-label="How to Play">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="12 17h.01"/></svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Game Container -->
+    <main class="game-container">
+        <!-- Title & Mode Selector -->
+        <section class="title-area">
+            <h1>Letter Ladder</h1>
+            <p class="subtitle">The Add-a-Letter Word Chain Game</p>
+            <div class="mode-switch-container">
+                <div class="mode-pills" role="tablist">
+                    <button class="mode-pill active" id="mode-anagram" title="Rearrange letters + add 1 new letter">
+                        Anagram (+1 Letter)
+                    </button>
+                    <button class="mode-pill" id="mode-inorder" title="Keep letter sequence in order + insert 1 letter">
+                        In-Order (Insert Only)
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Grid -->
+        <section class="stats-grid" aria-label="Game Statistics">
+            <div class="stat-box">
+                <div class="stat-value" id="stat-current-len">1</div>
+                <div class="stat-label">Current Chain</div>
+            </div>
+            <div class="stat-box highlight">
+                <div class="stat-value" id="stat-longest-chain">12</div>
+                <div class="stat-label">Longest Possible</div>
+                <div class="stat-subtext" id="stat-longest-subtext">+11 more words can be built</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value" id="stat-best-score">0</div>
+                <div class="stat-label">Personal Best</div>
+            </div>
+        </section>
+
+        <!-- Ladder Chain Display Area -->
+        <section class="ladder-section" id="ladder-section" aria-label="Word Ladder Chain">
+            <div class="ladder-list" id="ladder-list">
+                <!-- Rungs dynamically inserted here -->
+            </div>
+        </section>
+
+        <!-- Input Section -->
+        <section class="input-section">
+            <div class="input-box-wrapper">
+                <input type="text" id="word-input" class="word-input" placeholder="Type a 4-letter word..." maxlength="14" autocomplete="off" spellcheck="false" autofocus>
+                <button type="button" id="submit-btn" class="submit-btn">Play</button>
+            </div>
+            <div id="feedback-msg" class="feedback-msg info">Ready to climb!</div>
+        </section>
+
+        <!-- Action Toolbar -->
+        <section class="action-toolbar" aria-label="Game Controls">
+            <button class="btn-action show-me" id="btn-show-me" title="Fill the rest of the optimal chain">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72Z"/><path d="m14 7 3 3"/><path d="M5 6v4"/><path d="M19 14v4"/><path d="M10 2v2"/><path d="M7 8H3"/><path d="M21 16h-4"/><path d="M11 3H9"/></svg>
+                Show Me
+            </button>
+            <button class="btn-action" id="btn-hint" title="Reveal the added letter for the next word">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+                Hint
+            </button>
+            <button class="btn-action" id="btn-undo" title="Revert last word">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5v0a5.5 5.5 0 0 1-5.5 5.5H11"/></svg>
+                Undo
+            </button>
+            <button class="btn-action" id="btn-new" title="Start with a new random 3-letter word">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 21h5v-5"/></svg>
+                New
+            </button>
+        </section>
+        
+        <div style="text-align: center; margin-top: -0.5rem;">
+            <button id="btn-custom" style="background: transparent; border: none; color: var(--text-dim); font-size: 0.8rem; text-decoration: underline; cursor: pointer;">
+                Or pick a custom 3-letter word...
+            </button>
+        </div>
+    </main>
+
+    <!-- How to Play Modal -->
+    <div class="modal-overlay" id="modal-help" role="dialog" aria-modal="true" aria-labelledby="help-title">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h2 id="help-title">How to Play</h2>
+                <button class="modal-close" id="modal-help-close" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Letter Ladder</strong> is an add-a-letter word game where each step grows longer by exactly one letter!</p>
+                <div class="rule-highlight">
+                    <strong>The Core Rule:</strong><br>
+                    Start with a 3-letter word. Enter a 4-letter word that adds 1 letter. Then a 5-letter word, 6-letter word, and so on as far as you can go!
+                </div>
+                <p><strong>Game Modes:</strong></p>
+                <ul style="padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem;">
+                    <li><strong>Anagram Mode:</strong> You can rearrange all previous letters when adding the new letter (e.g. <code>CAT</code> &rarr; <code>CART</code> &rarr; <code>TRACK</code> &rarr; <code>CRATER</code>).</li>
+                    <li><strong>In-Order Mode:</strong> Letters must stay in their original sequence; the new letter is simply inserted anywhere (e.g. <code>CAT</code> &rarr; <code>CHAT</code> &rarr; <code>CHANT</code>).</li>
+                </ul>
+                <p><strong>Features:</strong></p>
+                <ul style="padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem;">
+                    <li><strong>Longest Possible:</strong> At each step, the badge reveals the deepest word chain that can be reached from your current word.</li>
+                    <li><strong>Show Me:</strong> Stuck? Press <em>Show Me</em> to watch the computer build the optimal chain step-by-step!</li>
+                    <li><strong>Hint:</strong> Reveals the letter that unlocks the longest path.</li>
+                    <li><strong>Undo:</strong> Step backward to explore different word branches.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Word Modal -->
+    <div class="modal-overlay" id="modal-custom" role="dialog" aria-modal="true" aria-labelledby="custom-title">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h2 id="custom-title">Custom Starting Word</h2>
+                <button class="modal-close" id="modal-custom-close" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Choose any valid 3-letter English word to start your chain from:</p>
+                <div class="input-box-wrapper" style="margin-top: 0.5rem;">
+                    <input type="text" id="custom-word-input" class="word-input" placeholder="e.g. CAT, SUN, DOG..." maxlength="3" style="padding-right: 5rem;">
+                    <button type="button" id="custom-word-submit" class="submit-btn">Start</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="words.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
